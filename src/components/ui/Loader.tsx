@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
-/** Brand load-in: a 0–100 counter, then a curtain lift revealing the hero. */
+/** Brand load-in: a 0 to 100 counter, then a curtain lift revealing the hero. */
 export default function Loader() {
   const [count, setCount] = useState(0);
   const [done, setDone] = useState(false);

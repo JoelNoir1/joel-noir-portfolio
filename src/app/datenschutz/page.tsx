@@ -24,8 +24,8 @@ export default function DatenschutzPage() {
         Der Schutz deiner personenbezogenen Daten ist mir wichtig. Diese Website
         ist bewusst datensparsam aufgebaut: Sie setzt <strong>keine Cookies</strong>{" "}
         zu Marketing- oder Analysezwecken, bindet <strong>keine Tracking-Tools</strong>{" "}
-        (z. B. Google Analytics) ein und lädt <strong>keine externen Schriftarten</strong> —
-        alle Schriften werden lokal vom Server ausgeliefert.
+        (z. B. Google Analytics) ein und lädt <strong>keine externen Schriftarten</strong>.
+        Alle Schriften werden lokal vom Server ausgeliefert.
       </p>
 
       <h2>3. Hosting</h2>

@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 /* ============================================================
-   JOEL.NOIR — Design System (Tailwind v4)
+   JOEL.NOIR Design System (Tailwind v4)
    ============================================================ */
 @theme {
-  /* — Colour: warm noir + flame — */
+  /* Colour: warm noir + flame */
   --color-noir: #0b0a09;   /* ground / stage            */
   --color-ink: #151210;    /* surfaces / cards          */
   --color-ink-2: #1e1a15;  /* raised / borders          */
@@ -14,12 +14,12 @@
   --color-ash: #9a8f81;    /* secondary text            */
   --color-line: oklch(0.93 0.02 70 / 0.14); /* hairline */
 
-  /* — Type roles (wired to next/font vars in layout) — */
+  /* Type roles (wired to next/font vars in layout) */
   --font-display: var(--ff-display), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--ff-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--ff-mono), ui-monospace, "SF Mono", monospace;
 
-  /* — Motion — */
+  /* Motion */
   --ease-noir: cubic-bezier(0.2, 0.7, 0.2, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }

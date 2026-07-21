@@ -21,7 +21,7 @@ export default function About() {
             <div className="relative aspect-[4/5] overflow-hidden bg-ink">
               <Image
                 src="/joel.jpg"
-                alt="Joel — Creative Designer & Art Director"
+                alt="Joel, Creative Designer & Art Director"
                 fill
                 sizes="(max-width:768px) 100vw, 45vw"
                 className="object-cover object-[58%_18%]"

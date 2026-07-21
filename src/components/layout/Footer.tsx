@@ -19,7 +19,7 @@ export default function Footer() {
               onClick={() => scrollToId("top")}
               data-cursor-hover
               className="font-display text-2xl font-extrabold tracking-[-0.04em] text-bone"
-              aria-label="Joel.Noir — nach oben"
+              aria-label="Joel.Noir, nach oben"
             >
               Joel<span className="text-flame">.</span>Noir
             </button>
@@ -38,7 +38,7 @@ export default function Footer() {
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 font-mono text-xs text-ash">
           <span>
-            © {year} Joel.Noir — {c.rights}
+            © {year} Joel.Noir · {c.rights}
           </span>
           <div className="flex gap-5">
             <Link

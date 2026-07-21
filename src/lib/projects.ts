@@ -1,6 +1,6 @@
 /**
  * Central project database. Feeds Selected Work, Disciplines, the Work Index
- * and the Case Studies — single source of truth, fully typed.
+ * and the Case Studies. Single source of truth, fully typed.
  */
 
 export type CategoryKey =
@@ -8,7 +8,8 @@ export type CategoryKey =
   | "sports"
   | "event"
   | "commercial"
-  | "editorial";
+  | "editorial"
+  | "web";
 
 export type Project = {
   slug: string;
@@ -20,6 +21,8 @@ export type Project = {
   tagline: { de: string; en: string };
   featured: boolean;
   caseStudy?: boolean;
+  /** External live link, e.g. a launched website. */
+  url?: string;
 };
 
 export const categories: Record<CategoryKey, { de: string; en: string }> = {
@@ -28,6 +31,7 @@ export const categories: Record<CategoryKey, { de: string; en: string }> = {
   event: { de: "Event & Club", en: "Event & Club" },
   commercial: { de: "Commercial", en: "Commercial" },
   editorial: { de: "Editorial", en: "Editorial" },
+  web: { de: "Web", en: "Web" },
 };
 
 export const projects: Project[] = [
@@ -80,8 +84,8 @@ export const projects: Project[] = [
     image: "/work/cold-smile.jpg",
     category: "event",
     tagline: {
-      de: "Glitch, Grillz und Trap — ein Club-Poster mit Attitüde.",
-      en: "Glitch, grillz and trap — a club poster with attitude.",
+      de: "Glitch, Grillz und Trap. Ein Club-Poster mit Attitüde.",
+      en: "Glitch, grillz and trap. A club poster with attitude.",
     },
     featured: true,
   },
@@ -113,7 +117,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hayk-the-lion",
-    title: "Hayk — The Lion",
+    title: "Hayk 'The Lion'",
     client: "Boxing Athlet",
     year: "2024",
     image: "/work/hayk.jpg",
@@ -184,8 +188,8 @@ export const projects: Project[] = [
     image: "/work/baddies.jpg",
     category: "event",
     tagline: {
-      de: "Neon-Grün trifft Graffiti — Club-Night-Branding.",
-      en: "Neon green meets graffiti — club night branding.",
+      de: "Neon-Grün trifft Graffiti. Club-Night-Branding.",
+      en: "Neon green meets graffiti. Club night branding.",
     },
     featured: false,
   },
@@ -212,6 +216,20 @@ export const projects: Project[] = [
     tagline: {
       de: "Social-Werbung, die aus einem Handwerk Story macht.",
       en: "Social ad that turns a trade into a story.",
+    },
+    featured: false,
+  },
+  {
+    slug: "galabau-boettcher",
+    title: "Galabau Böttcher",
+    client: "Garten- & Landschaftsbau Böttcher",
+    year: "2025",
+    image: "/work/galabau.jpg",
+    category: "web",
+    url: "https://galabau-boettcher.vercel.app/",
+    tagline: {
+      de: "Website für einen Garten- und Landschaftsbau, von der Idee bis zum Livegang.",
+      en: "Website for a landscaping company, from concept to launch.",
     },
     featured: false,
   },

@@ -5,7 +5,14 @@ import { useLang } from "@/lib/i18n";
 import { content } from "@/lib/content";
 import { categories, projects, type CategoryKey } from "@/lib/projects";
 
-const order: CategoryKey[] = ["fight", "sports", "event", "commercial", "editorial"];
+const order: CategoryKey[] = [
+  "fight",
+  "sports",
+  "event",
+  "commercial",
+  "editorial",
+  "web",
+];
 
 const blurb: Record<CategoryKey, { de: string; en: string }> = {
   fight: {
@@ -27,6 +34,10 @@ const blurb: Record<CategoryKey, { de: string; en: string }> = {
   editorial: {
     de: "Freie Studien in Form, Licht und Haltung.",
     en: "Free studies in form, light and posture.",
+  },
+  web: {
+    de: "Websites, die Marken zum Leben erwecken.",
+    en: "Websites that bring brands to life.",
   },
 };
 

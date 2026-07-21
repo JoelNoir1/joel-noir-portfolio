@@ -23,8 +23,8 @@ export type CaseStudyDetail = {
 export const caseStudyDetails: Record<string, CaseStudyDetail> = {
   "russian-viking": {
     intro: {
-      de: "Ein Bare-Knuckle-Kämpfer mit dem Beinamen 'Russian Viking' brauchte ein Keyvisual, das seine Präsenz in eine eigene Welt hebt — nicht nur ein Foto mit Schrift, sondern ein filmreifes Schlachtbild.",
-      en: "A bare-knuckle fighter nicknamed 'Russian Viking' needed a key visual that lifts his presence into a world of its own — not just a photo with type, but a cinematic battle scene.",
+      de: "Ein Bare-Knuckle-Kämpfer mit dem Beinamen 'Russian Viking' brauchte ein Keyvisual, das seine Präsenz in eine eigene Welt hebt. Nicht nur ein Foto mit Schrift, sondern ein filmreifes Schlachtbild.",
+      en: "A bare-knuckle fighter nicknamed 'Russian Viking' needed a key visual that lifts his presence into a world of its own. Not just a photo with type, but a cinematic battle scene.",
     },
     story: {
       challenge: {
@@ -32,12 +32,12 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
         en: "Turn plain competition photos into a memorable warrior motif that commands respect at first glance.",
       },
       idea: {
-        de: "Nordische Schlacht-Ästhetik: Nebel, Speere und Raben, ein Held im Zentrum, gedoppelt von seinem eigenen Schrei — Kälte, Stahl und Rohheit.",
-        en: "Nordic battle aesthetics: mist, spears and ravens, a hero at the centre doubled by his own roar — cold, steel and rawness.",
+        de: "Nordische Schlacht-Ästhetik: Nebel, Speere und Raben, ein Held im Zentrum, gedoppelt von seinem eigenen Schrei. Kälte, Stahl und Rohheit.",
+        en: "Nordic battle aesthetics: mist, spears and ravens, a hero at the centre doubled by his own roar. Cold, steel and rawness.",
       },
       craft: {
-        de: "Sorgfältige Freistellung, ein mehrschichtiges Composite aus drei Aufnahmen, atmosphärischer Nebel für Tiefe — und darüber ein Metall-Schriftzug, der wie aus Eis gemeißelt wirkt.",
-        en: "Careful cut-outs, a multi-layer composite from three shots, atmospheric fog for depth — topped with a metal wordmark that looks carved from ice.",
+        de: "Sorgfältige Freistellung, ein mehrschichtiges Composite aus drei Aufnahmen, atmosphärischer Nebel für Tiefe, darüber ein Metall-Schriftzug, der wie aus Eis gemeißelt wirkt.",
+        en: "Careful cut-outs, a multi-layer composite from three shots, atmospheric fog for depth, and a metal wordmark that looks carved from ice.",
       },
       result: {
         de: "Ein Motiv, das nicht nach Social-Grafik aussieht, sondern nach Filmplakat.",
@@ -49,16 +49,16 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
         image: "/work/cases/rv-composite.jpg",
         step: "composite",
         caption: {
-          de: "Composite & Nebel — die Athleten freigestellt, in eine neblige Schlachtwelt gesetzt.",
-          en: "Composite & fog — athletes cut out and placed into a misty battle world.",
+          de: "Composite und Nebel: die Athleten freigestellt, in eine neblige Schlachtwelt gesetzt.",
+          en: "Composite and fog: athletes cut out and placed into a misty battle world.",
         },
       },
       {
         image: "/work/cases/rv-final.jpg",
         step: "final",
         caption: {
-          de: "Finale — der gemeißelte 'Russian Viking'-Schriftzug vollendet das Bild.",
-          en: "Final — the chiselled 'Russian Viking' wordmark completes the piece.",
+          de: "Finale: der gemeißelte 'Russian Viking'-Schriftzug vollendet das Bild.",
+          en: "Final: the chiselled 'Russian Viking' wordmark completes the piece.",
         },
       },
     ],
@@ -70,12 +70,12 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
     },
     story: {
       challenge: {
-        de: "Die Intensität eines Kampfmoments einfangen — ohne dass das Poster überladen wirkt.",
-        en: "Capture the intensity of a fighting moment — without letting the poster feel cluttered.",
+        de: "Die Intensität eines Kampfmoments einfangen, ohne dass das Poster überladen wirkt.",
+        en: "Capture the intensity of a fighting moment without letting the poster feel cluttered.",
       },
       idea: {
-        de: "Ein durchdringendes Rot als Signalfarbe der Aggression. Der Kämpfer im Fokus, hinter ihm sein eigener Schrei als Echo — Präsenz, gedoppelt.",
-        en: "A piercing red as the signal colour of aggression. The fighter in focus, his own roar echoing behind him — presence, doubled.",
+        de: "Ein durchdringendes Rot als Signalfarbe der Aggression. Der Kämpfer im Fokus, hinter ihm sein eigener Schrei als Echo. Präsenz, gedoppelt.",
+        en: "A piercing red as the signal colour of aggression. The fighter in focus, his own roar echoing behind him. Presence, doubled.",
       },
       craft: {
         de: "Freistellung, Rot-Grading, ein Partikel-Layer für Energie und Tiefe, dann die Typo: 'CEM' und die handschriftliche Signatur als ruhiger Gegenpol zur Wucht.",
@@ -91,24 +91,24 @@ export const caseStudyDetails: Record<string, CaseStudyDetail> = {
         image: "/work/cases/cem-composite.jpg",
         step: "composite",
         caption: {
-          de: "Komposition — der Kämpfer freigestellt auf Rot, der Schrei als Echo dahinter.",
-          en: "Composition — the fighter cut out on red, the roar echoing behind.",
+          de: "Komposition: der Kämpfer freigestellt auf Rot, der Schrei als Echo dahinter.",
+          en: "Composition: the fighter cut out on red, the roar echoing behind.",
         },
       },
       {
         image: "/work/cases/cem-partikel.jpg",
         step: "particles",
         caption: {
-          de: "Atmosphäre — ein Partikel-Layer bringt Energie und räumliche Tiefe.",
-          en: "Atmosphere — a particle layer adds energy and spatial depth.",
+          de: "Atmosphäre: ein Partikel-Layer bringt Energie und räumliche Tiefe.",
+          en: "Atmosphere: a particle layer adds energy and spatial depth.",
         },
       },
       {
         image: "/work/cases/cem-final.jpg",
         step: "final",
         caption: {
-          de: "Finale — Typografie und Signatur setzen den Schlusspunkt.",
-          en: "Final — typography and signature land the finishing touch.",
+          de: "Finale: Typografie und Signatur setzen den Schlusspunkt.",
+          en: "Final: typography and signature land the finishing touch.",
         },
       },
     ],

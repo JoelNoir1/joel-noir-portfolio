@@ -3,21 +3,21 @@ import { Archivo, Manrope, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
-/* Display — broad, editorial grotesk for oversized headlines */
+/* Display: broad, editorial grotesk for oversized headlines */
 const display = Archivo({
   subsets: ["latin"],
   variable: "--ff-display",
   display: "swap",
 });
 
-/* Text — clean humanist grotesk for body & UI */
+/* Text: clean humanist grotesk for body & UI */
 const sans = Manrope({
   subsets: ["latin"],
   variable: "--ff-sans",
   display: "swap",
 });
 
-/* Meta — monospace for labels, numbers, coordinates */
+/* Meta: monospace for labels, numbers, coordinates */
 const mono = Space_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -28,11 +28,11 @@ const mono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://joelnoir.com"),
   title: {
-    default: "Joel.Noir — Creative Design & Art Direction",
-    template: "%s — Joel.Noir",
+    default: "Joel.Noir · Creative Design & Art Direction",
+    template: "%s · Joel.Noir",
   },
   description:
-    "Joel.Noir ist Creative Designer & Art Director. Editorial, cinematisch, kompromisslos — Sport, Fight, Event, Branding und Motion Design auf Studio-Niveau.",
+    "Joel.Noir ist Creative Designer & Art Director. Editorial, cinematisch, kompromisslos. Sport, Fight, Event, Branding und Motion Design auf Studio-Niveau.",
   keywords: [
     "Joel.Noir",
     "Creative Designer",
@@ -49,14 +49,14 @@ export const metadata: Metadata = {
     locale: "de_DE",
     alternateLocale: "en_US",
     siteName: "Joel.Noir",
-    title: "Joel.Noir — Creative Design & Art Direction",
+    title: "Joel.Noir · Creative Design & Art Direction",
     description:
       "Editorial, cinematisch, kompromisslos. Sport, Fight, Event, Branding und Motion Design auf Studio-Niveau.",
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Joel.Noir" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Joel.Noir — Creative Design & Art Direction",
+    title: "Joel.Noir · Creative Design & Art Direction",
     description:
       "Editorial, cinematisch, kompromisslos. Sport, Fight, Event, Branding und Motion Design auf Studio-Niveau.",
     images: ["/og.jpg"],

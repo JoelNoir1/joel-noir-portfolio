@@ -49,7 +49,7 @@ export default function Hero() {
         <div className="absolute inset-[-9%]">
           <Image
             src="/joel.jpg"
-            alt="Joel — Creative Designer & Art Director"
+            alt="Joel, Creative Designer & Art Director"
             fill
             priority
             quality={88}
@@ -62,7 +62,7 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      {/* ── legibility scrims (fixed, no parallax) — keep the centre clear ── */}
+      {/* legibility scrims (fixed, no parallax), keep the centre clear */}
       {/* top: header + meta row */}
       <div
         aria-hidden="true"

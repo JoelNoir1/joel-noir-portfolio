@@ -104,6 +104,20 @@ export default function ProjectDetail({
             >
               {project.title}
             </motion.h1>
+            {project.url && (
+              <motion.a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor-hover
+                className="mt-6 inline-flex items-center gap-2 border border-flame px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-flame transition-colors hover:bg-flame hover:text-noir"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                {lang === "de" ? "Live ansehen" : "View live"} ↗
+              </motion.a>
+            )}
           </div>
           <motion.dl
             className="grid grid-cols-3 gap-4 font-mono text-xs md:grid-cols-1 md:gap-3"

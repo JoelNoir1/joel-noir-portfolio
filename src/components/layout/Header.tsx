@@ -39,7 +39,7 @@ export default function Header() {
         <button
           onClick={() => go("top")}
           className="font-display text-lg font-extrabold tracking-[-0.04em] text-bone"
-          aria-label="Joel.Noir — nach oben"
+          aria-label="Joel.Noir, nach oben"
         >
           Joel<span className="text-flame">.</span>Noir
         </button>

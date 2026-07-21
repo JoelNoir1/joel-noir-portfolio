@@ -28,9 +28,9 @@ export const content = {
     hero: {
       role: "Creative Designer & Art Director",
       status: "Offen für Projekte",
-      lead: "Ich gestalte cinematische Visuals für Sport, Fight, Events und Marken — kompromisslos, editorial, unvergesslich.",
+      lead: "Ich gestalte cinematische Visuals für Sport, Fight, Events und Marken. Kompromisslos, editorial, unvergesslich.",
       scroll: "Scrollen",
-      location: "Deutschland — Weltweit tätig",
+      location: "Deutschland · weltweit tätig",
     },
     manifest: {
       eyebrow: "Manifest",
@@ -47,12 +47,12 @@ export const content = {
     disciplinesSection: {
       eyebrow: "Disziplinen",
       title: "Von der Idee bis zum letzten Pixel.",
-      body: "Eine Handschrift, viele Formate. Ich bewege mich sicher zwischen den Welten — und bringe aus jeder etwas mit.",
+      body: "Eine Handschrift, viele Formate. Ich bewege mich sicher zwischen den Welten und bringe aus jeder etwas mit.",
     },
     caseStudies: {
       eyebrow: "Case Studies",
       title: "Hinter dem Design.",
-      body: "Nicht nur das Ergebnis — der Weg dorthin. Vom Rohmaterial zur finalen Komposition.",
+      body: "Nicht nur das Ergebnis, sondern der Weg dorthin. Vom Rohmaterial zur finalen Komposition.",
       view: "Case Study ansehen",
       steps: {
         raw: "Rohmaterial",
@@ -65,9 +65,9 @@ export const content = {
       eyebrow: "Über",
       title: "Design ist für mich kein Job. Es ist Haltung.",
       body1:
-        "Joel.Noir ist die Design-Handschrift von Joel — Creative Designer und Art Director mit einem Faible für dunkle, cinematische Bildwelten. Von Kampfsport-Kampagnen über Matchday-Grafiken bis zu Club-Postern und Marken: Jede Arbeit entsteht handgemacht, mit Blick fürs Detail und ohne KI-Shortcuts.",
+        "Joel.Noir ist die Design-Handschrift von Joel, Creative Designer und Art Director mit einem Faible für dunkle, cinematische Bildwelten. Von Kampfsport-Kampagnen über Matchday-Grafiken bis zu Club-Postern und Marken: Jede Arbeit entsteht handgemacht, mit Blick fürs Detail und ohne KI-Shortcuts.",
       body2:
-        "Was mich antreibt, ist Design, das nicht dekoriert, sondern wirkt — das eine Emotion trägt, eine Geschichte erzählt und in Erinnerung bleibt.",
+        "Was mich antreibt, ist Design, das nicht dekoriert, sondern wirkt: das eine Emotion trägt, eine Geschichte erzählt und in Erinnerung bleibt.",
       skillsTitle: "Fähigkeiten",
       skills: [
         "Art Direction",
@@ -85,7 +85,7 @@ export const content = {
     contact: {
       eyebrow: "Kontakt",
       title: "Lass uns etwas bauen, an das man sich erinnert.",
-      body: "Offen für Projekte, Kooperationen und Anfragen — von der einzelnen Grafik bis zur kompletten Marke.",
+      body: "Offen für Projekte, Kooperationen und Anfragen, von der einzelnen Grafik bis zur kompletten Marke.",
       cta: "Schreib mir",
       emailLabel: "E-Mail",
       email: "joelnoir1.graphics@gmail.com",
@@ -113,9 +113,9 @@ export const content = {
     hero: {
       role: "Creative Designer & Art Director",
       status: "Open for work",
-      lead: "I craft cinematic visuals for sport, fight, events and brands — uncompromising, editorial, unforgettable.",
+      lead: "I craft cinematic visuals for sport, fight, events and brands. Uncompromising, editorial, unforgettable.",
       scroll: "Scroll",
-      location: "Germany — Working worldwide",
+      location: "Germany · working worldwide",
     },
     manifest: {
       eyebrow: "Manifesto",
@@ -132,12 +132,12 @@ export const content = {
     disciplinesSection: {
       eyebrow: "Disciplines",
       title: "From the idea to the last pixel.",
-      body: "One signature, many formats. I move confidently between worlds — and bring something back from each.",
+      body: "One signature, many formats. I move confidently between worlds and bring something back from each.",
     },
     caseStudies: {
       eyebrow: "Case Studies",
       title: "Behind the design.",
-      body: "Not just the result — the road there. From raw material to the final composition.",
+      body: "Not just the result, but the road there. From raw material to the final composition.",
       view: "View case study",
       steps: {
         raw: "Raw material",
@@ -150,9 +150,9 @@ export const content = {
       eyebrow: "About",
       title: "Design isn't a job to me. It's a stance.",
       body1:
-        "Joel.Noir is the design signature of Joel — creative designer and art director with a taste for dark, cinematic imagery. From fight-sport campaigns and matchday graphics to club posters and brands: every piece is handmade, detail-obsessed and free of AI shortcuts.",
+        "Joel.Noir is the design signature of Joel, creative designer and art director with a taste for dark, cinematic imagery. From fight-sport campaigns and matchday graphics to club posters and brands: every piece is handmade, detail-obsessed and free of AI shortcuts.",
       body2:
-        "What drives me is design that doesn't decorate but works — that carries emotion, tells a story and stays in memory.",
+        "What drives me is design that doesn't decorate but works: it carries emotion, tells a story and stays in memory.",
       skillsTitle: "Capabilities",
       skills: [
         "Art Direction",
@@ -170,7 +170,7 @@ export const content = {
     contact: {
       eyebrow: "Contact",
       title: "Let's build something people remember.",
-      body: "Open for projects, collaborations and enquiries — from a single graphic to a full brand.",
+      body: "Open for projects, collaborations and enquiries, from a single graphic to a full brand.",
       cta: "Write me",
       emailLabel: "Email",
       email: "joelnoir1.graphics@gmail.com",
