@@ -26,7 +26,7 @@ const mono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://joelnoir.com"),
+  metadataBase: new URL("https://joel-noir-portfolio.vercel.app"),
   title: {
     default: "Joel.Noir · Creative Design & Art Direction",
     template: "%s · Joel.Noir",
