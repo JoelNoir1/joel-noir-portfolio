@@ -4,6 +4,7 @@ import LegalPage from "@/components/legal/LegalPage";
 export const metadata: Metadata = {
   title: "Datenschutz",
   robots: { index: false, follow: true },
+  alternates: { canonical: "/datenschutz" },
 };
 
 export default function DatenschutzPage() {

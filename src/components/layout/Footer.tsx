@@ -11,50 +11,28 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-line py-[clamp(2.5rem,5vw,4rem)]">
-      <div className="mx-auto max-w-[1500px] px-[clamp(1.25rem,5vw,4rem)]">
+    <footer className="border-t border-line px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(2.5rem,5vw,4rem)]">
+      <div className="mx-auto max-w-[1500px]">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <button
-              onClick={() => scrollToId("top")}
-              data-cursor-hover
-              className="font-display text-2xl font-extrabold tracking-[-0.04em] text-bone"
-              aria-label="Joel.Noir, nach oben"
-            >
-              Joel<span className="text-flame">.</span>Noir
-            </button>
-            <p className="mt-2 font-mono text-xs uppercase tracking-widest text-ash">
-              {c.madeIn}
-            </p>
-          </div>
           <button
             onClick={() => scrollToId("top")}
-            data-cursor-hover
-            className="eyebrow text-ash transition-colors hover:text-bone"
+            className="font-display text-2xl font-extrabold uppercase tracking-[-0.03em] text-ink"
+            aria-label={`Joel.Noir, ${c.back}`}
+          >
+            Joel.Noir
+          </button>
+          <button
+            onClick={() => scrollToId("top")}
+            className="label text-muted transition-colors hover:text-ink"
           >
             ↑ {c.back}
           </button>
         </div>
-
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 font-mono text-xs text-ash">
-          <span>
-            © {year} Joel.Noir · {c.rights}
-          </span>
+        <div className="label mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 text-faint">
+          <span>© {year} Joel.Noir · {c.rights}</span>
           <div className="flex gap-5">
-            <Link
-              href="/impressum"
-              data-cursor-hover
-              className="transition-colors hover:text-bone"
-            >
-              Impressum
-            </Link>
-            <Link
-              href="/datenschutz"
-              data-cursor-hover
-              className="transition-colors hover:text-bone"
-            >
-              Datenschutz
-            </Link>
+            <Link href="/impressum" className="transition-colors hover:text-ink">Impressum</Link>
+            <Link href="/datenschutz" className="transition-colors hover:text-ink">Datenschutz</Link>
           </div>
         </div>
       </div>

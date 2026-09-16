@@ -2,7 +2,6 @@
 
 import { useLang } from "@/lib/i18n";
 import { content } from "@/lib/content";
-import Reveal from "@/components/ui/Reveal";
 
 export default function Contact() {
   const { lang } = useLang();
@@ -11,49 +10,30 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="border-t border-line py-[clamp(5rem,13vw,11rem)]"
+      className="border-t border-line px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(4rem,10vw,9rem)]"
     >
-      <div className="mx-auto max-w-[1500px] px-[clamp(1.25rem,5vw,4rem)]">
-        <span className="eyebrow text-flame">{c.eyebrow}</span>
+      <div className="mx-auto max-w-[1500px]">
+        <h2 className="label text-muted">{c.eyebrow}</h2>
 
-        <Reveal>
-          <a
-            href={`mailto:${c.email}`}
-            data-cursor-hover
-            className="mt-6 block"
-          >
-            <h2 className="display text-[clamp(2.25rem,8.5vw,7.5rem)] text-bone transition-colors duration-300 hover:text-flame">
-              {c.title}
-            </h2>
-          </a>
-        </Reveal>
-
-        <div className="mt-[clamp(2.5rem,6vw,5rem)] flex flex-col gap-10 border-t border-line pt-10 md:flex-row md:items-start md:justify-between">
-          <p className="max-w-[42ch] text-lg text-ash">{c.body}</p>
-
+        <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          <p className="max-w-[42ch] text-lg text-muted">{c.body}</p>
           <div className="flex gap-12 font-mono text-sm">
             <div>
-              <span className="block text-xs uppercase tracking-widest text-ash">
-                {c.emailLabel}
-              </span>
+              <span className="label block text-faint">{c.emailLabel}</span>
               <a
                 href={`mailto:${c.email}`}
-                data-cursor-hover
-                className="mt-2 block text-bone transition-colors hover:text-flame"
+                className="mt-2 block text-ink transition-opacity hover:opacity-55"
               >
                 {c.email}
               </a>
             </div>
             <div>
-              <span className="block text-xs uppercase tracking-widest text-ash">
-                {c.socialLabel}
-              </span>
+              <span className="label block text-faint">{c.socialLabel}</span>
               <a
                 href="https://instagram.com/joel.noir1"
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cursor-hover
-                className="mt-2 block text-bone transition-colors hover:text-flame"
+                className="mt-2 block text-ink transition-opacity hover:opacity-55"
               >
                 {c.social}
               </a>

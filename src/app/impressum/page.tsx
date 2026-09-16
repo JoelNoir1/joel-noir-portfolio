@@ -4,6 +4,7 @@ import LegalPage from "@/components/legal/LegalPage";
 export const metadata: Metadata = {
   title: "Impressum",
   robots: { index: false, follow: true },
+  alternates: { canonical: "/impressum" },
 };
 
 export default function ImpressumPage() {

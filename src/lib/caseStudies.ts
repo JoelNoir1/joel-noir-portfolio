@@ -1,116 +1,175 @@
-/**
- * Deep case-study content for the projects where real process material exists.
- * Keyed by project slug. Only projects with caseStudy: true have an entry.
- */
+import type { Bi } from "./projects";
 
-export type ProcessStep = {
-  image: string;
-  step: "composite" | "particles" | "final";
-  caption: { de: string; en: string };
+export type CaseSection = { heading: Bi; body: Bi };
+export type CaseImage = { src: string; label: Bi; span?: "full" | "half" };
+export type DesignDirection = {
+  palette: { hex: string; name: string }[];
+  typeNote: Bi;
+  capabilities: Bi[];
+};
+export type CaseStudy = {
+  role: Bi;
+  intro: Bi;
+  designDirection?: DesignDirection;
+  sections: CaseSection[];
+  gallery: CaseImage[];
 };
 
-export type CaseStudyDetail = {
-  intro: { de: string; en: string };
-  story: {
-    challenge: { de: string; en: string };
-    idea: { de: string; en: string };
-    craft: { de: string; en: string };
-    result: { de: string; en: string };
-  };
-  process: ProcessStep[];
-};
-
-export const caseStudyDetails: Record<string, CaseStudyDetail> = {
-  "russian-viking": {
+export const caseStudies: Record<string, CaseStudy> = {
+  "firat-nossen": {
+    role: { de: "Web Design & Development", en: "Web Design & Development" },
     intro: {
-      de: "Ein Bare-Knuckle-Kämpfer mit dem Beinamen 'Russian Viking' brauchte ein Keyvisual, das seine Präsenz in eine eigene Welt hebt. Nicht nur ein Foto mit Schrift, sondern ein filmreifes Schlachtbild.",
-      en: "A bare-knuckle fighter nicknamed 'Russian Viking' needed a key visual that lifts his presence into a world of its own. Not just a photo with type, but a cinematic battle scene.",
+      de: "Für Firat in Nossen entstand eine Website, die sich nicht wie eine Restaurantseite anfühlt, sondern wie eine Marke: warm, appetitlich und schnell.",
+      en: "For Firat in Nossen I built a website that doesn't feel like a restaurant page but like a brand: warm, appetising and fast.",
     },
-    story: {
-      challenge: {
-        de: "Aus nüchternen Wettkampf-Fotos ein einprägsames Krieger-Motiv formen, das sofort Respekt einfordert.",
-        en: "Turn plain competition photos into a memorable warrior motif that commands respect at first glance.",
+    designDirection: {
+      palette: [
+        { hex: "#171310", name: "Espresso" },
+        { hex: "#e8834a", name: "Orange" },
+        { hex: "#ede4d6", name: "Cream" },
+        { hex: "#5fb07a", name: "Open" },
+      ],
+      typeNote: {
+        de: "Editoriale Serif fürs Appetitliche, klare Sans für die Fakten.",
+        en: "Editorial serif for appetite, a clean sans for the facts.",
       },
-      idea: {
-        de: "Nordische Schlacht-Ästhetik: Nebel, Speere und Raben, ein Held im Zentrum, gedoppelt von seinem eigenen Schrei. Kälte, Stahl und Rohheit.",
-        en: "Nordic battle aesthetics: mist, spears and ravens, a hero at the centre doubled by his own roar. Cold, steel and rawness.",
-      },
-      craft: {
-        de: "Sorgfältige Freistellung, ein mehrschichtiges Composite aus drei Aufnahmen, atmosphärischer Nebel für Tiefe, darüber ein Metall-Schriftzug, der wie aus Eis gemeißelt wirkt.",
-        en: "Careful cut-outs, a multi-layer composite from three shots, atmospheric fog for depth, and a metal wordmark that looks carved from ice.",
-      },
-      result: {
-        de: "Ein Motiv, das nicht nach Social-Grafik aussieht, sondern nach Filmplakat.",
-        en: "A visual that reads less like a social graphic and more like a movie poster.",
-      },
+      capabilities: [
+        { de: "Digitale Speisekarte", en: "Digital menu" },
+        { de: "Öffnungszeiten in Echtzeit", en: "Live opening hours" },
+        { de: "Admin-Dashboard (Supabase)", en: "Admin dashboard (Supabase)" },
+      ],
     },
-    process: [
+    sections: [
       {
-        image: "/work/cases/rv-composite.jpg",
-        step: "composite",
-        caption: {
-          de: "Composite und Nebel: die Athleten freigestellt, in eine neblige Schlachtwelt gesetzt.",
-          en: "Composite and fog: athletes cut out and placed into a misty battle world.",
+        heading: { de: "Herausforderung", en: "Challenge" },
+        body: {
+          de: "Ein lokales Restaurant sollte online so hochwertig wirken, wie das Essen schmeckt, und der Inhaber sollte alles selbst pflegen können, ohne Agentur.",
+          en: "A local restaurant needed to look online as good as the food tastes, and the business had to be able to maintain everything in-house, without an agency.",
         },
       },
       {
-        image: "/work/cases/rv-final.jpg",
-        step: "final",
-        caption: {
-          de: "Finale: der gemeißelte 'Russian Viking'-Schriftzug vollendet das Bild.",
-          en: "Final: the chiselled 'Russian Viking' wordmark completes the piece.",
+        heading: { de: "Umsetzung", en: "Execution" },
+        body: {
+          de: "Next.js mit eigenem Content-System auf Supabase: digitale Speisekarte, Öffnungszeiten-Logik und ein Admin-Dashboard.",
+          en: "Next.js with its own Supabase-backed content system: a digital menu, opening-hours logic and an admin dashboard.",
+        },
+      },
+      {
+        heading: { de: "Ergebnis", en: "Outcome" },
+        body: {
+          de: "Eine schnelle, gepflegte Web-Experience, die der Betrieb selbst aktuell hält, statt einer statischen Broschüre.",
+          en: "A fast, maintained web experience the business keeps current itself, instead of a static brochure.",
         },
       },
     ],
+    gallery: [
+      {
+        src: "/work/firat-detail.jpg",
+        label: { de: "Frische, groß inszeniert", en: "Freshness, staged large" },
+        span: "full",
+      },
+    ],
   },
+
+  "russian-viking": {
+    role: { de: "Sports Key Visual", en: "Sports Key Visual" },
+    intro: {
+      de: "Ein Bare-Knuckle-Kämpfer mit dem Beinamen 'Russian Viking' brauchte ein Keyvisual, das seine Präsenz in eine eigene Welt hebt. Kein Foto mit Schrift, sondern ein filmreifes Schlachtbild.",
+      en: "A bare-knuckle fighter nicknamed 'Russian Viking' needed a key visual that lifts his presence into a world of its own. Not a photo with type, but a cinematic battle scene.",
+    },
+    sections: [
+      {
+        heading: { de: "Idee", en: "Idea" },
+        body: {
+          de: "Nordische Schlacht-Ästhetik: Nebel, Speere und Raben, ein Held im Zentrum, gedoppelt von seinem eigenen Schrei. Kälte, Stahl und Rohheit.",
+          en: "Nordic battle aesthetics: mist, spears and ravens, a hero at the centre doubled by his own roar. Cold, steel and rawness.",
+        },
+      },
+      {
+        heading: { de: "Umsetzung", en: "Craft" },
+        body: {
+          de: "Sorgfältige Freistellung, ein mehrschichtiges Composite aus drei Aufnahmen, atmosphärischer Nebel für Tiefe, darüber ein Metall-Schriftzug wie aus Eis gemeißelt.",
+          en: "Careful cut-outs, a multi-layer composite from three shots, atmospheric fog for depth, and a metal wordmark carved as if from ice.",
+        },
+      },
+    ],
+    gallery: [
+      { src: "/work/cases/rv-composite.jpg", label: { de: "Composite und Nebel, vor der Typografie", en: "Composite and fog, before the type" }, span: "half" },
+      { src: "/work/cases/rv-final.jpg", label: { de: "Finales Keyvisual", en: "Final key visual" }, span: "half" },
+    ],
+  },
+
   "cem-fightlab": {
+    role: { de: "Fight Poster", en: "Fight Poster" },
     intro: {
       de: "Für Fightlab Munich und den Kämpfer Cem sollte ein Poster entstehen, das reine Aggression und Fokus in einem einzigen Bild bündelt.",
       en: "For Fightlab Munich and fighter Cem, the goal was a poster that channels pure aggression and focus into a single frame.",
     },
-    story: {
-      challenge: {
-        de: "Die Intensität eines Kampfmoments einfangen, ohne dass das Poster überladen wirkt.",
-        en: "Capture the intensity of a fighting moment without letting the poster feel cluttered.",
+    sections: [
+      {
+        heading: { de: "Idee", en: "Idea" },
+        body: {
+          de: "Ein durchdringendes Rot als Signalfarbe der Aggression. Der Kämpfer im Fokus, hinter ihm sein eigener Schrei als Echo. Präsenz, gedoppelt.",
+          en: "A piercing red as the signal colour of aggression. The fighter in focus, his own roar echoing behind him. Presence, doubled.",
+        },
       },
-      idea: {
-        de: "Ein durchdringendes Rot als Signalfarbe der Aggression. Der Kämpfer im Fokus, hinter ihm sein eigener Schrei als Echo. Präsenz, gedoppelt.",
-        en: "A piercing red as the signal colour of aggression. The fighter in focus, his own roar echoing behind him. Presence, doubled.",
+      {
+        heading: { de: "Umsetzung", en: "Craft" },
+        body: {
+          de: "Freistellung, Rot-Grading, ein Partikel-Layer für Energie und Tiefe, dann die Typo: 'CEM' und eine handschriftliche Signatur als ruhiger Gegenpol.",
+          en: "Cut-out, red grading, a particle layer for energy and depth, then the type: 'CEM' and a handwritten signature as a calm counterpoint.",
+        },
       },
-      craft: {
-        de: "Freistellung, Rot-Grading, ein Partikel-Layer für Energie und Tiefe, dann die Typo: 'CEM' und die handschriftliche Signatur als ruhiger Gegenpol zur Wucht.",
-        en: "Cut-out, red grading, a particle layer for energy and depth, then the type: 'CEM' and the handwritten signature as a calm counterpoint to the force.",
-      },
-      result: {
-        de: "Ein Fight-Poster, das Kraft ausstrahlt und trotzdem klar bleibt.",
-        en: "A fight poster that radiates power yet stays clean.",
-      },
+    ],
+    gallery: [
+      { src: "/work/cases/cem-composite.jpg", label: { de: "Komposition auf Rot", en: "Composition on red" }, span: "half" },
+      { src: "/work/cases/cem-partikel.jpg", label: { de: "Atmosphäre, Partikel-Layer", en: "Atmosphere, particle layer" }, span: "half" },
+      { src: "/work/cases/cem-final.jpg", label: { de: "Finales Poster", en: "Final poster" }, span: "full" },
+    ],
+  },
+
+  "galabau-boettcher": {
+    role: { de: "Web · Social Media · Kommunikation", en: "Web · Social · Communication" },
+    intro: {
+      de: "Für den Landschaftsbau-Betrieb Böttcher entstand mehr als eine Website: ein visueller Auftritt, der Handwerk seriös und modern zeigt, online wie in Social Media.",
+      en: "For the landscaping company Böttcher I built more than a website: a visual identity that shows craft as serious and modern, online and on social.",
     },
-    process: [
+    designDirection: {
+      palette: [
+        { hex: "#1e3320", name: "Forest" },
+        { hex: "#a8c84a", name: "Lime" },
+        { hex: "#f1efe6", name: "Bone" },
+      ],
+      typeNote: {
+        de: "Kräftige Grotesk, regional und vertrauensbildend.",
+        en: "Bold grotesque, regional and trustworthy.",
+      },
+      capabilities: [
+        { de: "Website", en: "Website" },
+        { de: "Social-Media-Vorlagen", en: "Social templates" },
+        { de: "Bildsprache", en: "Image language" },
+        { de: "Kommunikation", en: "Communication" },
+      ],
+    },
+    sections: [
       {
-        image: "/work/cases/cem-composite.jpg",
-        step: "composite",
-        caption: {
-          de: "Komposition: der Kämpfer freigestellt auf Rot, der Schrei als Echo dahinter.",
-          en: "Composition: the fighter cut out on red, the roar echoing behind.",
+        heading: { de: "Herausforderung", en: "Challenge" },
+        body: {
+          de: "Ein Handwerksbetrieb sollte online professionell auftreten und zugleich regelmäßig Material für Social Media bekommen.",
+          en: "A trade business needed a professional online presence and, at the same time, a steady stream of social-media material.",
         },
       },
       {
-        image: "/work/cases/cem-partikel.jpg",
-        step: "particles",
-        caption: {
-          de: "Atmosphäre: ein Partikel-Layer bringt Energie und räumliche Tiefe.",
-          en: "Atmosphere: a particle layer adds energy and spatial depth.",
+        heading: { de: "Umsetzung", en: "Execution" },
+        body: {
+          de: "Eine klare, vertrauensbildende Website plus wiederverwendbare Social-Vorlagen, die aus einzelnen Aufträgen kleine Geschichten machen.",
+          en: "A clear, trust-building website plus reusable social templates that turn individual jobs into small stories.",
         },
       },
-      {
-        image: "/work/cases/cem-final.jpg",
-        step: "final",
-        caption: {
-          de: "Finale: Typografie und Signatur setzen den Schlusspunkt.",
-          en: "Final: typography and signature land the finishing touch.",
-        },
-      },
+    ],
+    gallery: [
+      { src: "/work/galabau-detail.jpg", label: { de: "Website, Hero", en: "Website, hero" }, span: "half" },
+      { src: "/work/dachpflege.jpg", label: { de: "Social-Media-Grafik", en: "Social-media graphic" }, span: "half" },
     ],
   },
 };

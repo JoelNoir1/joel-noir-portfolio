@@ -12,60 +12,37 @@ export default function About() {
   return (
     <section
       id="about"
-      className="border-t border-line py-[clamp(4.5rem,11vw,9rem)]"
+      className="border-t border-line px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(3.5rem,8vw,7rem)]"
     >
-      <div className="mx-auto max-w-[1500px] px-[clamp(1.25rem,5vw,4rem)]">
-        <div className="grid gap-[clamp(2.5rem,5vw,4.5rem)] md:grid-cols-[0.85fr_1.15fr] md:items-center">
-          {/* portrait */}
+      <div className="mx-auto max-w-[1500px]">
+        <span className="label text-muted">{c.eyebrow}</span>
+
+        <div className="mt-8 grid gap-[clamp(2rem,5vw,4rem)] md:grid-cols-[1fr_1.2fr] md:items-start">
           <Reveal>
-            <div className="relative aspect-[4/5] overflow-hidden bg-ink">
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-paper-2">
               <Image
                 src="/joel.jpg"
-                alt="Joel, Creative Designer & Art Director"
+                alt="Joel Hildebrand"
                 fill
-                sizes="(max-width:768px) 100vw, 45vw"
+                sizes="(max-width:768px) 100vw, 42vw"
                 className="object-cover object-[58%_18%]"
-                style={{ filter: "grayscale(0.35) contrast(1.05) brightness(0.95)" }}
+                style={{ filter: "grayscale(1) contrast(1.04) brightness(1.02)" }}
               />
-              <div className="absolute inset-0 bg-flame/10 mix-blend-overlay" />
             </div>
           </Reveal>
 
-          {/* text */}
           <div>
-            <span className="eyebrow text-flame">{c.eyebrow}</span>
-            <h2 className="headline mt-4 text-[clamp(1.8rem,4vw,3.25rem)]">
-              {c.title}
+            <h2 className="serif max-w-[18ch] text-[clamp(1.8rem,4.6vw,3.4rem)] font-light leading-[1.04] text-ink">
+              {c.lead}
             </h2>
-            <p className="mt-6 max-w-[54ch] text-lg text-ash">{c.body1}</p>
-            <p className="mt-4 max-w-[54ch] text-lg text-ash">{c.body2}</p>
+            <p className="mt-8 max-w-[52ch] text-lg leading-relaxed text-muted">{c.body1}</p>
+            <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-muted">{c.body2}</p>
 
-            <div className="mt-9 grid gap-8 sm:grid-cols-2">
-              <div>
-                <h3 className="eyebrow text-ash">{c.skillsTitle}</h3>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {c.skills.map((s) => (
-                    <li
-                      key={s}
-                      className="border border-line px-3 py-1.5 text-sm text-bone"
-                    >
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 className="eyebrow text-ash">{c.toolsTitle}</h3>
-                <ul className="mt-4 flex flex-col gap-1.5 text-sm text-bone">
-                  {c.tools.map((s) => (
-                    <li key={s} className="flex items-center gap-2">
-                      <span className="h-1 w-1 rounded-full bg-flame" />
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            {/* the disciplines once, as a line of text — not two template lists */}
+            <p className="label mt-10 max-w-[52ch] leading-relaxed text-muted">
+              {/* a term never breaks inside itself ("Social / Media") */}
+              {c.skills.map((s) => s.replace(/ /g, " ")).join(" · ")}
+            </p>
           </div>
         </div>
       </div>

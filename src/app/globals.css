@@ -1,51 +1,47 @@
 @import "tailwindcss";
 
 /* ============================================================
-   JOEL.NOIR Design System (Tailwind v4)
+   JOEL.NOIR — INDEX
+   A light editorial index. Paper + ink, typography as interface.
    ============================================================ */
 @theme {
-  /* Colour: warm noir + flame */
-  --color-noir: #0b0a09;   /* ground / stage            */
-  --color-ink: #151210;    /* surfaces / cards          */
-  --color-ink-2: #1e1a15;  /* raised / borders          */
-  --color-flame: #ff4e1a;  /* signal                    */
-  --color-ember: #ff8a4c;  /* gradients / hover         */
-  --color-bone: #f2ebdf;   /* text / light planes       */
-  --color-ash: #9a8f81;    /* secondary text            */
-  --color-line: oklch(0.93 0.02 70 / 0.14); /* hairline */
+  /* Colour: warm paper + ink (monochrome by design) */
+  --color-paper: #ece8e0;
+  --color-paper-2: #e4dfd4;
+  --color-ink: #16130d;
+  --color-muted: #6e6a5e;
+  --color-faint: #9a9587;
+  --color-line: rgba(22, 19, 13, 0.14);
+  --color-line-2: rgba(22, 19, 13, 0.08);
 
   /* Type roles (wired to next/font vars in layout) */
-  --font-display: var(--ff-display), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--ff-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--ff-mono), ui-monospace, "SF Mono", monospace;
+  --font-display: var(--ff-sans), "Archivo", system-ui, sans-serif;
+  --font-sans: var(--ff-sans), "Archivo", system-ui, sans-serif;
+  --font-serif: var(--ff-serif), "Fraunces", Georgia, serif;
+  --font-mono: var(--ff-mono), "Space Mono", ui-monospace, monospace;
 
   /* Motion */
-  --ease-noir: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ---------- base ---------- */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
-
 * {
   min-width: 0;
 }
-
 html {
   -webkit-text-size-adjust: 100%;
-  background: var(--color-noir);
-  /* Lenis drives scrolling; keep native behaviour off */
+  background: var(--color-paper);
   scroll-behavior: auto;
 }
-
 body {
-  background: var(--color-noir);
-  color: var(--color-bone);
+  background: var(--color-paper);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.55;
   letter-spacing: -0.01em;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -65,156 +61,1459 @@ html.lenis body {
 }
 
 ::selection {
-  background: var(--color-flame);
-  color: var(--color-noir);
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
-
 :focus-visible {
-  outline: 2px solid var(--color-flame);
+  outline: 2px solid var(--color-ink);
   outline-offset: 3px;
-  border-radius: 2px;
+}
+/* Inside a difference-blended header the ring is blended too. An ink ring
+   came out dark on the dark stage and pale grey on paper — invisible both
+   ways. Paper-coloured, it inverts exactly like the header text does:
+   light over dark ground, black over paper. */
+header.mix-blend-difference :focus-visible {
+  outline-color: var(--color-paper);
+}
+/* Case header while it still sits over a photo hero (web cases): no blend,
+   paper type with a tight dark halo, so it holds on mid-tone photography
+   where difference blending falls to grey on grey. No bar, no blur. */
+.jn-head-photo {
+  text-shadow: 0 0 2px rgba(8, 7, 5, 0.7), 0 1px 14px rgba(8, 7, 5, 0.5);
+}
+.jn-head-photo :focus-visible {
+  outline-color: var(--color-paper);
+  box-shadow: 0 0 0 3px var(--color-ink);
+}
+/* "Live ansehen" sits over photography and over client UI, where no single
+   ring colour holds contrast everywhere (paper vanishes on light image areas,
+   ink on the dark scrim). A paper ring over an ink gap does: against any
+   ground at least one of the two reaches ~3.9:1, above the 3:1 non-text
+   minimum. Same 3px offset and 2px weight as the global ring. */
+.jn-live:focus-visible {
+  outline: 2px solid var(--color-paper);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--color-ink);
 }
 
-/* Hide native cursor only when the custom cursor is active (desktop, fine pointer) */
-@media (hover: hover) and (pointer: fine) {
-  body[data-cursor="on"],
-  body[data-cursor="on"] * {
-    cursor: none;
-  }
-}
-
-/* ---------- reusable primitives ---------- */
-@utility eyebrow {
+/* ---------- primitives ---------- */
+@utility label {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .display {
   font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 0.86;
-  letter-spacing: -0.05em;
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
-.headline {
-  font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.045em;
-  text-wrap: balance;
+.serif {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  letter-spacing: -0.015em;
 }
 
-/* ---------- keyframes ---------- */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes cue {
-  0%,
-  100% {
-    transform: scaleX(0.3);
-  }
-  50% {
-    transform: scaleX(1);
-  }
-}
-
-/* ---------- custom cursor ---------- */
-.cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  pointer-events: none;
-  will-change: transform;
-}
-.cursor-inner {
-  width: 10px;
-  height: 10px;
-  border-radius: 9999px;
-  background: var(--color-flame);
-  transform: translate(-50%, -50%);
-  transition:
-    width 0.32s var(--ease-noir),
-    height 0.32s var(--ease-noir),
-    background 0.32s var(--ease-noir),
-    border-color 0.32s var(--ease-noir);
-  border: 1px solid transparent;
-}
-.cursor.is-hover .cursor-inner {
-  width: 64px;
-  height: 64px;
-  background: color-mix(in oklab, var(--color-flame) 16%, transparent);
-  border-color: var(--color-flame);
-}
-
-/* ---------- film grain ---------- */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.055;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ---------- hero portrait (cinematic duotone) ---------- */
-.hero-portrait {
-  filter: grayscale(0.42) contrast(1.05) brightness(0.92) saturate(1.02);
-}
-.hero-vignette {
-  background: radial-gradient(
-    122% 104% at 60% 34%,
-    transparent 50%,
-    rgba(11, 10, 9, 0.55) 100%
-  );
-}
-
-/* ---------- legal prose ---------- */
+/* ---------- legal prose (light) ---------- */
 .legal-prose h2 {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   letter-spacing: -0.02em;
-  color: var(--color-bone);
-  margin: 2.75rem 0 0.75rem;
+  text-transform: uppercase;
+  margin: 2.5rem 0 0.6rem;
 }
 .legal-prose p {
-  color: #cfc7ba;
-  max-width: 70ch;
+  color: var(--color-muted);
+  max-width: 68ch;
   line-height: 1.7;
   margin-bottom: 0.9rem;
 }
 .legal-prose a {
-  color: var(--color-flame);
+  color: var(--color-ink);
+  text-decoration: underline;
   text-underline-offset: 3px;
 }
-.legal-prose a:hover {
-  text-decoration: underline;
-}
 .legal-prose strong {
-  color: var(--color-bone);
-  font-weight: 600;
+  color: var(--color-ink);
+  font-weight: 700;
 }
 .legal-prose ul {
   margin: 0.25rem 0 1rem 1.1rem;
   list-style: disc;
+  color: var(--color-muted);
 }
 .legal-prose li {
-  color: #cfc7ba;
-  max-width: 70ch;
+  max-width: 68ch;
   line-height: 1.6;
   margin-bottom: 0.4rem;
+}
+
+/* ---------- selected work: cursor preview ---------- */
+.jn-preview {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  width: 20rem;
+  aspect-ratio: 4 / 5;
+  pointer-events: none;
+  will-change: transform;
+  transition:
+    width 0.5s var(--ease-out),
+    aspect-ratio 0.5s var(--ease-out);
+}
+.jn-preview.jn-portrait {
+  width: 19rem;
+  aspect-ratio: 4 / 5;
+}
+.jn-preview.jn-landscape {
+  width: 29rem;
+  aspect-ratio: 16 / 10;
+}
+.jn-preview-inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-paper-2);
+  opacity: 0;
+  transform: scale(0.94);
+  clip-path: inset(7%);
+  transition:
+    opacity 0.4s var(--ease-out),
+    transform 0.55s var(--ease-out),
+    clip-path 0.55s var(--ease-out);
+}
+.jn-preview.is-on .jn-preview-inner {
+  opacity: 1;
+  transform: scale(1);
+  clip-path: inset(0%);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-index[data-preview="on"],
+  .jn-index[data-preview="on"] a {
+    cursor: none;
+  }
+}
+
+/* ---------- WebGL stage (persistent, one canvas) ---------- */
+.jn-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0; /* driven imperatively (scroll reveal + morph) */
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+/* restrained interaction feedback (P1) — quiet at rest, precise on press */
+@media (hover: hover) and (pointer: fine) {
+  .jn-scroll-cue:hover .jn-scroll-line {
+    width: 2.75rem;
+  }
+}
+.jn-scroll-line {
+  transition: width 0.3s var(--ease-out);
+}
+.jn-onimg button:active,
+.jn-live:active,
+.jn-next:active {
+  transform: scale(0.985);
+}
+.jn-live,
+.jn-next {
+  transition: transform 0.16s var(--ease-out), background-color 0.2s var(--ease-out),
+    color 0.2s var(--ease-out), opacity 0.2s var(--ease-out);
+}
+
+/* ---------- selected work: the reel ---------- */
+.jn-reel {
+  position: relative;
+  background: #0d0b07; /* cinematic backdrop behind / around the plane */
+}
+.jn-reel-scrim {
+  z-index: 35;
+  background:
+    linear-gradient(
+      to top,
+      rgba(8, 7, 5, 0.92) 0%,
+      rgba(8, 7, 5, 0.6) 22%,
+      rgba(8, 7, 5, 0.05) 46%,
+      rgba(8, 7, 5, 0.42) 100%
+    );
+}
+.jn-reel-stage > .jn-reel-scrim {
+  position: absolute;
+}
+
+/* case-study hero */
+.jn-hero-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(8, 7, 5, 0.9) 0%,
+    rgba(8, 7, 5, 0.55) 20%,
+    rgba(8, 7, 5, 0.04) 48%,
+    rgba(8, 7, 5, 0.38) 100%
+  );
+}
+
+/* text sitting directly over imagery */
+.jn-onimg {
+  text-shadow: 0 1px 26px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* fallback selected-work images (mobile / no-webgl) */
+.jn-fallback-img {
+  aspect-ratio: 16 / 10;
+}
+@media (max-width: 768px) {
+  .jn-fallback-img {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* ---------- hero: image through type ---------- */
+.jn-hero-title {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  filter: contrast(1.06) brightness(1.02);
+}
+/* desktop WebGL: the same letters are now painted by the stage plane (glyph
+   mask), so the DOM text keeps its layout, semantics and selection but no
+   longer paints a second copy of the image */
+.jn-hero-title.jn-hero-title--gl {
+  background-image: none !important;
+  filter: none;
+}
+@supports not (
+  (-webkit-background-clip: text) or (background-clip: text)
+) {
+  .jn-hero-title {
+    color: var(--color-ink);
+    -webkit-text-fill-color: currentColor;
+    background: none;
+  }
+}
+
+/* ============================================================
+   MOBILE HERO · DER ANSCHNITT
+   On a touch phone the hero stops claiming the whole first screen.
+   It shrinks to what it has to say, and the first work in the list,
+   Russian Viking, complete and at its own 4:5, rises into the frame.
+   The bottom edge of the phone is the only crop: the ghost figures
+   and the full metal wordmark are on screen at second zero, and one
+   scroll completes the plate. No second image, no cover crop, and
+   the reel itself is untouched.
+
+   Scoped to small AND coarse: a narrow desktop window still runs the
+   WebGL reel, whose entry ramp expects the full-height hero above it.
+   ============================================================ */
+@media (max-width: 767px) and (pointer: coarse) {
+  .jn-home-hero {
+    min-height: 0;
+    justify-content: flex-start;
+    padding-top: 5.5rem;
+    padding-bottom: 1.75rem;
+  }
+  .jn-home-hero .jn-hero-lockup {
+    margin-top: 1.5rem;
+    /* the scroll-linked scale has nothing to hand off to here — the work is
+       already on screen, so the headline simply rests */
+    transform: none !important;
+  }
+  /* the artwork now stands in the frame itself; filling small letters with it
+     only made them read as smudge. Solid ink, set larger. */
+  .jn-home-hero .jn-hero-title {
+    background-image: none !important;
+    color: var(--color-ink);
+    -webkit-text-fill-color: var(--color-ink);
+    filter: none;
+    font-size: clamp(2.6rem, 13.5vw, 3.6rem);
+  }
+  .jn-home-hero .jn-hero-sub {
+    margin-top: 1.125rem;
+  }
+  /* the index is already in view — a cue pointing at it is furniture */
+  .jn-home-hero .jn-scroll-cue {
+    display: none;
+  }
+}
+/* short phones (SE class): the crop must never land inside the wordmark, so
+   the hero tightens its own spacing rather than cutting the craft in half.
+   Same content, less air. */
+@media (max-width: 767px) and (max-height: 700px) and (pointer: coarse) {
+  .jn-home-hero {
+    padding-top: 4.75rem;
+    padding-bottom: 1rem;
+  }
+  .jn-home-hero .jn-hero-lockup {
+    margin-top: 0.875rem;
+  }
+  .jn-home-hero .jn-hero-title {
+    font-size: clamp(2.4rem, 11.5vw, 3rem);
+  }
+  .jn-home-hero .jn-hero-sub {
+    margin-top: 0.625rem;
+  }
+  .jn-home-hero .jn-hero-sub p {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================================
+   THE PLATE LINE
+   One quiet caption per project: plate number, name, meta.
+   No eyebrow, no counter, no pills, no CTA button. Calm at rest,
+   alive only while a project is actually being exchanged.
+   ============================================================ */
+.jn-plate-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: block;
+  cursor: pointer;
+  will-change: opacity;
+}
+/* Anchored bottom-right: one stable position for every project, and the
+   side the compositions deliberately keep clear. The plate figure trails the
+   entry, like a catalogue number set in the outer margin. */
+.jn-plate {
+  position: absolute;
+  right: clamp(1.25rem, 5vw, 3.5rem);
+  bottom: clamp(3rem, 9vh, 5.25rem);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: baseline;
+  gap: clamp(1.1rem, 2.4vw, 2.4rem);
+  max-width: min(88vw, 46rem);
+  text-align: right;
+  text-shadow: 0 1px 22px rgba(0, 0, 0, 0.5);
+}
+/* On narrower screens the client surfaces scale up relative to the frame and
+   reach further across the lower band. The caption keeps its position and
+   simply narrows — the meta wraps, and the line clears the artwork sideways
+   instead of being pushed on top of it. */
+@media (max-width: 1280px) {
+  .jn-plate {
+    max-width: 17rem;
+  }
+}
+.jn-plate--intro {
+  z-index: 40;
+  pointer-events: none;
+}
+/* the same plate language in normal flow, on paper (mobile / no-WebGL) */
+.jn-plate--static {
+  position: static;
+  flex-direction: row;
+  text-align: left;
+  max-width: none;
+  text-shadow: none;
+  gap: clamp(0.9rem, 3vw, 1.6rem);
+}
+.jn-plate--static .jn-plate-name {
+  color: var(--color-ink);
+}
+.jn-plate--static .jn-plate-num {
+  color: var(--color-faint);
+}
+.jn-plate--static .jn-plate-meta {
+  justify-content: flex-start;
+  color: var(--color-muted);
+}
+.jn-plate--static .jn-plate-year {
+  color: var(--color-faint);
+}
+/* hanging plate figure, like a catalogue number */
+.jn-plate-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(236, 232, 224, 0.55);
+  white-space: nowrap;
+  will-change: opacity, transform, clip-path;
+}
+.jn-plate-body {
+  display: block;
+}
+.jn-plate-name {
+  position: relative;
+  display: inline-block;
+  color: var(--color-paper);
+  line-height: 1.06;
+  will-change: opacity, transform, clip-path;
+}
+/* posters may speak up a little; web work stays deliberately quiet so the
+   interface itself remains the loudest thing on screen */
+.jn-plate-name--work {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  font-size: clamp(1.5rem, 3.1vw, 2.6rem);
+}
+.jn-plate-name--web {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+}
+/* hairline: the affordance, drawn only on interaction */
+.jn-plate-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.28em;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.75;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.42s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-plate-hit:hover .jn-plate-rule {
+    transform: scaleX(1);
+  }
+}
+/* The hit area spans the stage, so the focus ring is drawn on the caption
+   itself — scoped and visible, never a full-viewport outline. */
+.jn-plate-hit:focus-visible {
+  outline: none;
+}
+.jn-plate-hit:focus .jn-plate-rule,
+.jn-plate-hit:focus-visible .jn-plate-rule {
+  transform: scaleX(1);
+}
+.jn-plate-hit:focus-visible .jn-plate {
+  outline: 2px solid var(--color-paper);
+  outline-offset: 14px;
+  border-radius: 2px;
+}
+/* ---- ARTWORK MODE ----
+   When the work is on screen complete, wordmark and all, the line stops
+   naming it a second time: plate number, discipline, year. The title stays
+   in the document for the heading outline and for assistive tech. */
+.jn-plate-name--silent {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+.jn-plate--art .jn-plate-meta {
+  margin-top: 0;
+}
+/* caption and artwork share one baseline — the margin note sits on the same
+   line the image ends on, which is what makes the pair read as one composition */
+.jn-plate--art {
+  bottom: var(--art-b);
+}
+/* mirrored: an artwork pinned to the right gutter hands its line to the left
+   margin, and the plate figure hangs on the outer side there too */
+.jn-plate--art[data-side="left"] {
+  right: auto;
+  left: clamp(1.25rem, 5vw, 3.5rem);
+  flex-direction: row;
+  text-align: left;
+}
+.jn-plate--art[data-side="left"] .jn-plate-meta {
+  justify-content: flex-start;
+}
+/* the hairline belonged to the name; with no name the plate figure answers */
+.jn-plate--art .jn-plate-num {
+  transition: color 0.28s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-plate-hit:hover .jn-plate--art .jn-plate-num {
+    color: var(--color-paper);
+  }
+}
+.jn-plate-hit:focus .jn-plate--art .jn-plate-num,
+.jn-plate-hit:focus-visible .jn-plate--art .jn-plate-num {
+  color: var(--color-paper);
+}
+.jn-plate--static.jn-plate--art .jn-plate-num {
+  color: var(--color-muted);
+}
+
+/* case-study hero in artwork mode: the same rectangle the reel settled into,
+   standing on the reel's own ground so the morph never changes surface */
+.jn-hero--art {
+  background: #0d0b07;
+}
+.jn-art-frame {
+  position: absolute;
+  left: var(--art-x);
+  top: var(--art-y);
+  width: var(--art-w);
+  height: var(--art-h);
+}
+.jn-art-caption {
+  position: absolute;
+  left: calc(var(--art-x) + var(--art-w));
+  top: var(--art-y);
+  height: var(--art-h);
+  right: clamp(1.25rem, 5vw, 3.5rem);
+  padding-left: clamp(1.75rem, 4vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* right gutter, artwork baseline — the exact place the reel's plate line
+     just occupied, so the click reads as that line unfolding rather than as
+     a new page arriving */
+  align-items: flex-end;
+  text-align: right;
+  color: var(--color-paper);
+}
+.jn-art-caption .jn-live {
+  align-self: flex-end;
+}
+/* mirrored, for an artwork pinned to the right gutter */
+.jn-art-caption[data-side="left"] {
+  left: clamp(1.25rem, 5vw, 3.5rem);
+  right: calc(100vw - var(--art-x));
+  padding-left: 0;
+  padding-right: clamp(1.75rem, 4vw, 3.5rem);
+  align-items: flex-start;
+  text-align: left;
+}
+.jn-art-caption[data-side="left"] .jn-live {
+  align-self: flex-start;
+}
+/* a desktop window narrow enough that the margin stops being a column:
+   the caption returns under the work rather than crowding it */
+@media (max-width: 900px) {
+  .jn-art-caption {
+    left: var(--art-x);
+    top: calc(var(--art-y) + var(--art-h));
+    height: auto;
+    right: clamp(1.25rem, 5vw, 3.5rem);
+    padding-left: 0;
+    padding-top: 1.5rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* ---- ARTWORK MODE · mobile case hero (bug fix) ----
+   The desktop width ceiling (maxW, 46vw) was reaching phones and shrinking
+   every artwork-mode case to ~179px, floating in a full screen of black. On a
+   touch phone there is no WebGL morph to match, so the hero drops the stage
+   geometry and simply sets the work: content width on the page gutter, its
+   own ratio, complete, directly under the header, with the note beneath.
+   A height cap keeps it whole in landscape. Ground and typography of each
+   project stay exactly as they were — only size and flow are corrected. */
+@media (max-width: 767px) and (pointer: coarse) {
+  .jn-hero.jn-hero--art {
+    height: auto;
+    overflow: visible;
+    padding: 4.75rem clamp(1.25rem, 5vw, 3.5rem) 0;
+  }
+  .jn-hero--art .jn-art-frame {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(100%, calc((100svh - 6rem) * var(--art-aspect)));
+    height: auto;
+    aspect-ratio: var(--art-aspect);
+  }
+  .jn-hero--art .jn-art-caption,
+  .jn-hero--art .jn-art-caption[data-side="left"] {
+    position: static;
+    height: auto;
+    padding: 1rem 0 2.5rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .jn-hero--art .jn-art-caption .jn-live {
+    align-self: flex-start;
+  }
+}
+
+/* ---- FIRAT · mobile case hero ----
+   The desktop surface is fitted by height and reached phones at ~0.3 scale,
+   with the caption laid over the Pizzatag. On a touch phone the hero sets the
+   client's real mobile layout instead, full width on its own coal ground, and
+   the caption follows underneath it rather than on top. */
+.jn-firat-m {
+  display: none;
+}
+@media (max-width: 767px) and (pointer: coarse) {
+  .jn-hero.jn-hero--firat {
+    height: auto;
+    overflow: visible;
+    padding-top: 4.25rem;
+    background: #17100b;
+  }
+  .jn-hero--firat .jn-hero-media {
+    position: relative;
+    inset: auto;
+  }
+  .jn-hero--firat .jn-firat-desk,
+  .jn-hero--firat .jn-hero-scrim {
+    display: none;
+  }
+  .jn-hero--firat .jn-firat-m {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 390 / 800;
+  }
+  .jn-hero--firat .jn-onimg {
+    position: relative;
+    padding-top: 2rem;
+    text-shadow: none;
+  }
+}
+
+/* ============================================================
+   VISUAL CASE
+   The artwork is the case. The stage above is unchanged artwork mode; what
+   follows it is one note and the next work, nothing else. The note carries
+   only what the poster cannot: discipline and year. The exit announces the
+   next work in the reel's own plate language, on the same ground, so leaving
+   reads as the sequence continuing rather than a footer starting.
+   ============================================================ */
+/* the ground belongs to the whole case, not to each block — two dark boxes
+   meeting on a fractional svh edge otherwise let a hairline of paper through */
+.jn-visual {
+  background: #0d0b07;
+}
+.jn-visual-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem clamp(1.1rem, 2.4vw, 2.25rem);
+  margin: 0;
+  color: rgba(236, 232, 224, 0.8);
+}
+.jn-visual-note span + span {
+  color: rgba(236, 232, 224, 0.5);
+}
+
+.jn-exit {
+  display: flex;
+  align-items: flex-end;
+  min-height: 40svh;
+  /* bottom padding net of the link's own 0.75rem hit padding */
+  padding: 0 clamp(1.25rem, 5vw, 3.5rem) calc(clamp(3rem, 9vh, 5.25rem) - 0.75rem);
+  background: #0d0b07;
+}
+.jn-exit[data-side="right"] {
+  justify-content: flex-end;
+}
+.jn-exit-link {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem clamp(1.1rem, 2.4vw, 2.4rem);
+  /* a one-line caption is only ~21px tall — the padding makes it a real
+     44px+ target, the negative margin keeps the type exactly on the gutter */
+  padding: 0.75rem;
+  margin: 0 -0.75rem;
+  color: var(--color-paper);
+}
+/* the plate classes are borrowed for their type only — their reel layout
+   (stacked meta, right alignment) does not apply out here */
+.jn-exit .jn-plate-name--work {
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+}
+.jn-exit .jn-plate-meta {
+  margin-top: 0;
+  justify-content: flex-start;
+}
+.jn-exit-mark {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgba(236, 232, 224, 0.6);
+  transition: transform 0.3s var(--ease-out), color 0.3s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-exit-link:hover .jn-plate-rule {
+    transform: scaleX(1);
+  }
+  .jn-exit-link:hover .jn-exit-mark {
+    color: var(--color-paper);
+    transform: translate3d(2px, -2px, 0);
+  }
+}
+.jn-exit-link:focus-visible {
+  outline: 2px solid var(--color-paper);
+  /* 2px + the 12px hit padding = the reel plate's 14px ring distance */
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.jn-exit-link:focus-visible .jn-plate-rule {
+  transform: scaleX(1);
+}
+
+/* mobile: paper. The visitor arrives from the paper list, so the case is that
+   same plate opened — same ground, same width — not a jump into a black stage. */
+@media (max-width: 767px) and (pointer: coarse) {
+  .jn-visual,
+  .jn-hero.jn-hero--visual {
+    background: var(--color-paper);
+  }
+  .jn-hero--visual .jn-art-caption,
+  .jn-hero--visual .jn-art-caption[data-side="left"] {
+    padding-bottom: 0;
+  }
+  .jn-visual-note {
+    color: var(--color-ink);
+  }
+  .jn-visual-note span + span {
+    color: var(--color-faint);
+  }
+  .jn-exit {
+    min-height: 0;
+    /* net of the link's 0.75rem hit padding */
+    padding: 1.75rem clamp(1.25rem, 5vw, 3.5rem) 2.25rem;
+    background: var(--color-paper);
+    justify-content: flex-start;
+  }
+  .jn-exit[data-side="right"] {
+    justify-content: flex-start;
+  }
+  .jn-exit-link {
+    color: var(--color-ink);
+  }
+  .jn-exit .jn-plate-num,
+  .jn-exit .jn-plate-year {
+    color: var(--color-faint);
+  }
+  .jn-exit .jn-plate-name {
+    color: var(--color-ink);
+  }
+  .jn-exit .jn-plate-meta {
+    color: var(--color-muted);
+  }
+  .jn-exit-mark {
+    color: var(--color-muted);
+  }
+  .jn-exit-link:focus-visible {
+    outline-color: var(--color-ink);
+  }
+}
+
+.jn-plate-meta {
+  margin-top: 0.7rem;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem clamp(1.1rem, 2.4vw, 2.25rem);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(236, 232, 224, 0.62);
+  will-change: opacity, transform, clip-path;
+}
+.jn-plate-year {
+  font-variant-numeric: tabular-nums;
+  color: rgba(236, 232, 224, 0.42);
+}
+
+/* the sole pointer signal: one glyph, appearing only over a project */
+.jn-plate-mark {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 45;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-paper);
+  opacity: 0;
+  pointer-events: none;
+  /* driven by pointer movement, not by hover — see Reel.tsx */
+  transition: opacity 0.18s var(--ease-out);
+  will-change: transform, opacity;
+}
+.jn-plate-hit:active ~ .jn-plate-mark {
+  transform-origin: center;
+  opacity: 1;
+}
+@media (pointer: coarse) {
+  .jn-plate-mark {
+    display: none;
+  }
+}
+
+/* Live DOM surface layer: above the plane and its scrim (so the client UI
+   stays crisp and unmuddied), below the reel's own typography. */
+.jn-surface {
+  position: absolute;
+  inset: 0;
+  z-index: 36;
+  pointer-events: none;
+}
+
+/* mobile fallback: the real mobile layout, fitted without scaling down a desktop */
+.fr-fit-m {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 390 / 800;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+.fr-fit-m > div {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: top left;
+}
+
+/* ============================================================
+   FIRAT · scoped client surface
+   Every token is confined to .firat-scope so the client's palette
+   can never bleed into the Joel.Noir paper/ink system. Values
+   mirror the real Firat project's design tokens.
+   ============================================================ */
+.firat-scope {
+  --fr-brandblue: #3a5bd6;
+  --fr-coal: #17100b;
+  --fr-coal-2: #1e1610;
+  --fr-line: #4a3322;
+  --fr-cream: #f1e7d4;
+  --fr-smoke-2: #82705a;
+  --fr-ember: #c47a44;
+  --fr-ember-600: #a35e2e;
+  --fr-amber: #e0aa3e;
+  --fr-amber-300: #f1d191;
+
+  --fr-display: var(--ff-serif), Georgia, serif;
+  --fr-sans: var(--ff-hanken), system-ui, sans-serif;
+  --fr-wordmark: var(--ff-rubik), "Arial Black", system-ui, sans-serif;
+
+  font-family: var(--fr-sans);
+  letter-spacing: normal;
+  color: var(--fr-cream);
+}
+
+.fr-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+/* one fixed design grid, fitted by height and bleeding off the right edge */
+.fr-fitted {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform-origin: left center;
+}
+.fr-el {
+  position: absolute;
+  will-change: transform, opacity, clip-path;
+}
+.fr-shared {
+  transform-origin: left top;
+}
+.fr-shared--tag {
+  width: 880px;
+}
+/* stable absolute layers: each keeps its own fixed box forever */
+.fr-variant {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+}
+.fr-variant[data-on="false"] {
+  opacity: 0;
+  visibility: hidden;
+}
+/* absolute layers no longer inherit the anchor's width — restate it so the
+   desktop Pizzatag keeps exactly the width it had before */
+.fr-shared--tag .fr-variant {
+  width: 880px;
+}
+
+/* mobile ground the travelling elements land on */
+.fr-mobpanel {
+  position: absolute;
+  border-radius: 0.75rem;
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(196, 122, 68, 0.35), transparent 60%),
+    linear-gradient(160deg, var(--fr-coal-2), var(--fr-coal) 60%, #100c08);
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.8);
+  will-change: opacity, transform;
+}
+
+/* ---- brand fragments ---- */
+.fr-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+.fr-wordmark {
+  font-family: var(--fr-wordmark);
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.6rem;
+  line-height: 0.85;
+  text-transform: uppercase;
+  color: var(--fr-brandblue);
+  transform: skewX(-4deg);
+  display: inline-block;
+}
+.fr-wordmark-sub {
+  margin-top: 0.35rem;
+  padding-left: 0.15rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(138, 156, 232, 0.9);
+}
+
+.fr-h1 {
+  font-family: var(--fr-display);
+  font-weight: 600;
+  font-size: 4.4rem;
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  width: 820px;
+  color: var(--fr-cream);
+}
+.fr-h1--m {
+  font-size: 2.9rem;
+  width: 338px;
+}
+.fr-h1-accent {
+  font-style: italic;
+  background: linear-gradient(104deg, var(--fr-amber-300), var(--fr-ember));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.fr-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 820px;
+}
+.fr-cta--m {
+  flex-direction: column;
+  align-items: stretch;
+  width: 338px;
+}
+.fr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.fr-btn--sm {
+  padding: 0.6rem 1.1rem;
+}
+.fr-btn--primary {
+  background: var(--fr-ember);
+  color: var(--fr-cream);
+  box-shadow: 0 16px 34px -16px rgba(196, 122, 68, 0.85);
+}
+.fr-btn--line {
+  border: 1px solid var(--fr-line);
+  color: var(--fr-cream);
+}
+.fr-btn--ghost {
+  color: rgba(241, 231, 212, 0.75);
+}
+
+/* ---- desktop chrome ---- */
+.fr-navlinks {
+  left: 620px;
+  top: 48px;
+  display: flex;
+  gap: 2rem;
+  font-size: 0.95rem;
+  color: rgba(241, 231, 212, 0.82);
+}
+.fr-navright {
+  left: 1130px;
+  top: 38px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.fr-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(74, 51, 34, 0.9);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.72rem;
+  color: rgba(241, 231, 212, 0.85);
+  white-space: nowrap;
+}
+.fr-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: #96a15c;
+}
+.fr-burger {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 51, 34, 0.9);
+  color: var(--fr-cream);
+}
+.fr-eyebrow-row {
+  left: 56px;
+  top: 150px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.fr-eyebrow-line {
+  height: 1px;
+  width: 3rem;
+  background: linear-gradient(to right, var(--fr-ember), transparent);
+}
+.fr-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.34em;
+  color: var(--fr-amber);
+  white-space: nowrap;
+}
+.fr-sub {
+  left: 56px;
+  top: 388px;
+  width: 30rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: rgba(241, 231, 212, 0.7);
+}
+.fr-sub--m {
+  width: 338px;
+  font-size: 0.95rem;
+}
+.fr-rate {
+  left: 56px;
+  top: 600px;
+}
+.fr-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.fr-rating-num {
+  font-family: var(--fr-display);
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--fr-cream);
+}
+.fr-rating-note {
+  font-size: 0.85rem;
+  color: var(--fr-smoke-2);
+  white-space: nowrap;
+}
+.fr-star {
+  display: block;
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--fr-amber);
+}
+
+/* ---- menu experience: the UI that says web design ---- */
+.fr-menu {
+  left: 946px;
+  top: 150px;
+  width: 520px;
+}
+.fr-menucard {
+  border-radius: 1.4rem;
+  border: 1px solid rgba(74, 51, 34, 0.85);
+  background: linear-gradient(150deg, rgba(42, 29, 20, 0.95), rgba(23, 16, 11, 0.92));
+  padding: 1.9rem 1.75rem;
+}
+.fr-menu-eyebrow {
+  font-family: var(--fr-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--fr-amber);
+}
+.fr-menu-h {
+  margin-top: 0.6rem;
+  font-family: var(--fr-display);
+  font-weight: 600;
+  font-size: 2.4rem;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--fr-cream);
+}
+.fr-search {
+  margin-top: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(74, 51, 34, 0.9);
+  border-radius: 999px;
+  padding: 0.7rem 1.1rem;
+  font-size: 0.9rem;
+  color: var(--fr-smoke-2);
+}
+.fr-chips {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.fr-chip {
+  border-radius: 999px;
+  border: 1px solid rgba(74, 51, 34, 0.9);
+  padding: 0.42rem 0.9rem;
+  font-size: 0.8rem;
+  color: rgba(241, 231, 212, 0.75);
+}
+.fr-chip--on {
+  background: var(--fr-ember);
+  border-color: var(--fr-ember);
+  color: var(--fr-cream);
+}
+.fr-dishes {
+  margin-top: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.fr-dishes li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px dashed rgba(74, 51, 34, 0.8);
+  padding-bottom: 0.6rem;
+  font-size: 0.98rem;
+  color: rgba(241, 231, 212, 0.88);
+}
+.fr-price {
+  font-family: var(--fr-display);
+  font-size: 1.2rem;
+  color: var(--fr-amber);
+}
+
+/* ---- pizzatag ---- */
+.fr-pizzatag {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(196, 122, 68, 0.3);
+  background: linear-gradient(to right, var(--fr-ember-600), var(--fr-ember), #caa24a);
+  padding: 1.6rem 2.25rem;
+}
+.fr-pizzatag--compact {
+  padding: 1.1rem 1.25rem;
+  border-radius: 1.15rem;
+  width: 338px;
+}
+.fr-pizzatag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.fr-pizzatag--compact .fr-pizzatag-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+.fr-pizzatag-icon {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  flex-shrink: 0;
+  border-radius: 1rem;
+  background: rgba(241, 231, 212, 0.15);
+  color: var(--fr-cream);
+}
+.fr-pizzatag-kicker {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: rgba(241, 231, 212, 0.8);
+}
+.fr-pizzatag-title {
+  font-family: var(--fr-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--fr-cream);
+}
+.fr-pizzatag-copy {
+  max-width: 26rem;
+  color: rgba(241, 231, 212, 0.9);
+  font-size: 0.98rem;
+}
+.fr-pizzatag--compact .fr-pizzatag-copy {
+  font-size: 0.84rem;
+}
+.fr-pizzatag-price {
+  font-family: var(--fr-display);
+  font-size: 1.5rem;
+  color: var(--fr-cream);
+}
+
+/* ---- static mobile composition (portfolio mobile / reduced motion) ---- */
+.fr-static-m {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+.fr-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(196, 122, 68, 0.4), transparent 62%),
+    radial-gradient(ellipse at 0% 100%, rgba(224, 170, 62, 0.35), transparent 62%),
+    linear-gradient(160deg, var(--fr-coal-2), var(--fr-coal) 58%, #100c08);
+}
+.fr-static-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.6rem 0;
+}
+.fr-static-body {
+  position: relative;
+  padding: 1.6rem 1.6rem 0;
+}
+.fr-static-body .fr-eyebrow-row,
+.fr-static-body .fr-sub--static {
+  position: static;
+  left: auto;
+  top: auto;
+}
+.fr-sub--static {
+  margin-top: 1.3rem;
+}
+.fr-static-body .fr-h1--m {
+  margin-top: 1.2rem;
+}
+
+
+/* ============================================================
+   GALABAU BÖTTCHER · scoped client surface
+   Tokens mirror the real project (forest / lime / cream) and stay
+   inside .galabau-scope so they cannot touch the Joel.Noir palette.
+   ============================================================ */
+.galabau-scope {
+  --gb-forest: #0d1d16;
+  --gb-forest-900: #0a1711;
+  --gb-card: #182a21;
+  --gb-lime: #8fbe6b;
+  --gb-lime-soft: #a5ce84;
+  --gb-cream: #eef2ea;
+  --gb-ink: #17211c;
+
+  --gb-display: var(--ff-manrope), ui-sans-serif, system-ui, sans-serif;
+  --gb-body: var(--ff-hanken), ui-sans-serif, system-ui, sans-serif;
+
+  font-family: var(--gb-body);
+  letter-spacing: normal;
+  color: var(--gb-cream);
+}
+
+.gb-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.gb-fitted {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform-origin: left center;
+}
+.gb-cell {
+  position: absolute;
+  will-change: opacity, transform, clip-path;
+}
+/* the brand tone taking the ground */
+.gb-wash {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 23, 17, 0.55) 0%, rgba(13, 29, 22, 0.92) 62%, rgba(10, 23, 17, 0.97) 100%);
+  will-change: opacity;
+}
+
+/* ---- the grid drawn out of the paving joints ---- */
+.gb-grid {
+  position: absolute;
+  inset: 0;
+}
+.gb-rule {
+  position: absolute;
+  background: var(--gb-lime);
+  box-shadow: 0 0 10px rgba(143, 190, 107, 0.45);
+  will-change: transform, opacity;
+}
+.gb-rule--v {
+  width: 1.5px;
+  transform-origin: top center;
+}
+.gb-rule--h {
+  height: 1.5px;
+  transform-origin: left center;
+}
+.gb-rule-short {
+  display: block;
+  width: 2.25rem;
+  height: 1px;
+  background: var(--gb-lime);
+  margin-bottom: 0.9rem;
+}
+
+/* ---- brand content in the cells ---- */
+.gb-headline {
+  padding: 1.6rem 1.8rem;
+  display: flex;
+  align-items: flex-start;
+}
+.gb-headline h3 {
+  font-family: var(--gb-display);
+  font-weight: 800;
+  font-size: 3.5rem;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--gb-cream);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.55);
+}
+.gb-accent {
+  color: var(--gb-lime);
+}
+
+.gb-region {
+  padding: 1.7rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.6);
+}
+.gb-dim {
+  color: rgba(238, 242, 234, 0.55);
+}
+
+.gb-services {
+  padding: 1.7rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: rgba(238, 242, 234, 0.9);
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* the forest surface the whole presence is built on */
+.gb-surface {
+  background: linear-gradient(120deg, var(--gb-forest-900), var(--gb-card));
+  border: 1px solid rgba(143, 190, 107, 0.28);
+}
+
+/* two real Instagram posts — small, as evidence of the communication work */
+.gb-social {
+  padding: 1.5rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+.gb-social-tiles {
+  display: flex;
+  gap: 0.6rem;
+}
+.gb-social-tiles img {
+  width: 5.4rem;
+  height: 5.4rem;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+/* ---- the proof: same plot, before and after ---- */
+.gb-proof {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  /* grows inward so the labels never run past the cropped right edge */
+  transform-origin: right center;
+}
+.gb-proof-frame {
+  position: relative;
+  display: block;
+  flex: 1;
+  overflow: hidden;
+  border: 1px solid rgba(143, 190, 107, 0.35);
+}
+.gb-proof-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gb-proof-before {
+  position: absolute;
+  inset: 0;
+  display: block;
+  will-change: clip-path;
+}
+.gb-proof-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1.5px;
+  background: var(--gb-lime);
+  box-shadow: 0 0 14px rgba(143, 190, 107, 0.75);
+  will-change: transform, opacity;
+}
+.gb-proof-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(238, 242, 234, 0.8);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7);
 }
 
 /* ---------- motion safety ---------- */

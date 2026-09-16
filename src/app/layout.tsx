@@ -1,23 +1,30 @@
 import type { Metadata } from "next";
-import { Archivo, Manrope, Space_Mono } from "next/font/google";
+import {
+  Archivo,
+  Fraunces,
+  Space_Mono,
+  Hanken_Grotesk,
+  Rubik,
+  Manrope,
+} from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
-/* Display: broad, editorial grotesk for oversized headlines */
-const display = Archivo({
-  subsets: ["latin"],
-  variable: "--ff-display",
-  display: "swap",
-});
-
-/* Text: clean humanist grotesk for body & UI */
-const sans = Manrope({
+/* Structural voice: a precise grotesque, used from body to oversized display */
+const archivo = Archivo({
   subsets: ["latin"],
   variable: "--ff-sans",
   display: "swap",
 });
 
-/* Meta: monospace for labels, numbers, coordinates */
+/* Editorial accent: an expressive serif, used sparingly for warmth */
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--ff-serif",
+  display: "swap",
+});
+
+/* Meta: monospace for labels, numbers and coordinates */
 const mono = Space_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -25,40 +32,60 @@ const mono = Space_Mono({
   display: "swap",
 });
 
+/* Firat's own type voices, used only inside the .firat-scope surface so the
+   client project renders in its real typography. Fraunces is already loaded
+   above and is shared with Firat's display face. */
+const hanken = Hanken_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--ff-hanken",
+  display: "swap",
+});
+
+const rubik = Rubik({
+  subsets: ["latin"],
+  weight: ["900"],
+  style: ["italic"],
+  variable: "--ff-rubik",
+  display: "swap",
+});
+
+/* Galabau's own display face, used only inside .galabau-scope. */
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["500", "700", "800"],
+  variable: "--ff-manrope",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://joel-noir-portfolio.vercel.app"),
   title: {
-    default: "Joel.Noir · Creative Design & Art Direction",
+    default: "Joel.Noir · Mediengestalter",
     template: "%s · Joel.Noir",
   },
   description:
-    "Joel.Noir ist Creative Designer & Art Director. Editorial, cinematisch, kompromisslos. Sport, Fight, Event, Branding und Motion Design auf Studio-Niveau.",
-  keywords: [
-    "Joel.Noir",
-    "Creative Designer",
-    "Art Director",
-    "Sports Design",
-    "Fight Design",
-    "Grafikdesign",
-    "Portfolio",
-  ],
-  authors: [{ name: "Joel.Noir" }],
-  creator: "Joel.Noir",
+    "Joel.Noir, Mediengestalter aus Nossen. Graphic & Sports Design, Branding, Social Media und Webdesign.",
+  keywords: ["Joel.Noir", "Mediengestalter", "Sports Design", "Graphic Design", "Webdesign"],
+  authors: [{ name: "Joel Hildebrand" }],
+  creator: "Joel Hildebrand",
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "de_DE",
     alternateLocale: "en_US",
     siteName: "Joel.Noir",
-    title: "Joel.Noir · Creative Design & Art Direction",
+    url: "/",
+    title: "Joel.Noir · Mediengestalter",
     description:
-      "Editorial, cinematisch, kompromisslos. Sport, Fight, Event, Branding und Motion Design auf Studio-Niveau.",
+      "Mediengestalter aus Nossen. Graphic & Sports Design, Branding, Social Media und Webdesign.",
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Joel.Noir" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Joel.Noir · Creative Design & Art Direction",
+    title: "Joel.Noir · Mediengestalter",
     description:
-      "Editorial, cinematisch, kompromisslos. Sport, Fight, Event, Branding und Motion Design auf Studio-Niveau.",
+      "Mediengestalter aus Nossen. Graphic & Sports Design, Branding, Social Media und Webdesign.",
     images: ["/og.jpg"],
   },
   robots: { index: true, follow: true },
@@ -72,7 +99,7 @@ export default function RootLayout({
   return (
     <html
       lang="de"
-      className={`${display.variable} ${sans.variable} ${mono.variable}`}
+      className={`${archivo.variable} ${fraunces.variable} ${mono.variable} ${hanken.variable} ${rubik.variable} ${manrope.variable}`}
       suppressHydrationWarning
     >
       <body>

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { projects } from "@/lib/projects";
-import { caseStudyDetails } from "@/lib/caseStudies";
+import { projects, projectBySlug } from "@/lib/projects";
+import { caseStudies } from "@/lib/caseStudies";
 import ProjectDetail from "@/components/work/ProjectDetail";
 
 export function generateStaticParams() {
@@ -14,11 +14,34 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) return {};
+  const p = projectBySlug(slug);
+  if (!p) return {};
+  /* Only what is certain: the discipline, the name, the year. A visual case,
+     or any work without a confirmed tagline, says nothing beyond that. */
+  const factual = `${p.category.de} für ${p.title} aus dem Jahr ${p.year}.`;
+  const title = `${p.title} · ${p.client.de}`;
+  const description = p.caseKind === "visual" ? factual : (p.tagline?.de ?? factual);
+  const url = `/work/${p.slug}`;
+  /* each case shares as itself, not as the home page it would otherwise inherit */
   return {
-    title: `${project.title} · ${project.client}`,
-    description: project.tagline.de,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      siteName: "Joel.Noir",
+      locale: "de_DE",
+      url,
+      title: `${title} · Joel.Noir`,
+      description,
+      images: [{ url: p.image, alt: p.alt?.de ?? p.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} · Joel.Noir`,
+      description,
+      images: [p.image],
+    },
   };
 }
 
@@ -28,18 +51,26 @@ export default async function WorkPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) notFound();
+  const p = projectBySlug(slug);
+  if (!p) notFound();
 
-  const detail = caseStudyDetails[slug] ?? null;
-  const idx = projects.findIndex((p) => p.slug === slug);
-  const next = projects[(idx + 1) % projects.length];
+  const study = caseStudies[slug] ?? null;
+  const idx = projects.findIndex((x) => x.slug === slug);
+  const nextIdx = (idx + 1) % projects.length;
+  const next = projects[nextIdx];
 
   return (
     <ProjectDetail
-      project={project}
-      detail={detail}
-      next={{ slug: next.slug, title: next.title }}
+      project={p}
+      study={study}
+      next={{
+        slug: next.slug,
+        title: next.title,
+        category: next.category,
+        year: next.year,
+        /* the plate number the reel gives this work */
+        plate: String(nextIdx + 1).padStart(2, "0"),
+      }}
     />
   );
 }
