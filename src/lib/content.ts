@@ -23,8 +23,10 @@ export const content = {
     index: {
       eyebrow: "Selected Work",
       title: "Index",
-      note: "2025 / 2026 · Sechs Projekte",
+      note: "2025 / 2026 · Sieben Projekte",
       view: "Projekt ansehen",
+      photography: "Photography",
+      design: "Design",
     },
     about: {
       eyebrow: "Über",
@@ -39,6 +41,7 @@ export const content = {
         "Motorsport Design",
         "Branding",
         "Social Media",
+        "Fotografie",
         "Webdesign",
         "Digital Experiences",
       ],
@@ -85,8 +88,10 @@ export const content = {
     index: {
       eyebrow: "Selected Work",
       title: "Index",
-      note: "2025 / 2026 · Six projects",
+      note: "2025 / 2026 · Seven projects",
       view: "View project",
+      photography: "Photography",
+      design: "Design",
     },
     about: {
       eyebrow: "About",
@@ -101,6 +106,7 @@ export const content = {
         "Motorsport Design",
         "Branding",
         "Social Media",
+        "Photography",
         "Web Design",
         "Digital Experiences",
       ],

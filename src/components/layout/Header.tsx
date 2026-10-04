@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useLang } from "@/lib/i18n";
 import { content } from "@/lib/content";
-import { scrollToId } from "@/lib/lenis";
+import { scrollToId } from "@/lib/scroll";
 
 export default function Header() {
   const { lang, setLang } = useLang();
@@ -23,7 +23,7 @@ export default function Header() {
   return (
     <>
       {/* text-paper + difference: reads as ink over the paper sections and
-          inverts to light by itself once the reel's dark ground is underneath.
+          inverts to light by itself over any dark ground underneath.
           The blend has to sit on the positioned element itself — a z-indexed
           parent would open its own stacking context and the child would then
           blend against nothing. The menu panel is a sibling for the same

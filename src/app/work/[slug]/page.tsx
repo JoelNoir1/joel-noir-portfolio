@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { projects, projectBySlug } from "@/lib/projects";
+import { projects, projectBySlug, plateOf } from "@/lib/projects";
 import { caseStudies } from "@/lib/caseStudies";
 import ProjectDetail from "@/components/work/ProjectDetail";
 
@@ -16,11 +16,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const p = projectBySlug(slug);
   if (!p) return {};
-  /* Only what is certain: the discipline, the name, the year. A visual case,
-     or any work without a confirmed tagline, says nothing beyond that. */
+  /* Only what is certain: the discipline, the name, the year. Any work
+     without a confirmed tagline says nothing beyond that (the posters' visual
+     cases carry none; the photo series has one, since its title is no name). */
   const factual = `${p.category.de} für ${p.title} aus dem Jahr ${p.year}.`;
   const title = `${p.title} · ${p.client.de}`;
-  const description = p.caseKind === "visual" ? factual : (p.tagline?.de ?? factual);
+  const description = p.tagline?.de ?? factual;
   const url = `/work/${p.slug}`;
   /* each case shares as itself, not as the home page it would otherwise inherit */
   return {
@@ -68,8 +69,8 @@ export default async function WorkPage({
         title: next.title,
         category: next.category,
         year: next.year,
-        /* the plate number the reel gives this work */
-        plate: String(nextIdx + 1).padStart(2, "0"),
+        /* the plate number the home page gives this work */
+        plate: plateOf(next.slug),
       }}
     />
   );

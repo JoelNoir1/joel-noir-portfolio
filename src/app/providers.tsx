@@ -3,17 +3,12 @@
 import { MotionConfig } from "motion/react";
 import type { ReactNode } from "react";
 import { LanguageProvider } from "@/lib/i18n";
-import SmoothScroll from "@/components/providers/SmoothScroll";
-import StageProvider from "@/webgl/StageProvider";
 
+/* Native scrolling only: no smooth-scroll layer, no WebGL stage. */
 export default function Providers({ children }: { children: ReactNode }) {
   return (
     <LanguageProvider>
-      <MotionConfig reducedMotion="user">
-        <SmoothScroll>
-          <StageProvider>{children}</StageProvider>
-        </SmoothScroll>
-      </MotionConfig>
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </LanguageProvider>
   );
 }

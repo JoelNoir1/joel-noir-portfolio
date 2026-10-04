@@ -12,17 +12,13 @@ const FiratMobileCase = dynamic(
   () => import("@/components/work/firat/FiratSurface").then((m) => m.FiratMobileCase),
   { ssr: false },
 );
-import { motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
 import { content } from "@/lib/content";
 import { compOf, type Bi, type Project } from "@/lib/projects";
-import { artworkRect, artworkVars, plateSide } from "@/lib/artwork";
+import { artworkVars, plateSide } from "@/lib/artwork";
 import type { CaseStudy } from "@/lib/caseStudies";
-import { useStage } from "@/webgl/StageProvider";
 import Footer from "@/components/layout/Footer";
-import Reveal from "@/components/ui/Reveal";
-
-const ease = [0.16, 1, 0.3, 1] as const;
+import PhotoSeries from "@/components/work/PhotoSeries";
 
 export default function ProjectDetail({
   project,
@@ -37,24 +33,19 @@ export default function ProjectDetail({
   const t = content[lang].project;
   const dd = study?.designDirection;
   const comp = compOf(project.slug);
-  const { enabled, getEngine, consumeMorph } = useStage();
-  /* A lazily-loaded surface swaps in after mount and interrupts entrance
-     animations mid-flight, leaving them stalled. On those pages the hero
-     simply renders at its final state — the morph already covers the arrival. */
-  const skipEnter = Boolean(comp.surface);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  /* ARTWORK MODE — the case hero holds the same rectangle the reel just
-     settled into, so the plane hands off to the DOM image without moving, and
-     the poster stays complete on this page too. The geometry is the artworkRect
-     formula written in CSS, so it is right on the very first paint (no measure,
-     no hydration mismatch) and stays right on resize without a listener. */
+  /* ARTWORK MODE — the case hero shows the work complete at its own format,
+     on the gutter. The geometry is the artworkRect formula written in CSS, so
+     it is right on the very first paint (no measure, no hydration mismatch)
+     and stays right on resize without a listener. */
   const art = comp.artwork;
   const artVars = art ? (artworkVars(art) as CSSProperties) : undefined;
 
   /* VISUAL CASE — only for artwork-mode work flagged as such. Every other case
      page renders exactly the DOM it rendered before. */
   const visual = project.caseKind === "visual" && Boolean(art);
+  const series = visual ? project.series : undefined;
   const nextLabel = `${lang === "de" ? "Nächste Arbeit" : "Next work"}: ${next.title} — ${
     next.category[lang]
   }, ${next.year}`;
@@ -91,66 +82,9 @@ export default function ProjectDetail({
     };
   }, [photoHero]);
 
-  // Receive the Reel -> Case morph: the persistent plane settles into the hero
-  // box, then hands off to the DOM image underneath. No reset, no black frame.
-  useEffect(() => {
-    const canvas = document.querySelector<HTMLCanvasElement>(".jn-stage");
-    const req = consumeMorph();
-    const engine = getEngine();
-    const isMorph =
-      enabled && engine && req && req.slug === project.slug && canvas;
-
-    if (!isMorph) {
-      if (canvas) {
-        canvas.style.transition = "none";
-        canvas.style.opacity = "0";
-        canvas.style.transform = "none";
-      }
-      engine?.setRect(null, true); // leave the plane full-bleed for whoever is next
-      engine?.pause();
-      return;
-    }
-
-    /* Continue in the same rectangle the reel left the plane in. */
-    engine!.setRect(
-      comp.artwork
-        ? artworkRect(comp.artwork, window.innerWidth, window.innerHeight)
-        : null,
-      true,
-    );
-
-    // The same full-bleed image continues from the reel. The click's scale-push
-    // eases back to rest (the landing), then the plane fades to hand off to the
-    // identical, identically-cropped DOM hero underneath.
-    engine!.setSingle(req!.src, req!.comp);
-    engine!.play();
-    canvas!.style.opacity = "1";
-    canvas!.style.transition = "transform 0.6s cubic-bezier(0.16,1,0.3,1)";
-    requestAnimationFrame(() => {
-      if (canvas) canvas.style.transform = "scale(1)";
-    });
-
-    const t1 = window.setTimeout(() => {
-      if (canvas) {
-        canvas.style.transition = "opacity 0.5s ease";
-        canvas.style.opacity = "0";
-      }
-    }, 780);
-    const t2 = window.setTimeout(() => {
-      engine!.pause();
-      if (canvas) canvas.style.transform = "none";
-    }, 1420);
-
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const hero = (
     <>
-        {/* full-bleed hero — the reel plane continues into this exact frame */}
+        {/* full-bleed hero */}
         <div
           ref={heroRef}
           style={artVars}
@@ -158,18 +92,9 @@ export default function ProjectDetail({
             art ? "jn-hero--art" : "bg-paper-2"
           }${visual ? " jn-hero--visual" : ""}${comp.surface === "firat" ? " jn-hero--firat" : ""}`}
         >
-          <motion.div
-            className={art ? "jn-art-frame" : "jn-hero-media absolute inset-0"}
-            /* The live surface loads lazily; animating its wrapper in would get
-               interrupted by that swap and stall mid-fade. It also doesn't need
-               an entrance — the morphing plane already covers the arrival. */
-            initial={skipEnter ? false : { clipPath: "inset(4%)", opacity: 0 }}
-            animate={{ clipPath: "inset(0%)", opacity: 1 }}
-            transition={{ duration: 0.6, ease }}
-          >
+          <div className={art ? "jn-art-frame" : "jn-hero-media absolute inset-0"}>
             {comp.surface === "firat" ? (
-              /* the case continues on the same surface the reel just showed,
-                 instead of cutting to an unrelated screenshot */
+              /* the client's real UI on its own brand ground, not a screenshot */
               <>
                 <div className="jn-firat-desk absolute inset-0 bg-[#17100b]">
                   <Image src="/work/firat-stage.webp" alt="" fill priority sizes="100vw" className="object-cover" />
@@ -186,7 +111,6 @@ export default function ProjectDetail({
               </>
             ) : (
               <Image
-                /* land the morph on the same frame the reel just showed */
                 src={comp.stage ?? project.image}
                 alt={project.alt?.[lang] ?? project.title}
                 fill
@@ -200,7 +124,7 @@ export default function ProjectDetail({
                 }}
               />
             )}
-          </motion.div>
+          </div>
 
           {/* an artwork on open ground needs no gradient graded over it */}
           {!art && <div className="jn-hero-scrim pointer-events-none absolute inset-0" />}
@@ -211,78 +135,64 @@ export default function ProjectDetail({
                 ? "jn-art-caption"
                 : "jn-onimg absolute inset-x-0 bottom-0 px-[clamp(1.25rem,5vw,3.5rem)] pb-[clamp(2.5rem,7vh,4.5rem)]"
             }
-            /* the caption lands exactly where the reel's plate line just stood,
-               mirrored side included */
+            /* the caption in the open margin, mirrored side included */
             data-side={art ? plateSide(art) : undefined}
           >
             {visual ? (
               /* VISUAL CASE NOTE — exactly what the poster cannot say, on one
                  line: discipline and year. The name is in the artwork; for
-                 assistive tech it stays the page's h1. */
+                 assistive tech it stays the page's h1. A photograph carries no
+                 name, so a series sets its title in that slot instead, and the
+                 person in the opening frame once above it. */
               <>
-                <motion.p
-                  className="jn-visual-note label"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.45 }}
-                >
-                  <span>{project.category[lang]}</span>
-                  <span className="tabular-nums">{project.year}</span>
-                </motion.p>
+                <div>
+                  {project.subject && (
+                    <p className="jn-visual-subject label">{project.subject}</p>
+                  )}
+                  <p className="jn-visual-note label">
+                    <span>{series ? project.title : project.category[lang]}</span>
+                    <span className="tabular-nums">{project.year}</span>
+                  </p>
+                </div>
                 <h1 className="sr-only">{project.title}</h1>
               </>
             ) : (
             <div className={art ? undefined : "mx-auto max-w-[1500px]"}>
-              <motion.span
+              <span
                 className="label block text-paper/80"
-                initial={skipEnter ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.45 }}
               >
                 {project.category[lang]}
-              </motion.span>
+              </span>
               {comp.title === "type" ? (
-                <motion.h1
+                <h1
                   className="jn-title-reveal display mt-3 text-[clamp(2.6rem,11vw,8rem)] text-paper"
-                  initial={skipEnter ? false : { clipPath: "inset(0 0 108% 0)", opacity: 0, y: 12 }}
-                  animate={{ clipPath: "inset(0 0 0 0)", opacity: 1, y: 0 }}
-                  transition={{ duration: 0.72, delay: 0.5, ease }}
                 >
                   {project.title}
-                </motion.h1>
+                </h1>
               ) : art?.carriesClient ? (
                 /* the club block / the gym's mark is printed inside the artwork
                    standing right next to this line — setting it again here is
                    the one thing ARTWORK MODE exists to stop. The year takes the
                    slot instead: information the poster does not carry. */
-                <motion.span
+                <span
                   className="label mt-3 block tabular-nums text-paper/55"
-                  initial={skipEnter ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
                 >
                   {project.year}
-                </motion.span>
+                </span>
               ) : comp.title === "meta" ? (
                 /* the visible project name is the page's h1 (web cases) —
                    same classes, same render; preflight gives h1 no styling */
-                <motion.h1
+                <h1
                   className="serif mt-3 block text-[clamp(1.4rem,3vw,2.4rem)] font-light text-paper"
-                  initial={skipEnter ? false : { clipPath: "inset(0 0 108% 0)", opacity: 0, y: 10 }}
-                  animate={{ clipPath: "inset(0 0 0 0)", opacity: 1, y: 0 }}
-                  transition={{ duration: 0.72, delay: 0.5, ease }}
                 >
                   {project.title}
-                </motion.h1>
+                </h1>
               ) : (
-                <motion.span
+                <span
                   className="serif mt-3 block text-[clamp(1.4rem,3vw,2.4rem)] font-light text-paper"
-                  initial={skipEnter ? false : { clipPath: "inset(0 0 108% 0)", opacity: 0, y: 10 }}
-                  animate={{ clipPath: "inset(0 0 0 0)", opacity: 1, y: 0 }}
-                  transition={{ duration: 0.72, delay: 0.5, ease }}
                 >
                   {project.client[lang]}
-                </motion.span>
+                </span>
               )}
               {/* keep the project name reachable for assistive tech even when the
                   artwork carries it visually */}
@@ -311,7 +221,7 @@ export default function ProjectDetail({
     </>
   );
 
-  /* VISUAL CASE EXIT — the next work announced the way the reel announces
+  /* VISUAL CASE EXIT — the next work announced the way the list announces
      work: plate number, name, discipline, year. One link, not a heading: a
      project's page should not carry another project's name as its outline. */
   const exit = (
@@ -371,6 +281,8 @@ export default function ProjectDetail({
         /* THE ARTWORK IS THE CASE: the stage, one note, the next work. */
         <main className="jn-visual">
           {hero}
+          {/* PHOTO SERIES — the frames after the hero, in page flow */}
+          {series && <PhotoSeries rows={series} lang={lang} />}
           {exit}
         </main>
       ) : (
@@ -381,11 +293,11 @@ export default function ProjectDetail({
             <div className="mx-auto max-w-[1500px] px-[clamp(1.25rem,5vw,3.5rem)]">
               {/* intro + spec */}
               <div className="grid gap-8 border-b border-line py-[clamp(2.5rem,6vw,4.5rem)] md:grid-cols-[1.5fr_1fr] md:items-start">
-                <Reveal>
+                <div>
                   <p className="serif max-w-[24ch] text-[clamp(1.4rem,2.8vw,2.1rem)] font-light leading-[1.3] text-ink">
                     {study ? study.intro[lang] : project.tagline?.[lang]}
                   </p>
-                </Reveal>
+                </div>
                 {/* one row per fact at every width — three columns on a phone crushed
                     label and value into each other */}
                 <dl className="grid grid-cols-1 gap-3 font-mono text-xs">
@@ -448,14 +360,12 @@ export default function ProjectDetail({
                 <>
                   <div className="grid gap-x-8 gap-y-[clamp(2rem,5vw,3.5rem)] border-b border-line py-[clamp(2.5rem,6vw,5rem)] md:grid-cols-2">
                     {study.sections.map((s, i) => (
-                      <Reveal key={i}>
-                        <div>
+                      <div key={i}>
                           <h2 className="label text-ink">{s.heading[lang]}</h2>
                           <p className="mt-3 max-w-[46ch] text-lg leading-relaxed text-muted">
                             {s.body[lang]}
                           </p>
-                        </div>
-                      </Reveal>
+                      </div>
                     ))}
                   </div>
 
@@ -463,7 +373,7 @@ export default function ProjectDetail({
                     <h2 className="label text-muted">{t.overview}</h2>
                     <div className="mt-8 flex flex-wrap gap-[clamp(1.5rem,3vw,2.5rem)]">
                       {study.gallery.map((g, i) => (
-                        <Reveal
+                        <div
                           key={i}
                           className={
                             g.span === "half"
@@ -489,7 +399,7 @@ export default function ProjectDetail({
                               {g.label[lang]}
                             </figcaption>
                           </figure>
-                        </Reveal>
+                        </div>
                       ))}
                     </div>
                   </div>

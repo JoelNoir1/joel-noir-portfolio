@@ -1,7 +1,7 @@
 /**
  * The curated work — the INDEX. Single source of truth.
  *
- * Six published projects. Quality over quantity, and the count is a result,
+ * Seven published projects. Quality over quantity, and the count is a result,
  * not a target: a project is here because it holds up next to the others, not
  * to fill a row. Archived entries stay in this file (and keep their assets) so
  * a decision can be reversed, but they are not part of the public site.
@@ -33,12 +33,34 @@ export type Project = {
   /** Descriptive alt text for the artwork. Falls back to the title. */
   alt?: Bi;
   /**
-   * Kept on file but not published: excluded from the reel, the index, the
+   * Kept on file but not published: excluded from the home page, the
    * next-project chain, the sitemap and the generated routes. Its assets are
    * untouched, so restoring it is a one-line change.
    */
   archived?: boolean;
+  /**
+   * Who the hero image shows, when that is certain. Set once, as a single quiet
+   * line beside the image: a name, never a claim about the relationship.
+   */
+  subject?: string;
+  /**
+   * PHOTO SERIES — the frames that follow the hero on a visual case. The hero
+   * stays `image`; these are set after it with the same artwork-mode geometry.
+   */
+  series?: SeriesRow[];
 };
+
+/**
+ * One frame of a photo series. `src` is the base path of the web versions,
+ * served as `${src}-960.jpg` and `${src}-1600.jpg`, both at the file's 4:5.
+ */
+export type SeriesFrame = { src: string; alt: Bi };
+/**
+ * A row of the series: one frame, or two read as one spread. Placed with the
+ * artwork-mode numbers (`fit`, gutter side), so the series sits on the same
+ * page edges as the hero above it.
+ */
+export type SeriesRow = { frames: SeriesFrame[]; fit: number; ax: "gutter" | "gutter-right" };
 
 const allProjects: Project[] = [
   {
@@ -122,6 +144,93 @@ const allProjects: Project[] = [
     },
   },
   {
+    slug: "club-event-photography",
+    title: "Club / Event Photography",
+    /* six frames from one shoot; nothing about event, venue or brief is
+       confirmed, so none of it is claimed */
+    client: { de: "Fotoserie", en: "Photo series" },
+    year: "2026",
+    category: { de: "Photography", en: "Photography" },
+    image: "/work/club/asto.jpg",
+    previewAspect: "portrait",
+    caseStudy: false,
+    caseKind: "visual",
+    /* used for the page description only: a photograph carries no title */
+    tagline: {
+      de: "Club- und Eventfotografie, sechs Bilder aus einem Shooting.",
+      en: "Club and event photography, six frames from one shoot.",
+    },
+    subject: "ASTO",
+    alt: {
+      de: "Porträt von ASTO in einem Club: Sonnenbrille mit orangefarbenen Gläsern, Cap nach hinten, die tätowierten Arme vor einem hellen, bedruckten ärmellosen Hemd verschränkt. Links an der Wand ein Neonschriftzug.",
+      en: "Portrait of ASTO in a club: orange-tinted sunglasses, cap worn backwards, tattooed arms crossed over a light, printed sleeveless shirt. A neon sign on the wall to the left.",
+    },
+    series: [
+      {
+        fit: 0.8,
+        ax: "gutter",
+        frames: [
+          {
+            src: "/work/club/dj",
+            alt: {
+              de: "Ein DJ im Profil am Pult, von der Bewegung leicht verwischt, darüber rote und blaue Lichtröhren. Links im Hintergrund das Publikum.",
+              en: "A DJ in profile at the decks, softly blurred by movement, red and blue light tubes above. The crowd in the background to the left.",
+            },
+          },
+        ],
+      },
+      {
+        /* the two quieter DJ frames as one spread, so the three DJ shots in a
+           row read as two beats instead of three of the same */
+        fit: 0.66,
+        ax: "gutter-right",
+        frames: [
+          {
+            src: "/work/club/dj1",
+            alt: {
+              de: "Ein DJ mit Kopfhörern um den Hals blickt auf das Pult. Dahinter eine LED-Wand, die Kabel und Regler zeigt.",
+              en: "A DJ with headphones around the neck looks down at the decks. Behind, an LED wall showing cables and controls.",
+            },
+          },
+          {
+            src: "/work/club/dj2",
+            alt: {
+              de: "Ein DJ in Lederjacke am Pult, das Gesicht rot beleuchtet. Im Hintergrund ein violett beleuchteter Raum.",
+              en: "A DJ in a leather jacket at the decks, the face lit red. A violet-lit room in the background.",
+            },
+          },
+        ],
+      },
+      {
+        fit: 0.8,
+        ax: "gutter",
+        frames: [
+          {
+            src: "/work/club/einzeln",
+            alt: {
+              de: "Eine lachende Person in weißem Tanktop mit Halsketten, die Faust vor der Brust, ein Glas in der Hand, vor einer roten Wand.",
+              en: "A laughing person in a white tank top and chains, fist raised to the chest, a glass in hand, in front of a red wall.",
+            },
+          },
+        ],
+      },
+      {
+        /* the room without people: the quiet close of the series */
+        fit: 0.62,
+        ax: "gutter-right",
+        frames: [
+          {
+            src: "/work/club/neon",
+            alt: {
+              de: "Ein Neonschriftzug „Soup of the Day, Vodka Red Bull“ spiegelt sich auf einer dunklen Theke, links ein Getränkemenü auf einem Bildschirm.",
+              en: "A neon sign reading “Soup of the Day, Vodka Red Bull” reflected on a dark bar counter, a drinks menu on a screen to the left.",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
     /* Archived 2026-09-07. Strong photography, but the typography does not hold
        up beside the other three posters, and the file still carries a leftover
        "Titel:" layer plus a Pento/Pendo contradiction in the client's own name.
@@ -162,7 +271,7 @@ const allProjects: Project[] = [
 ];
 
 /* ------------------------------------------------------------------ */
-/* Reel composition — one motion language, a distinct staging per work. */
+/* Composition — a distinct staging per work, no per-work effect.      */
 /* ------------------------------------------------------------------ */
 
 /** "type" = title-led, "artwork" = the work carries its own name,
@@ -172,8 +281,8 @@ export type TitleMode = "type" | "artwork" | "meta";
 /**
  * ARTWORK MODE — the artwork is the interface.
  *
- * Present on a project = the reel stops treating that work as a backdrop and
- * shows it at its real format, complete, with the rest of the viewport as
+ * Present on a project = the work is never a backdrop: it is shown at its
+ * real format, complete, with the rest of the viewport as
  * negative space. Individuality comes from these five numbers, never from a
  * per-project effect: the composition is the only thing that differs.
  */
@@ -198,54 +307,38 @@ export type ArtworkStage = {
    */
   carriesClient?: boolean;
 };
-export type WipeStyle = "linear" | "radial" | "slices";
-/** Where the text block sits — deliberately not a uniform grid. */
-export type Place = "bl" | "br" | "tl";
 
 export type ReelComp = {
-  /** Wipe/displacement direction. */
-  dir: [number, number];
-  /** Reveal style of this project as it enters. */
-  wipe: WipeStyle;
   /** Idle framing zoom — posters crop in hard, web stays precise. */
   scale: number;
   /** Cover-crop focal point (0..1). */
   focus: [number, number];
-  /** Displacement amplitude multiplier. */
-  amp: number;
   /** Web work is title-led; artwork that already carries its name is not. */
   title: TitleMode;
-  /** Text-block anchor. */
-  place: Place;
-  /** Title size multiplier (type-mode). */
-  titleScale: number;
-  /** Relative dwell length in the reel. >1 buys scroll for a longer story. */
-  dwell?: number;
-  /** Plane texture override (e.g. a brand backdrop instead of a screenshot). */
+  /** Case hero image override (e.g. a brand backdrop instead of a screenshot). */
   stage?: string;
-  /** Renders a live DOM surface over the plane during this project's dwell. */
-  surface?: "firat" | "galabau";
+  /** The web work presented through its own live UI instead of a screenshot. */
+  surface?: "firat";
   /** Present = ARTWORK MODE: shown complete, at its own format, on open ground. */
   artwork?: ArtworkStage;
 };
 
 export const reelComp: Record<string, ReelComp> = {
   // Fight — ARTWORK MODE. A 4:5 poster built around a centred wordmark and a
-  // centred figure: cropping it to 16:10 destroyed both. It now arrives
-  // full-bleed out of the hero and resolves into its own format. Left of
-  // centre, because the artwork is internally symmetrical and the page
+  // centred figure: cropping it to 16:10 destroyed both, so it is shown at
+  // its own format. Left of centre, because the artwork is internally symmetrical and the page
   // composition should not be. The open right side carries the plate line.
   "russian-viking": {
-    dir: [0.16, 1], wipe: "linear", scale: 1, focus: [0.5, 0.5], amp: 0.85,
-    title: "artwork", place: "bl", titleScale: 1,
+    scale: 1, focus: [0.5, 0.5],
+    title: "artwork",
     artwork: { aspect: 1080 / 1350, fit: 0.78, maxW: 0.46, ax: "gutter", ay: 0.5 },
   },
-  // Web — staged as a live responsive experience: the real UI is the subject,
-  // the plane only carries Firat's brand atmosphere in and out.
+  // Web — the real UI is the subject: its own mobile layout in the list, the
+  // desktop surface on Firat's brand ground in the case.
   "firat-nossen": {
-    dir: [1, 0.14], wipe: "linear", scale: 1.0, focus: [0.5, 0.5], amp: 0.9,
-    title: "meta", place: "br", titleScale: 1,
-    dwell: 2.6, stage: "/work/firat-stage.webp", surface: "firat",
+    scale: 1.0, focus: [0.5, 0.5],
+    title: "meta",
+    stage: "/work/firat-stage.webp", surface: "firat",
   },
   // Fight — ARTWORK MODE. The whole lower 40% of this poster is type: the
   // wordmark, the handwritten signature, the Fightlab mark. All of it used to
@@ -255,8 +348,8 @@ export const reelComp: Record<string, ReelComp> = {
   // field is the direction they are looking, and the poster's own empty red
   // quarter stays quietly against the page edge instead of doubling the void.
   "cem-fightlab": {
-    dir: [1, 0.12], wipe: "slices", scale: 1, focus: [0.5, 0.5], amp: 0.9,
-    title: "artwork", place: "br", titleScale: 1,
+    scale: 1, focus: [0.5, 0.5],
+    title: "artwork",
     artwork: { aspect: 1080 / 1350, fit: 0.82, maxW: 0.46, ax: "gutter", ay: 0.46, carriesClient: true },
   },
   // Sports design — ARTWORK MODE, mirrored, and for a reason: the club block
@@ -266,8 +359,8 @@ export const reelComp: Record<string, ReelComp> = {
   // the artwork finally has the room its own composition asks for. Smallest of
   // the three: this poster already carries generous margins inside itself.
   "marvin-stefaniak": {
-    dir: [1, 0.62], wipe: "linear", scale: 1, focus: [0.5, 0.5], amp: 0.9,
-    title: "artwork", place: "bl", titleScale: 1,
+    scale: 1, focus: [0.5, 0.5],
+    title: "artwork",
     artwork: { aspect: 1080 / 1350, fit: 0.8, maxW: 0.46, ax: "gutter-right", ay: 0.54, carriesClient: true },
   },
   // Poster / event visual — ARTWORK MODE, the same staging as the others. A
@@ -276,22 +369,33 @@ export const reelComp: Record<string, ReelComp> = {
   // so it is set as large as Cem for that small type and pinned left on the
   // gutter, with the open right side carrying the plate line.
   "scream-night": {
-    dir: [0.2, 1], wipe: "linear", scale: 1, focus: [0.5, 0.5], amp: 0.85,
-    title: "artwork", place: "bl", titleScale: 1,
+    scale: 1, focus: [0.5, 0.5],
+    title: "artwork",
     artwork: { aspect: 1080 / 1350, fit: 0.82, maxW: 0.46, ax: "gutter", ay: 0.5 },
   },
+  // Photography — ARTWORK MODE, the same staging as the posters: the photograph
+  // complete, at its 4:5, on open ground. The ASTO portrait opens the series.
+  // Pinned right: the figure stands centred and looks straight out, while the
+  // neon sign and the watermark sit on the photo's own left, so that side faces
+  // the open field. Set a touch larger than the posters, because a photograph
+  // has no type to carry it, only the face.
+  "club-event-photography": {
+    scale: 1, focus: [0.5, 0.5],
+    title: "artwork",
+    artwork: { aspect: 4 / 5, fit: 0.84, maxW: 0.46, ax: "gutter-right", ay: 0.5 },
+  },
   // Archived — kept only so restoring the project needs no rebuild.
-  "cold-smile": { dir: [0, 1], wipe: "radial", scale: 1.12, focus: [0.5, 0.54], amp: 1.05, title: "artwork", place: "bl", titleScale: 1 },
+  "cold-smile": { scale: 1.12, focus: [0.5, 0.54], title: "artwork" },
   // Web / visual communication — the paving grid becomes the layout grid.
   "galabau-boettcher": {
-    dir: [1, -0.14], wipe: "linear", scale: 1.04, focus: [0.5, 0.56], amp: 0.9,
-    title: "meta", place: "br", titleScale: 1,
-    dwell: 3.2, stage: "/work/gb-raster.webp", surface: "galabau",
+    scale: 1.04, focus: [0.5, 0.56],
+    title: "meta",
+    stage: "/work/gb-raster.webp",
   },
 };
 
 const FALLBACK_COMP: ReelComp = {
-  dir: [1, 0.2], wipe: "linear", scale: 1, focus: [0.5, 0.5], amp: 1, title: "type", place: "bl", titleScale: 1,
+  scale: 1, focus: [0.5, 0.5], title: "type",
 };
 
 export function compOf(slug: string): ReelComp {
@@ -299,30 +403,26 @@ export function compOf(slug: string): ReelComp {
 }
 
 /**
- * The published sequence. One list drives the reel, the plate numbers, the
- * keyboard order, the next-project chain and the sitemap, so all of them tell
- * the same story in the same order.
+ * The published sequence. One list drives the home page, the plate numbers,
+ * the keyboard order, the next-project chain and the sitemap, so all of them
+ * tell the same story in the same order.
  *
- * 01 RUSSIAN VIKING  — opens straight out of the hero: the same artwork that
- *    fills the headline resolves out of it into its own 4:5 format. Craft is
- *    proven in the first three seconds, and it is the only project that can
- *    hold that hand-off.
- * 02 FIRAT NOSSEN    — the live surface. From "he can draw" to "he can ship".
- * 03 SCREAM NIGHT    — back to a poster after the web work, pinned left: the
- *    pale face and centred red title read at once, and it is kept apart from
- *    CEM so the two red posters never meet.
- * 04 MARVIN STEFANIAK— brightest of the posters, pinned right. The frame
- *    travels across the page here, which is its own small event.
- * 05 CEM             — the darkest and most intense, pinned left. Kept away
- *    from Russian Viking so the two fight posters never echo.
- * 06 GALABAU BÖTTCHER— the close: one client, web and social and communication,
- *    ending on a real before/after. The last thing seen is proof, not a poster.
+ * PHOTOGRAPHY comes first, as its own section: the club / event series.
+ * DESIGN follows, in its established order:
+ * 01 RUSSIAN VIKING   — the strongest poster, and the artwork in the headline.
+ * 02 FIRAT NOSSEN     — the web work. From "he can draw" to "he can ship".
+ * 03 SCREAM NIGHT     — back to a poster, pinned left, kept apart from CEM so
+ *    the two red posters never meet.
+ * 04 MARVIN STEFANIAK — brightest of the posters, pinned right.
+ * 05 CEM              — the darkest and most intense, pinned left.
+ * 06 GALABAU BÖTTCHER — the close: one client, web and social and
+ *    communication. The last thing seen is proof, not a poster.
  *
- * With four posters and two web projects a run of posters is unavoidable, so
- * the run alternates sides (left, right, left) and colour (red, purple, red):
- * no two neighbours share a side or a palette.
+ * The design works alternate sides (left, right, left, right, left), so no
+ * two neighbours share a side or a palette.
  */
 export const projectOrder = [
+  "club-event-photography",
   "russian-viking",
   "firat-nossen",
   "scream-night",
@@ -335,10 +435,17 @@ export const projects: Project[] = projectOrder
   .map((s) => allProjects.find((p) => p.slug === s))
   .filter((p): p is Project => p !== undefined && !p.archived);
 
-/** The reel shows the published sequence — same list, no second ordering. */
-export const reelProjects: Project[] = projects;
+/** The two sections of the home page: a photo series is photography. */
+export const photoProjects: Project[] = projects.filter((p) => p.series);
+export const designProjects: Project[] = projects.filter((p) => !p.series);
 
-/** The artwork that fills the hero type and hands off into the reel. */
+/** A work's plate number, counted within its own section. */
+export function plateOf(slug: string): string {
+  const group = photoProjects.some((p) => p.slug === slug) ? photoProjects : designProjects;
+  return String(group.findIndex((p) => p.slug === slug) + 1).padStart(2, "0");
+}
+
+/** The artwork that fills the hero type. */
 export const HERO_SLUG = "russian-viking";
 export const heroProject = projects.find((p) => p.slug === HERO_SLUG)!;
 

@@ -5,7 +5,6 @@ import {
   Space_Mono,
   Hanken_Grotesk,
   Rubik,
-  Manrope,
 } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
@@ -50,14 +49,6 @@ const rubik = Rubik({
   display: "swap",
 });
 
-/* Galabau's own display face, used only inside .galabau-scope. */
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["500", "700", "800"],
-  variable: "--ff-manrope",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://joel-noir-portfolio.vercel.app"),
   title: {
@@ -99,7 +90,7 @@ export default function RootLayout({
   return (
     <html
       lang="de"
-      className={`${archivo.variable} ${fraunces.variable} ${mono.variable} ${hanken.variable} ${rubik.variable} ${manrope.variable}`}
+      className={`${archivo.variable} ${fraunces.variable} ${mono.variable} ${hanken.variable} ${rubik.variable}`}
       suppressHydrationWarning
     >
       <body>

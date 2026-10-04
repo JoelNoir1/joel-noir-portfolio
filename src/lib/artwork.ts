@@ -3,9 +3,8 @@
  *
  * A poster is not a background. It has a format, and the format is part of the
  * design. This module computes the one rectangle in which an artwork is drawn
- * at its true aspect ratio, fully visible, never cropped — used identically by
- * the reel (WebGL plane) and by the case-study hero (DOM image), so the morph
- * between them stays one continuous frame.
+ * at its true aspect ratio, fully visible, never cropped — on the home page
+ * and in the case-study hero alike.
  *
  * Everything else on screen is deliberate negative space.
  */
@@ -75,20 +74,5 @@ export function artworkVars(a: ArtworkStage): Record<string, string> {
     "--art-b": `calc((100svh - var(--art-h)) * ${1 - a.ay})`,
     /* the file's own ratio — the mobile case hero sizes from this alone */
     "--art-aspect": String(a.aspect),
-  };
-}
-
-/** Full-bleed rect — the reel's normal state, and where every entry starts. */
-export function fullRect(vw: number, vh: number): Rect {
-  return { x: 0, y: 0, w: vw, h: vh };
-}
-
-/** Blend two rects. `t` 0 = full-bleed crop, 1 = the artwork's own format. */
-export function lerpRect(a: Rect, b: Rect, t: number): Rect {
-  return {
-    x: a.x + (b.x - a.x) * t,
-    y: a.y + (b.y - a.y) * t,
-    w: a.w + (b.w - a.w) * t,
-    h: a.h + (b.h - a.h) * t,
   };
 }

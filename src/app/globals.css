@@ -48,18 +48,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Lenis */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: clip;
-}
-
 ::selection {
   background: var(--color-ink);
   color: var(--color-paper);
@@ -201,19 +189,6 @@ header.mix-blend-difference :focus-visible {
   }
 }
 
-/* ---------- WebGL stage (persistent, one canvas) ---------- */
-.jn-stage {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 30;
-  pointer-events: none;
-  opacity: 0; /* driven imperatively (scroll reveal + morph) */
-  transform-origin: center;
-  will-change: opacity, transform;
-}
-
 /* restrained interaction feedback (P1) — quiet at rest, precise on press */
 @media (hover: hover) and (pointer: fine) {
   .jn-scroll-cue:hover .jn-scroll-line {
@@ -234,26 +209,6 @@ header.mix-blend-difference :focus-visible {
     color 0.2s var(--ease-out), opacity 0.2s var(--ease-out);
 }
 
-/* ---------- selected work: the reel ---------- */
-.jn-reel {
-  position: relative;
-  background: #0d0b07; /* cinematic backdrop behind / around the plane */
-}
-.jn-reel-scrim {
-  z-index: 35;
-  background:
-    linear-gradient(
-      to top,
-      rgba(8, 7, 5, 0.92) 0%,
-      rgba(8, 7, 5, 0.6) 22%,
-      rgba(8, 7, 5, 0.05) 46%,
-      rgba(8, 7, 5, 0.42) 100%
-    );
-}
-.jn-reel-stage > .jn-reel-scrim {
-  position: absolute;
-}
-
 /* case-study hero */
 .jn-hero-scrim {
   background: linear-gradient(
@@ -270,55 +225,19 @@ header.mix-blend-difference :focus-visible {
   text-shadow: 0 1px 26px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-/* fallback selected-work images (mobile / no-webgl) */
-.jn-fallback-img {
-  aspect-ratio: 16 / 10;
-}
-@media (max-width: 768px) {
-  .jn-fallback-img {
-    aspect-ratio: 4 / 5;
-  }
-}
 
-/* ---------- hero: image through type ---------- */
+/* ---------- hero headline: solid warm black ---------- */
 .jn-hero-title {
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  filter: contrast(1.06) brightness(1.02);
-}
-/* desktop WebGL: the same letters are now painted by the stage plane (glyph
-   mask), so the DOM text keeps its layout, semantics and selection but no
-   longer paints a second copy of the image */
-.jn-hero-title.jn-hero-title--gl {
-  background-image: none !important;
-  filter: none;
-}
-@supports not (
-  (-webkit-background-clip: text) or (background-clip: text)
-) {
-  .jn-hero-title {
-    color: var(--color-ink);
-    -webkit-text-fill-color: currentColor;
-    background: none;
-  }
+  color: var(--color-ink);
 }
 
 /* ============================================================
    MOBILE HERO · DER ANSCHNITT
    On a touch phone the hero stops claiming the whole first screen.
    It shrinks to what it has to say, and the first work in the list,
-   Russian Viking, complete and at its own 4:5, rises into the frame.
-   The bottom edge of the phone is the only crop: the ghost figures
-   and the full metal wordmark are on screen at second zero, and one
-   scroll completes the plate. No second image, no cover crop, and
-   the reel itself is untouched.
-
-   Scoped to small AND coarse: a narrow desktop window still runs the
-   WebGL reel, whose entry ramp expects the full-height hero above it.
+   complete and at its own 4:5, rises into the frame. The bottom edge
+   of the phone is the only crop, and one scroll completes it. No
+   second image, no cover crop.
    ============================================================ */
 @media (max-width: 767px) and (pointer: coarse) {
   .jn-home-hero {
@@ -329,17 +248,9 @@ header.mix-blend-difference :focus-visible {
   }
   .jn-home-hero .jn-hero-lockup {
     margin-top: 1.5rem;
-    /* the scroll-linked scale has nothing to hand off to here — the work is
-       already on screen, so the headline simply rests */
-    transform: none !important;
   }
-  /* the artwork now stands in the frame itself; filling small letters with it
-     only made them read as smudge. Solid ink, set larger. */
+  /* set larger on a phone */
   .jn-home-hero .jn-hero-title {
-    background-image: none !important;
-    color: var(--color-ink);
-    -webkit-text-fill-color: var(--color-ink);
-    filter: none;
     font-size: clamp(2.6rem, 13.5vw, 3.6rem);
   }
   .jn-home-hero .jn-hero-sub {
@@ -375,17 +286,8 @@ header.mix-blend-difference :focus-visible {
 /* ============================================================
    THE PLATE LINE
    One quiet caption per project: plate number, name, meta.
-   No eyebrow, no counter, no pills, no CTA button. Calm at rest,
-   alive only while a project is actually being exchanged.
+   No eyebrow, no counter, no pills, no CTA button. Calm at rest.
    ============================================================ */
-.jn-plate-hit {
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  display: block;
-  cursor: pointer;
-  will-change: opacity;
-}
 /* Anchored bottom-right: one stable position for every project, and the
    side the compositions deliberately keep clear. The plate figure trails the
    entry, like a catalogue number set in the outer margin. */
@@ -410,11 +312,7 @@ header.mix-blend-difference :focus-visible {
     max-width: 17rem;
   }
 }
-.jn-plate--intro {
-  z-index: 40;
-  pointer-events: none;
-}
-/* the same plate language in normal flow, on paper (mobile / no-WebGL) */
+/* the same plate language in normal flow, on paper */
 .jn-plate--static {
   position: static;
   flex-direction: row;
@@ -444,7 +342,6 @@ header.mix-blend-difference :focus-visible {
   font-variant-numeric: tabular-nums;
   color: rgba(236, 232, 224, 0.55);
   white-space: nowrap;
-  will-change: opacity, transform, clip-path;
 }
 .jn-plate-body {
   display: block;
@@ -454,7 +351,6 @@ header.mix-blend-difference :focus-visible {
   display: inline-block;
   color: var(--color-paper);
   line-height: 1.06;
-  will-change: opacity, transform, clip-path;
 }
 /* posters may speak up a little; web work stays deliberately quiet so the
    interface itself remains the loudest thing on screen */
@@ -484,23 +380,12 @@ header.mix-blend-difference :focus-visible {
   transition: transform 0.42s var(--ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
-  .jn-plate-hit:hover .jn-plate-rule {
+  .jn-work-link:hover .jn-plate-rule {
     transform: scaleX(1);
   }
 }
-/* The hit area spans the stage, so the focus ring is drawn on the caption
-   itself — scoped and visible, never a full-viewport outline. */
-.jn-plate-hit:focus-visible {
-  outline: none;
-}
-.jn-plate-hit:focus .jn-plate-rule,
-.jn-plate-hit:focus-visible .jn-plate-rule {
+.jn-work-link:focus-visible .jn-plate-rule {
   transform: scaleX(1);
-}
-.jn-plate-hit:focus-visible .jn-plate {
-  outline: 2px solid var(--color-paper);
-  outline-offset: 14px;
-  border-radius: 2px;
 }
 /* ---- ARTWORK MODE ----
    When the work is on screen complete, wordmark and all, the line stops
@@ -540,21 +425,20 @@ header.mix-blend-difference :focus-visible {
 .jn-plate--art .jn-plate-num {
   transition: color 0.28s var(--ease-out);
 }
-@media (hover: hover) and (pointer: fine) {
-  .jn-plate-hit:hover .jn-plate--art .jn-plate-num {
-    color: var(--color-paper);
-  }
-}
-.jn-plate-hit:focus .jn-plate--art .jn-plate-num,
-.jn-plate-hit:focus-visible .jn-plate--art .jn-plate-num {
-  color: var(--color-paper);
-}
 .jn-plate--static.jn-plate--art .jn-plate-num {
   color: var(--color-muted);
 }
+@media (hover: hover) and (pointer: fine) {
+  .jn-work-link:hover .jn-plate--art .jn-plate-num {
+    color: var(--color-ink);
+  }
+}
+.jn-work-link:focus-visible .jn-plate--art .jn-plate-num {
+  color: var(--color-ink);
+}
 
-/* case-study hero in artwork mode: the same rectangle the reel settled into,
-   standing on the reel's own ground so the morph never changes surface */
+/* case-study hero in artwork mode: the work complete at its own format,
+   on dark ground */
 .jn-hero--art {
   background: #0d0b07;
 }
@@ -575,9 +459,7 @@ header.mix-blend-difference :focus-visible {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  /* right gutter, artwork baseline — the exact place the reel's plate line
-     just occupied, so the click reads as that line unfolding rather than as
-     a new page arriving */
+  /* right gutter, on the artwork's baseline */
   align-items: flex-end;
   text-align: right;
   color: var(--color-paper);
@@ -616,7 +498,7 @@ header.mix-blend-difference :focus-visible {
 /* ---- ARTWORK MODE · mobile case hero (bug fix) ----
    The desktop width ceiling (maxW, 46vw) was reaching phones and shrinking
    every artwork-mode case to ~179px, floating in a full screen of black. On a
-   touch phone there is no WebGL morph to match, so the hero drops the stage
+   touch phone the hero drops the stage
    geometry and simply sets the work: content width on the page gutter, its
    own ratio, complete, directly under the header, with the note beneath.
    A height cap keeps it whole in landscape. Ground and typography of each
@@ -690,7 +572,7 @@ header.mix-blend-difference :focus-visible {
    The artwork is the case. The stage above is unchanged artwork mode; what
    follows it is one note and the next work, nothing else. The note carries
    only what the poster cannot: discipline and year. The exit announces the
-   next work in the reel's own plate language, on the same ground, so leaving
+   next work in the plate language of the work list, on the same ground, so leaving
    reads as the sequence continuing rather than a footer starting.
    ============================================================ */
 /* the ground belongs to the whole case, not to each block — two dark boxes
@@ -731,7 +613,7 @@ header.mix-blend-difference :focus-visible {
   margin: 0 -0.75rem;
   color: var(--color-paper);
 }
-/* the plate classes are borrowed for their type only — their reel layout
+/* the plate classes are borrowed for their type only — their list layout
    (stacked meta, right alignment) does not apply out here */
 .jn-exit .jn-plate-name--work {
   font-size: clamp(1.15rem, 2vw, 1.6rem);
@@ -757,7 +639,7 @@ header.mix-blend-difference :focus-visible {
 }
 .jn-exit-link:focus-visible {
   outline: 2px solid var(--color-paper);
-  /* 2px + the 12px hit padding = the reel plate's 14px ring distance */
+  /* 2px + the 12px hit padding */
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -813,6 +695,72 @@ header.mix-blend-difference :focus-visible {
   }
 }
 
+/* ============================================================
+   PHOTO SERIES
+   A visual case whose work is several photographs. The hero above is the
+   unchanged artwork-mode stage; the frames after it are set with the same
+   geometry (--art-w / --art-x from artworkVars), so every frame shares the
+   hero's page edges. Each frame complete at its own 4:5, on the case's own
+   ground. No effect, no motion, no frame: the photographs are the product.
+   ============================================================ */
+/* the one person named, once, above the note: a name, never a claim */
+.jn-visual-subject {
+  margin: 0 0 0.55rem;
+  color: var(--color-paper);
+}
+.jn-series {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4rem, 14vh, 9rem);
+  padding-top: clamp(1rem, 4vh, 3rem);
+}
+.jn-series-row {
+  --series-gap: clamp(1rem, 2vw, 2rem);
+  display: flex;
+  gap: var(--series-gap);
+  margin-left: var(--art-x);
+}
+/* a spread pinned right: the pair's outer edge on the gutter, as one block */
+.jn-series-row--pair[data-ax="gutter-right"] {
+  margin-left: calc(100vw - 2 * var(--art-w) - var(--series-gap) - clamp(1.25rem, 5vw, 3.5rem));
+}
+.jn-series-frame {
+  flex: none;
+  width: var(--art-w);
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  /* a quiet placeholder while a lazy frame loads, never a border */
+  background: rgba(236, 232, 224, 0.04);
+}
+.jn-series-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* touch phone: one column on the paper ground, every frame complete at the
+   content width. A spread stays a spread, its two frames closer to each other
+   than to the rows around them. Height-capped like the hero, so a frame is
+   always whole on screen in landscape. */
+@media (max-width: 767px) and (pointer: coarse) {
+  .jn-visual-subject {
+    color: var(--color-ink);
+  }
+  .jn-series {
+    gap: 2.75rem;
+    padding: 2.75rem clamp(1.25rem, 5vw, 3.5rem) 0;
+  }
+  .jn-series-row,
+  .jn-series-row--pair[data-ax="gutter-right"] {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-left: 0;
+  }
+  .jn-series-frame {
+    width: min(100%, calc((100svh - 6rem) * 0.8));
+    background: var(--color-paper-2);
+  }
+}
+
 .jn-plate-meta {
   margin-top: 0.7rem;
   display: flex;
@@ -824,48 +772,13 @@ header.mix-blend-difference :focus-visible {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(236, 232, 224, 0.62);
-  will-change: opacity, transform, clip-path;
 }
 .jn-plate-year {
   font-variant-numeric: tabular-nums;
   color: rgba(236, 232, 224, 0.42);
 }
 
-/* the sole pointer signal: one glyph, appearing only over a project */
-.jn-plate-mark {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 45;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--color-paper);
-  opacity: 0;
-  pointer-events: none;
-  /* driven by pointer movement, not by hover — see Reel.tsx */
-  transition: opacity 0.18s var(--ease-out);
-  will-change: transform, opacity;
-}
-.jn-plate-hit:active ~ .jn-plate-mark {
-  transform-origin: center;
-  opacity: 1;
-}
-@media (pointer: coarse) {
-  .jn-plate-mark {
-    display: none;
-  }
-}
-
-/* Live DOM surface layer: above the plane and its scrim (so the client UI
-   stays crisp and unmuddied), below the reel's own typography. */
-.jn-surface {
-  position: absolute;
-  inset: 0;
-  z-index: 36;
-  pointer-events: none;
-}
-
-/* mobile fallback: the real mobile layout, fitted without scaling down a desktop */
+/* the real Firat mobile layout, fitted without scaling down a desktop */
 .fr-fit-m {
   position: relative;
   width: 100%;
@@ -878,6 +791,150 @@ header.mix-blend-difference :focus-visible {
   left: 0;
   top: 0;
   transform-origin: top left;
+}
+
+/* ============================================================
+   SELECTED WORK
+   One page, read top to bottom: photography first, then the design
+   work. Every piece complete at its own format on the page gutter,
+   its plate line on paper in the open margin. Normal page flow: no
+   stage, no transition between works, no reveal.
+   ============================================================ */
+.jn-work {
+  padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(4rem, 10vw, 8rem);
+}
+.jn-work-group + .jn-work-group {
+  margin-top: clamp(6rem, 18vh, 12rem);
+}
+.jn-work-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 0 clamp(1.25rem, 5vw, 3.5rem);
+  margin-bottom: clamp(2.5rem, 7vh, 4.5rem);
+}
+.jn-work-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem clamp(1.1rem, 2.4vw, 2.25rem);
+  margin: 0;
+  color: var(--color-ink);
+}
+.jn-work-note span + span {
+  color: var(--color-faint);
+}
+/* the series on paper: same frames, same geometry as on its own page */
+.jn-work .jn-series {
+  padding-top: 0;
+}
+.jn-work .jn-series-frame {
+  background: var(--color-paper-2);
+}
+.jn-series-row {
+  position: relative;
+}
+/* the one name, in the open margin on the frame's baseline */
+.jn-series-caption {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  color: var(--color-ink);
+}
+.jn-series-caption[data-side="left"] {
+  left: calc(clamp(1.25rem, 5vw, 3.5rem) - var(--art-x));
+}
+.jn-series-caption[data-side="right"] {
+  right: clamp(1.25rem, 5vw, 3.5rem);
+}
+.jn-work-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4rem, 14vh, 9rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* work and plate line on one baseline, at opposite gutters */
+.jn-work-link {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(1.75rem, 4vw, 3.5rem);
+  padding: 0 clamp(1.25rem, 5vw, 3.5rem);
+  color: inherit;
+}
+/* pinned right: the line moves to the left margin */
+.jn-work-item[data-side="left"] .jn-work-link {
+  flex-direction: row-reverse;
+}
+/* landscape web work: the screen wide, the line beneath it */
+.jn-work-item[data-side="below"] .jn-work-link {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+.jn-work-media {
+  position: relative;
+  display: block;
+  flex: none;
+  width: var(--art-w);
+  aspect-ratio: var(--art-aspect);
+  overflow: hidden;
+  background: var(--color-paper-2);
+}
+.jn-work-media--firat {
+  background: none;
+}
+.jn-work .jn-plate {
+  max-width: 17rem;
+}
+.jn-work-item[data-side="right"] .jn-plate {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+.jn-work-item[data-side="right"] .jn-plate-meta {
+  justify-content: flex-end;
+}
+/* touch phone: one column, every work complete at the content width, the
+   line beneath it. A portrait is height-capped so it is whole on screen. */
+@media (max-width: 767px) and (pointer: coarse) {
+  .jn-work-head {
+    margin-bottom: 0;
+  }
+  .jn-work .jn-series {
+    padding-top: 2rem;
+  }
+  .jn-series-caption,
+  .jn-series-caption[data-side="left"],
+  .jn-series-caption[data-side="right"] {
+    position: static;
+    padding-top: 0.25rem;
+  }
+  .jn-work-list {
+    gap: clamp(2.5rem, 7vw, 5rem);
+  }
+  .jn-work-link,
+  .jn-work-item[data-side="left"] .jn-work-link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .jn-work-media {
+    width: min(100%, calc((100svh - 6rem) * var(--art-aspect)));
+  }
+  .jn-work-item[data-side="below"] .jn-work-media,
+  .jn-work-media--firat {
+    width: 100%;
+  }
+  .jn-work .jn-plate,
+  .jn-work-item[data-side="right"] .jn-plate {
+    flex-direction: row;
+    text-align: left;
+    max-width: none;
+  }
+  .jn-work-item[data-side="right"] .jn-plate-meta {
+    justify-content: flex-start;
+  }
 }
 
 /* ============================================================
@@ -1324,197 +1381,6 @@ header.mix-blend-difference :focus-visible {
   margin-top: 1.2rem;
 }
 
-
-/* ============================================================
-   GALABAU BÖTTCHER · scoped client surface
-   Tokens mirror the real project (forest / lime / cream) and stay
-   inside .galabau-scope so they cannot touch the Joel.Noir palette.
-   ============================================================ */
-.galabau-scope {
-  --gb-forest: #0d1d16;
-  --gb-forest-900: #0a1711;
-  --gb-card: #182a21;
-  --gb-lime: #8fbe6b;
-  --gb-lime-soft: #a5ce84;
-  --gb-cream: #eef2ea;
-  --gb-ink: #17211c;
-
-  --gb-display: var(--ff-manrope), ui-sans-serif, system-ui, sans-serif;
-  --gb-body: var(--ff-hanken), ui-sans-serif, system-ui, sans-serif;
-
-  font-family: var(--gb-body);
-  letter-spacing: normal;
-  color: var(--gb-cream);
-}
-
-.gb-stage {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.gb-fitted {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform-origin: left center;
-}
-.gb-cell {
-  position: absolute;
-  will-change: opacity, transform, clip-path;
-}
-/* the brand tone taking the ground */
-.gb-wash {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(10, 23, 17, 0.55) 0%, rgba(13, 29, 22, 0.92) 62%, rgba(10, 23, 17, 0.97) 100%);
-  will-change: opacity;
-}
-
-/* ---- the grid drawn out of the paving joints ---- */
-.gb-grid {
-  position: absolute;
-  inset: 0;
-}
-.gb-rule {
-  position: absolute;
-  background: var(--gb-lime);
-  box-shadow: 0 0 10px rgba(143, 190, 107, 0.45);
-  will-change: transform, opacity;
-}
-.gb-rule--v {
-  width: 1.5px;
-  transform-origin: top center;
-}
-.gb-rule--h {
-  height: 1.5px;
-  transform-origin: left center;
-}
-.gb-rule-short {
-  display: block;
-  width: 2.25rem;
-  height: 1px;
-  background: var(--gb-lime);
-  margin-bottom: 0.9rem;
-}
-
-/* ---- brand content in the cells ---- */
-.gb-headline {
-  padding: 1.6rem 1.8rem;
-  display: flex;
-  align-items: flex-start;
-}
-.gb-headline h3 {
-  font-family: var(--gb-display);
-  font-weight: 800;
-  font-size: 3.5rem;
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-  color: var(--gb-cream);
-  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.55);
-}
-.gb-accent {
-  color: var(--gb-lime);
-}
-
-.gb-region {
-  padding: 1.7rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
-  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.6);
-}
-.gb-dim {
-  color: rgba(238, 242, 234, 0.55);
-}
-
-.gb-services {
-  padding: 1.7rem 1.8rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 1rem;
-  color: rgba(238, 242, 234, 0.9);
-  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.6);
-}
-
-/* the forest surface the whole presence is built on */
-.gb-surface {
-  background: linear-gradient(120deg, var(--gb-forest-900), var(--gb-card));
-  border: 1px solid rgba(143, 190, 107, 0.28);
-}
-
-/* two real Instagram posts — small, as evidence of the communication work */
-.gb-social {
-  padding: 1.5rem 1.8rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-}
-.gb-social-tiles {
-  display: flex;
-  gap: 0.6rem;
-}
-.gb-social-tiles img {
-  width: 5.4rem;
-  height: 5.4rem;
-  object-fit: cover;
-  border-radius: 2px;
-}
-
-/* ---- the proof: same plot, before and after ---- */
-.gb-proof {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  /* grows inward so the labels never run past the cropped right edge */
-  transform-origin: right center;
-}
-.gb-proof-frame {
-  position: relative;
-  display: block;
-  flex: 1;
-  overflow: hidden;
-  border: 1px solid rgba(143, 190, 107, 0.35);
-}
-.gb-proof-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.gb-proof-before {
-  position: absolute;
-  inset: 0;
-  display: block;
-  will-change: clip-path;
-}
-.gb-proof-seam {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 1.5px;
-  background: var(--gb-lime);
-  box-shadow: 0 0 14px rgba(143, 190, 107, 0.75);
-  will-change: transform, opacity;
-}
-.gb-proof-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(238, 242, 234, 0.8);
-  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7);
-}
 
 /* ---------- motion safety ---------- */
 @media (prefers-reduced-motion: reduce) {

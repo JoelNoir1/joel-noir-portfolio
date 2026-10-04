@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useLang } from "@/lib/i18n";
 import { content } from "@/lib/content";
-import { scrollToId } from "@/lib/lenis";
+import { scrollToId } from "@/lib/scroll";
 
 export default function Footer() {
   const { lang } = useLang();
