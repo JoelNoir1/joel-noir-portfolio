@@ -145,7 +145,7 @@ const allProjects: Project[] = [
   {
     slug: "club-event-photography",
     title: "Club / Event Photography",
-    /* six frames from one shoot; nothing about event, venue or brief is
+    /* seven club / event frames; nothing about event, venue or brief is
        confirmed, so none of it is claimed */
     client: { de: "Fotoserie", en: "Photo series" },
     year: "2026",
@@ -156,8 +156,8 @@ const allProjects: Project[] = [
     caseKind: "visual",
     /* used for the page description only: a photograph carries no title */
     tagline: {
-      de: "Club- und Eventfotografie, sechs Bilder aus einem Shooting.",
-      en: "Club and event photography, six frames from one shoot.",
+      de: "Club- und Eventfotografie, sieben Bilder.",
+      en: "Club and event photography, seven frames.",
     },
     subject: "ASTO",
     alt: {
@@ -165,9 +165,8 @@ const allProjects: Project[] = [
       en: "Portrait of ASTO in a club: orange-tinted sunglasses, cap worn backwards, tattooed arms crossed over a light, printed sleeveless shirt. A neon sign on the wall to the left.",
     },
     /* Spreads, as in a photo book: a large frame beside a small one, the
-       large one changing sides, and the empty room as the quiet close. The
-       order stays the order of the shoot as edited: portrait, motion, DJs,
-       portrait, room. */
+       large one changing sides. The order stays the order of the shoot as
+       edited: portrait, motion, DJs, portrait, the room, the bar. */
     series: [
       {
         big: 0,
@@ -208,12 +207,20 @@ const allProjects: Project[] = [
         ],
       },
       {
+        big: 0,
         frames: [
           {
             src: "/work/club/neon",
             alt: {
               de: "Ein Neonschriftzug „Soup of the Day, Vodka Red Bull“ spiegelt sich auf einer dunklen Theke, links ein Getränkemenü auf einem Bildschirm.",
               en: "A neon sign reading “Soup of the Day, Vodka Red Bull” reflected on a dark bar counter, a drinks menu on a screen to the left.",
+            },
+          },
+          {
+            src: "/work/club/bar",
+            alt: {
+              de: "Zwei Personen hinter einer Bar, von oben fotografiert. Eine Person mit Brille und weißem Top blickt lächelnd zurück, vorne Gläser, Limetten und ein Kartenterminal auf der Theke. Dahinter beleuchtete Getränkekühlschränke.",
+              en: "Two people behind a bar, photographed from above. One, in glasses and a white top, looks back smiling; glasses, limes and a card terminal on the counter in front. Lit drinks fridges behind.",
             },
           },
         ],
