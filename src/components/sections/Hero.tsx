@@ -28,7 +28,7 @@ export default function Hero() {
           {c.role}
         </motion.span>
         <motion.span
-          className="label hidden text-faint sm:block"
+          className="label hidden text-muted sm:block"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -39,7 +39,7 @@ export default function Hero() {
 
       <div className="jn-hero-lockup mx-auto w-full max-w-[1500px]">
         {/* one solid warm black, static: no image, no texture, no motion */}
-        <h1 className="jn-hero-title max-w-[15ch] font-display text-[clamp(2.4rem,7.6vw,6.4rem)] font-extrabold uppercase leading-[0.92] tracking-[-0.04em]">
+        <h1 className="jn-hero-title max-w-[15ch] font-display text-[clamp(2.6rem,10.4vw,10.5rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.045em]">
           {c.line}
         </h1>
 

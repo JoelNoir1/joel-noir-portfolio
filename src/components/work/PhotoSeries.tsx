@@ -1,66 +1,75 @@
-import type { CSSProperties } from "react";
-import type { SeriesRow } from "@/lib/projects";
-import { artworkVars, plateSide } from "@/lib/artwork";
+import type { ReactNode } from "react";
+import type { SeriesFrame, SeriesRow } from "@/lib/projects";
+
+type Size = "l" | "s" | "m";
+
+/* what each frame size is actually drawn at, so the browser picks the file */
+const SIZES: Record<Size, string> = {
+  l: "(max-width: 767px) 92vw, 46vw",
+  s: "(max-width: 767px) 62vw, 28vw",
+  m: "(max-width: 767px) 78vw, 36vw",
+};
 
 /**
- * PHOTO SERIES — frames set one after another in normal page flow, each
- * complete at its own 4:5, placed with the artwork-mode geometry so every
- * frame sits on the page gutter. No effect, no motion: the photographs are
- * the product. Shared by the home page and the series' own case page.
+ * PHOTO SERIES — set like a photo book: spreads of one large and one small
+ * frame, the large one changing sides, and a single frame as the close. Every
+ * frame complete at its own 4:5, in normal page flow. No effect, no motion:
+ * the photographs are the product. Shared by the home page and the series'
+ * own case page.
  */
 export default function PhotoSeries({
   rows,
   lang,
-  eager = 0,
+  lead,
 }: {
-  rows: (SeriesRow & { caption?: string })[];
+  rows: SeriesRow[];
   lang: "de" | "en";
-  /** How many leading frames load eagerly (the first one on screen). */
-  eager?: number;
+  /** An opening frame with the series' own intro beside it (home page). */
+  lead?: { frame: SeriesFrame; intro: ReactNode; caption?: string };
 }) {
-  let n = 0;
   return (
-    <div className="jn-series">
-      {rows.map((row, r) => {
-        const pair = row.frames.length > 1;
-        const stage = { aspect: 4 / 5, fit: row.fit, maxW: pair ? 0.42 : 0.46, ax: row.ax, ay: 0 };
-        return (
-          <div
-            key={r}
-            className={`jn-series-row${pair ? " jn-series-row--pair" : ""}`}
-            data-ax={row.ax}
-            style={artworkVars(stage) as CSSProperties}
-          >
-            {row.frames.map((f) => {
-              const first = n++ < eager;
-              return (
-                <figure key={f.src} className="jn-series-frame">
-                  {/* native srcset: images are served unoptimised site-wide,
-                      so next/image would ship one width to every screen */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`${f.src}-1600.jpg`}
-                    srcSet={`${f.src}-960.jpg 960w, ${f.src}-1600.jpg 1600w`}
-                    sizes={`(max-width: 767px) 92vw, ${pair ? 42 : 46}vw`}
-                    width={1600}
-                    height={2000}
-                    alt={f.alt[lang]}
-                    loading={first ? "eager" : "lazy"}
-                    fetchPriority={first ? "high" : undefined}
-                    decoding="async"
-                  />
-                </figure>
-              );
-            })}
-            {/* the one name, once, in the open margin on the frame's baseline */}
-            {row.caption && (
-              <p className="jn-series-caption label" data-side={plateSide(stage)}>
-                {row.caption}
-              </p>
-            )}
-          </div>
-        );
-      })}
+    <div className="jn-photo">
+      {lead && (
+        <div className="jn-photo-lead">
+          <div className="jn-photo-intro">{lead.intro}</div>
+          <Frame f={lead.frame} size="l" lang={lang} eager />
+          {/* the one name, once, on the frame's baseline: a name, never a claim */}
+          {lead.caption && <p className="jn-photo-cap label">{lead.caption}</p>}
+        </div>
+      )}
+      {rows.map((row, r) => (
+        <div key={r} className="jn-photo-row" data-big={row.frames.length > 1 ? (row.big ?? 0) : "single"}>
+          {row.frames.map((f, i) => (
+            <Frame
+              key={f.src}
+              f={f}
+              size={row.frames.length === 1 ? "m" : i === (row.big ?? 0) ? "l" : "s"}
+              lang={lang}
+            />
+          ))}
+        </div>
+      ))}
     </div>
+  );
+}
+
+function Frame({ f, size, lang, eager }: { f: SeriesFrame; size: Size; lang: "de" | "en"; eager?: boolean }) {
+  return (
+    <figure className={`jn-photo-frame jn-photo-frame--${size}`}>
+      {/* native srcset: images are served unoptimised site-wide, so next/image
+          would ship one width to every screen */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`${f.src}-1600.jpg`}
+        srcSet={`${f.src}-960.jpg 960w, ${f.src}-1600.jpg 1600w`}
+        sizes={SIZES[size]}
+        width={1600}
+        height={2000}
+        alt={f.alt[lang]}
+        loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager ? "high" : undefined}
+        decoding="async"
+      />
+    </figure>
   );
 }

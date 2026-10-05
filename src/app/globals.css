@@ -9,7 +9,7 @@
   --color-paper: #ece8e0;
   --color-paper-2: #e4dfd4;
   --color-ink: #16130d;
-  --color-muted: #6e6a5e;
+  --color-muted: #69655a;
   --color-faint: #9a9587;
   --color-line: rgba(22, 19, 13, 0.14);
   --color-line-2: rgba(22, 19, 13, 0.08);
@@ -380,11 +380,13 @@ header.mix-blend-difference :focus-visible {
   transition: transform 0.42s var(--ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
-  .jn-work-link:hover .jn-plate-rule {
+  .jn-work-link:hover .jn-plate-rule,
+  .jn-contact-mail:hover .jn-plate-rule {
     transform: scaleX(1);
   }
 }
-.jn-work-link:focus-visible .jn-plate-rule {
+.jn-work-link:focus-visible .jn-plate-rule,
+.jn-contact-mail:focus-visible .jn-plate-rule {
   transform: scaleX(1);
 }
 /* ---- ARTWORK MODE ----
@@ -428,14 +430,7 @@ header.mix-blend-difference :focus-visible {
 .jn-plate--static.jn-plate--art .jn-plate-num {
   color: var(--color-muted);
 }
-@media (hover: hover) and (pointer: fine) {
-  .jn-work-link:hover .jn-plate--art .jn-plate-num {
-    color: var(--color-ink);
-  }
-}
-.jn-work-link:focus-visible .jn-plate--art .jn-plate-num {
-  color: var(--color-ink);
-}
+
 
 /* case-study hero in artwork mode: the work complete at its own format,
    on dark ground */
@@ -695,69 +690,14 @@ header.mix-blend-difference :focus-visible {
   }
 }
 
-/* ============================================================
-   PHOTO SERIES
-   A visual case whose work is several photographs. The hero above is the
-   unchanged artwork-mode stage; the frames after it are set with the same
-   geometry (--art-w / --art-x from artworkVars), so every frame shares the
-   hero's page edges. Each frame complete at its own 4:5, on the case's own
-   ground. No effect, no motion, no frame: the photographs are the product.
-   ============================================================ */
-/* the one person named, once, above the note: a name, never a claim */
+/* the one person named in a visual case note, once, above it */
 .jn-visual-subject {
   margin: 0 0 0.55rem;
   color: var(--color-paper);
 }
-.jn-series {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(4rem, 14vh, 9rem);
-  padding-top: clamp(1rem, 4vh, 3rem);
-}
-.jn-series-row {
-  --series-gap: clamp(1rem, 2vw, 2rem);
-  display: flex;
-  gap: var(--series-gap);
-  margin-left: var(--art-x);
-}
-/* a spread pinned right: the pair's outer edge on the gutter, as one block */
-.jn-series-row--pair[data-ax="gutter-right"] {
-  margin-left: calc(100vw - 2 * var(--art-w) - var(--series-gap) - clamp(1.25rem, 5vw, 3.5rem));
-}
-.jn-series-frame {
-  flex: none;
-  width: var(--art-w);
-  aspect-ratio: 4 / 5;
-  margin: 0;
-  /* a quiet placeholder while a lazy frame loads, never a border */
-  background: rgba(236, 232, 224, 0.04);
-}
-.jn-series-frame img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-/* touch phone: one column on the paper ground, every frame complete at the
-   content width. A spread stays a spread, its two frames closer to each other
-   than to the rows around them. Height-capped like the hero, so a frame is
-   always whole on screen in landscape. */
 @media (max-width: 767px) and (pointer: coarse) {
   .jn-visual-subject {
     color: var(--color-ink);
-  }
-  .jn-series {
-    gap: 2.75rem;
-    padding: 2.75rem clamp(1.25rem, 5vw, 3.5rem) 0;
-  }
-  .jn-series-row,
-  .jn-series-row--pair[data-ax="gutter-right"] {
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-left: 0;
-  }
-  .jn-series-frame {
-    width: min(100%, calc((100svh - 6rem) * 0.8));
-    background: var(--color-paper-2);
   }
 }
 
@@ -794,84 +734,163 @@ header.mix-blend-difference :focus-visible {
 }
 
 /* ============================================================
+   PAGE SYSTEM
+   One content edge for every chapter: the page gutter, held to a
+   1500px measure on very wide screens. Chapters open on a hairline.
+   ============================================================ */
+:root {
+  --gutter: clamp(1.25rem, 5vw, 3.5rem);
+}
+.jn-wrap {
+  width: min(100% - 2 * var(--gutter), 1500px);
+  margin-inline: auto;
+}
+/* SIGNATURE — a registration mark where each chapter's hairline begins,
+   the print shop's crosshair. Small, faint, on the content edge: it is
+   only noticed on the second look. */
+.jn-sec {
+  position: relative;
+  border-top: 1px solid var(--color-line);
+}
+.jn-sec::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: calc(max(var(--gutter), (100% - 1500px) / 2) - 6px);
+  width: 13px;
+  height: 13px;
+  background:
+    linear-gradient(var(--color-ink), var(--color-ink)) center / 1px 100% no-repeat,
+    linear-gradient(var(--color-ink), var(--color-ink)) center / 100% 1px no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ============================================================
    SELECTED WORK
-   One page, read top to bottom: photography first, then the design
-   work. Every piece complete at its own format on the page gutter,
-   its plate line on paper in the open margin. Normal page flow: no
+   Two chapters, read top to bottom: photography, then design.
+   Every piece complete at its own format. Normal page flow: no
    stage, no transition between works, no reveal.
    ============================================================ */
-.jn-work {
-  padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(4rem, 10vw, 8rem);
+.jn-chapter {
+  padding: clamp(3.25rem, 7vw, 6rem) 0 clamp(5rem, 12vw, 10rem);
 }
-.jn-work-group + .jn-work-group {
-  margin-top: clamp(6rem, 18vh, 12rem);
+.jn-chapter-title {
+  width: min(100% - 2 * var(--gutter), 1500px);
+  margin: 0 auto clamp(2.75rem, 6.5vw, 5.5rem);
+  font-size: clamp(2.4rem, 6.2vw, 5.75rem);
+  color: var(--color-ink);
 }
-.jn-work-head {
+
+/* ---- photography: spreads, as in a photo book ---- */
+.jn-photo {
+  --ph: var(--color-paper-2);
+  width: min(100% - 2 * var(--gutter), 1500px);
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  padding: 0 clamp(1.25rem, 5vw, 3.5rem);
-  margin-bottom: clamp(2.5rem, 7vh, 4.5rem);
+  gap: clamp(4.5rem, 13vh, 9rem);
 }
-.jn-work-note {
+.jn-photo-frame {
+  flex: none;
+  margin: 0;
+  aspect-ratio: 4 / 5;
+  /* a quiet placeholder while a lazy frame loads, never a border */
+  background: var(--ph);
+}
+.jn-photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* three sizes, all height-capped so a frame is always whole on screen */
+.jn-photo-frame--l {
+  width: min(58%, calc(0.86 * 100svh * 0.8));
+}
+.jn-photo-frame--s {
+  width: min(30%, calc(0.5 * 100svh * 0.8));
+}
+.jn-photo-frame--m {
+  width: min(40%, calc(0.66 * 100svh * 0.8));
+}
+/* a spread: large and small at opposite edges; the small one hangs from the
+   top or stands on the baseline, so no two spreads share a shape */
+.jn-photo-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem clamp(1.1rem, 2.4vw, 2.25rem);
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.jn-photo-row[data-big="1"] {
+  align-items: flex-start;
+}
+.jn-photo-row[data-big="single"] {
+  justify-content: center;
+}
+/* the opening: the series' name in the open column, the portrait large */
+.jn-photo-lead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min(58%, calc(0.88 * 100svh * 0.8));
+  grid-template-areas:
+    "intro frame"
+    "cap frame";
+  column-gap: clamp(2rem, 4vw, 4rem);
+}
+.jn-photo-lead .jn-photo-frame {
+  grid-area: frame;
+  width: 100%;
+}
+.jn-photo-intro {
+  grid-area: intro;
+}
+.jn-photo-intro p {
+  margin: 0;
+}
+.jn-photo-title {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.4rem, 2.3vw, 2.1rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+.jn-photo-cap {
+  grid-area: cap;
+  align-self: end;
   margin: 0;
   color: var(--color-ink);
 }
-.jn-work-note span + span {
-  color: var(--color-faint);
+/* on the series' own dark case page */
+.jn-visual .jn-photo {
+  --ph: rgba(236, 232, 224, 0.04);
+  padding-top: clamp(4rem, 12vh, 8rem);
 }
-/* the series on paper: same frames, same geometry as on its own page */
-.jn-work .jn-series {
-  padding-top: 0;
-}
-.jn-work .jn-series-frame {
-  background: var(--color-paper-2);
-}
-.jn-series-row {
-  position: relative;
-}
-/* the one name, in the open margin on the frame's baseline */
-.jn-series-caption {
-  position: absolute;
-  bottom: 0;
-  margin: 0;
-  color: var(--color-ink);
-}
-.jn-series-caption[data-side="left"] {
-  left: calc(clamp(1.25rem, 5vw, 3.5rem) - var(--art-x));
-}
-.jn-series-caption[data-side="right"] {
-  right: clamp(1.25rem, 5vw, 3.5rem);
-}
+
+/* ---- design: an index of works, each with its line beside it ---- */
 .jn-work-list {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(4rem, 14vh, 9rem);
-  margin: 0;
+  width: min(100% - 2 * var(--gutter), 1500px);
+  margin: 0 auto;
   padding: 0;
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5rem, 15vh, 10rem);
 }
-/* work and plate line on one baseline, at opposite gutters */
+/* work and its line as one cluster on the baseline, at one edge of the page;
+   the other side is left open */
 .jn-work-link {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
-  gap: clamp(1.75rem, 4vw, 3.5rem);
-  padding: 0 clamp(1.25rem, 5vw, 3.5rem);
+  gap: clamp(1.5rem, 2.6vw, 2.75rem);
   color: inherit;
 }
-/* pinned right: the line moves to the left margin */
 .jn-work-item[data-side="left"] .jn-work-link {
   flex-direction: row-reverse;
 }
-/* landscape web work: the screen wide, the line beneath it */
+/* landscape web work: the screen wide, its line beneath */
 .jn-work-item[data-side="below"] .jn-work-link {
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 .jn-work-media {
   position: relative;
@@ -885,37 +904,210 @@ header.mix-blend-difference :focus-visible {
 .jn-work-media--firat {
   background: none;
 }
-.jn-work .jn-plate {
-  max-width: 17rem;
+/* NAME / discipline / year, and the plate number above it */
+.jn-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 18rem;
 }
-.jn-work-item[data-side="right"] .jn-plate {
-  flex-direction: row-reverse;
+.jn-work-item[data-side="left"] .jn-info {
+  align-items: flex-end;
   text-align: right;
 }
-.jn-work-item[data-side="right"] .jn-plate-meta {
-  justify-content: flex-end;
+.jn-info-num,
+.jn-info-cat,
+.jn-info-year {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
-/* touch phone: one column, every work complete at the content width, the
-   line beneath it. A portrait is height-capped so it is whole on screen. */
-@media (max-width: 767px) and (pointer: coarse) {
-  .jn-work-head {
-    margin-bottom: 0;
-  }
-  .jn-work .jn-series {
-    padding-top: 2rem;
-  }
-  .jn-series-caption,
-  .jn-series-caption[data-side="left"],
-  .jn-series-caption[data-side="right"] {
-    position: static;
-    padding-top: 0.25rem;
-  }
-  .jn-work-list {
-    gap: clamp(2.5rem, 7vw, 5rem);
-  }
+.jn-info-num {
+  margin-bottom: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+.jn-info-name {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.4rem, 2.3vw, 2.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+.jn-info-cat {
+  margin-top: 0.9rem;
+  line-height: 1.6;
+}
+.jn-info-year {
+  margin-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- about: the stance first, then the person ---- */
+.jn-about,
+.jn-contact {
+  padding-block: clamp(4.5rem, 10vw, 9rem);
+}
+.jn-about-lead {
+  max-width: 21ch;
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(3rem, 7vw, 6rem);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2.3rem, 5.6vw, 5.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+.jn-about-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2vw, 2rem);
+  align-items: end;
+}
+.jn-about-portrait {
+  position: relative;
+  grid-column: 1 / span 5;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--color-paper-2);
+}
+.jn-about-text {
+  grid-column: 7 / span 5;
+}
+.jn-about-text p {
+  max-width: 46ch;
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+.jn-about-text p + p {
+  margin-top: 1rem;
+}
+.jn-about-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.4rem;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-muted);
+}
+.jn-about-skills li {
+  white-space: nowrap;
+}
+
+/* ---- contact: the close ---- */
+.jn-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2vw, 2rem);
+  row-gap: 2.5rem;
+  align-items: end;
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+}
+.jn-contact-body {
+  grid-column: 1 / span 4;
+  max-width: 36ch;
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+.jn-contact-reach {
+  grid-column: 6 / -1;
+}
+.jn-contact-mail {
+  position: relative;
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3.4vw, 3.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  color: var(--color-ink);
+}
+.jn-contact-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2.25rem;
+  margin-top: 1.75rem;
+}
+
+/* ---- tablet and narrow windows: lines beneath the work ---- */
+@media (max-width: 899px) {
   .jn-work-link,
   .jn-work-item[data-side="left"] .jn-work-link {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .jn-work-item[data-side="left"] .jn-work-link {
+    align-items: flex-end;
+  }
+  .jn-contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .jn-contact-body,
+  .jn-contact-reach {
+    grid-column: 1;
+  }
+}
+
+/* ---- phone: one column, never the desktop shrunk ---- */
+@media (max-width: 767px) {
+  .jn-chapter-title {
+    margin-bottom: 2rem;
+  }
+  .jn-photo {
+    gap: 3.25rem;
+  }
+  /* the spread becomes a sequence: the large frame full width, the small one
+     narrower and set to one side, so the rhythm of sizes survives */
+  .jn-photo-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .jn-photo-row[data-big="0"] .jn-photo-frame--s {
+    align-self: flex-end;
+  }
+  .jn-photo-row[data-big="single"] {
+    align-items: center;
+  }
+  .jn-photo-frame--l,
+  .jn-photo-lead .jn-photo-frame {
+    width: min(100%, calc((100svh - 6rem) * 0.8));
+  }
+  .jn-photo-frame--s {
+    width: 62%;
+  }
+  .jn-photo-frame--m {
+    width: 78%;
+  }
+  .jn-photo-lead {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "intro"
+      "frame"
+      "cap";
+    row-gap: 1.25rem;
+  }
+  .jn-photo-cap {
+    margin-top: -0.25rem;
+  }
+  .jn-work-list {
+    gap: clamp(3.25rem, 9vw, 5rem);
+  }
+  .jn-work-link,
+  .jn-work-item[data-side="left"] .jn-work-link {
     align-items: flex-start;
     gap: 1rem;
   }
@@ -926,14 +1118,34 @@ header.mix-blend-difference :focus-visible {
   .jn-work-media--firat {
     width: 100%;
   }
-  .jn-work .jn-plate,
-  .jn-work-item[data-side="right"] .jn-plate {
-    flex-direction: row;
+  .jn-work-item[data-side="left"] .jn-info {
+    align-items: flex-start;
     text-align: left;
-    max-width: none;
   }
-  .jn-work-item[data-side="right"] .jn-plate-meta {
-    justify-content: flex-start;
+  .jn-info-num {
+    margin-bottom: 0.6rem;
+  }
+  .jn-info-name {
+    font-size: 1.5rem;
+  }
+  .jn-about-lead {
+    margin-bottom: 2.25rem;
+  }
+  .jn-about-grid,
+  .jn-contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .jn-about-portrait,
+  .jn-about-text,
+  .jn-contact-body,
+  .jn-contact-reach {
+    grid-column: 1;
+  }
+  .jn-about-text {
+    margin-top: 2rem;
+  }
+  .jn-contact-mail {
+    font-size: clamp(1.35rem, 6.2vw, 1.75rem);
   }
 }
 

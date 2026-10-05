@@ -56,11 +56,10 @@ export type Project = {
  */
 export type SeriesFrame = { src: string; alt: Bi };
 /**
- * A row of the series: one frame, or two read as one spread. Placed with the
- * artwork-mode numbers (`fit`, gutter side), so the series sits on the same
- * page edges as the hero above it.
+ * One spread of the series: two frames, `big` naming the large one (it takes
+ * that side of the page, the small one the other), or a single closing frame.
  */
-export type SeriesRow = { frames: SeriesFrame[]; fit: number; ax: "gutter" | "gutter-right" };
+export type SeriesRow = { frames: SeriesFrame[]; big?: 0 | 1 };
 
 const allProjects: Project[] = [
   {
@@ -165,10 +164,13 @@ const allProjects: Project[] = [
       de: "Porträt von ASTO in einem Club: Sonnenbrille mit orangefarbenen Gläsern, Cap nach hinten, die tätowierten Arme vor einem hellen, bedruckten ärmellosen Hemd verschränkt. Links an der Wand ein Neonschriftzug.",
       en: "Portrait of ASTO in a club: orange-tinted sunglasses, cap worn backwards, tattooed arms crossed over a light, printed sleeveless shirt. A neon sign on the wall to the left.",
     },
+    /* Spreads, as in a photo book: a large frame beside a small one, the
+       large one changing sides, and the empty room as the quiet close. The
+       order stays the order of the shoot as edited: portrait, motion, DJs,
+       portrait, room. */
     series: [
       {
-        fit: 0.8,
-        ax: "gutter",
+        big: 0,
         frames: [
           {
             src: "/work/club/dj",
@@ -177,14 +179,6 @@ const allProjects: Project[] = [
               en: "A DJ in profile at the decks, softly blurred by movement, red and blue light tubes above. The crowd in the background to the left.",
             },
           },
-        ],
-      },
-      {
-        /* the two quieter DJ frames as one spread, so the three DJ shots in a
-           row read as two beats instead of three of the same */
-        fit: 0.66,
-        ax: "gutter-right",
-        frames: [
           {
             src: "/work/club/dj1",
             alt: {
@@ -192,6 +186,11 @@ const allProjects: Project[] = [
               en: "A DJ with headphones around the neck looks down at the decks. Behind, an LED wall showing cables and controls.",
             },
           },
+        ],
+      },
+      {
+        big: 1,
+        frames: [
           {
             src: "/work/club/dj2",
             alt: {
@@ -199,12 +198,6 @@ const allProjects: Project[] = [
               en: "A DJ in a leather jacket at the decks, the face lit red. A violet-lit room in the background.",
             },
           },
-        ],
-      },
-      {
-        fit: 0.8,
-        ax: "gutter",
-        frames: [
           {
             src: "/work/club/einzeln",
             alt: {
@@ -215,9 +208,6 @@ const allProjects: Project[] = [
         ],
       },
       {
-        /* the room without people: the quiet close of the series */
-        fit: 0.62,
-        ax: "gutter-right",
         frames: [
           {
             src: "/work/club/neon",

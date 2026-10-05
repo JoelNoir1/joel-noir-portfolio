@@ -302,15 +302,15 @@ export default function ProjectDetail({
                     label and value into each other */}
                 <dl className="grid grid-cols-1 gap-3 font-mono text-xs">
                   <div className="flex justify-between gap-2 border-b border-line pb-2">
-                    <dt className="label text-faint">{t.client}</dt>
+                    <dt className="label text-muted">{t.client}</dt>
                     <dd className="text-right text-ink">{project.client[lang]}</dd>
                   </div>
                   <div className="flex justify-between gap-2 border-b border-line pb-2">
-                    <dt className="label text-faint">{t.field}</dt>
+                    <dt className="label text-muted">{t.field}</dt>
                     <dd className="text-right text-ink">{project.category[lang]}</dd>
                   </div>
                   <div className="flex justify-between gap-2 border-b border-line pb-2">
-                    <dt className="label text-faint">{t.year}</dt>
+                    <dt className="label text-muted">{t.year}</dt>
                     <dd className="tabular-nums text-right text-ink">{project.year}</dd>
                   </div>
                 </dl>

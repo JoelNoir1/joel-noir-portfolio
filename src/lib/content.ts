@@ -53,6 +53,7 @@ export const content = {
       email: "joelnoir1.graphics@gmail.com",
       socialLabel: "Instagram",
       social: "@joel.noir1",
+      who: "Joel Hildebrand · Mediengestalter · Nossen",
     },
     footer: {
       madeIn: "Gestaltet in Deutschland",
@@ -118,6 +119,7 @@ export const content = {
       email: "joelnoir1.graphics@gmail.com",
       socialLabel: "Instagram",
       social: "@joel.noir1",
+      who: "Joel Hildebrand · Media Designer · Nossen",
     },
     footer: {
       madeIn: "Designed in Germany",

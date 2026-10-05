@@ -28,7 +28,7 @@ export default function Footer() {
             ↑ {c.back}
           </button>
         </div>
-        <div className="label mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 text-faint">
+        <div className="label mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 text-muted">
           <span>© {year} Joel.Noir · {c.rights}</span>
           <div className="flex gap-5">
             <Link href="/impressum" className="transition-colors hover:text-ink">Impressum</Link>

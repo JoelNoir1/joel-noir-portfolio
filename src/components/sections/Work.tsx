@@ -26,50 +26,42 @@ const FiratMobile = dynamic(
 const FIRAT_ASPECT = 390 / 800;
 
 /**
- * SELECTED WORK — one page, read top to bottom. Photography first, then the
- * design work, each piece complete at its own format on the page gutter.
- * Scrolling only scrolls: no stage, no transition between works, no reveal.
+ * SELECTED WORK — two chapters, read top to bottom: photography, then the
+ * design work. Each opens on a hairline with its registration mark and a
+ * display title. Scrolling only scrolls: no stage, no transition, no reveal.
  */
 export default function Work() {
   const { lang } = useLang();
   const c = content[lang].index;
 
   return (
-    <section id="index" className="jn-work border-t border-line" aria-label={c.eyebrow}>
+    <section id="index" className="jn-work" aria-label={c.eyebrow}>
       {photoProjects.map((p) => (
-        <div key={p.slug} className="jn-work-group" aria-labelledby="work-photography">
-          <div className="jn-work-head">
-            <h2 id="work-photography" className="label text-muted">
-              {c.photography}
-            </h2>
-            <p className="jn-work-note label">
-              <span>{p.title}</span>
-              <span className="tabular-nums">{p.year}</span>
-            </p>
-          </div>
+        <div key={p.slug} className="jn-chapter jn-sec" aria-labelledby="work-photography">
+          <h2 id="work-photography" className="jn-chapter-title display">
+            {c.photography}
+          </h2>
           <PhotoSeries
             lang={lang}
-            eager={1}
-            /* the opening portrait first, then the series as on its own page */
-            rows={[
-              {
-                frames: [{ src: p.image.replace(/\.jpg$/, ""), alt: p.alt ?? { de: p.title, en: p.title } }],
-                fit: compOf(p.slug).artwork?.fit ?? 0.84,
-                ax: "gutter-right",
-                caption: p.subject,
-              },
-              ...(p.series ?? []),
-            ]}
+            lead={{
+              frame: { src: p.image.replace(/\.jpg$/, ""), alt: p.alt ?? { de: p.title, en: p.title } },
+              caption: p.subject,
+              intro: (
+                <>
+                  <p className="jn-photo-title">{p.title}</p>
+                  <p className="label mt-3 tabular-nums text-muted">{p.year}</p>
+                </>
+              ),
+            }}
+            rows={p.series ?? []}
           />
         </div>
       ))}
 
-      <div className="jn-work-group" aria-labelledby="work-design">
-        <div className="jn-work-head">
-          <h2 id="work-design" className="label text-muted">
-            {c.design}
-          </h2>
-        </div>
+      <div className="jn-chapter jn-sec" aria-labelledby="work-design">
+        <h2 id="work-design" className="jn-chapter-title display">
+          {c.design}
+        </h2>
         <ol className="jn-work-list">
           {designProjects.map((p) => (
             <DesignWork key={p.slug} p={p} lang={lang} />
@@ -95,7 +87,6 @@ function stageOf(p: Project): { stage: ArtworkStage; below: boolean } {
 function DesignWork({ p, lang }: { p: Project; lang: "de" | "en" }) {
   const comp = compOf(p.slug);
   const { stage, below } = stageOf(p);
-  const artMode = Boolean(comp.artwork);
   const side = below ? "below" : plateSide(stage);
 
   return (
@@ -120,26 +111,15 @@ function DesignWork({ p, lang }: { p: Project; lang: "de" | "en" }) {
             />
           )}
         </span>
-        {/* the plate line, set on paper beside the work */}
-        <span className={`jn-plate jn-plate--static${artMode ? " jn-plate--art" : ""}`}>
-          <span className="jn-plate-num">{plateOf(p.slug)}</span>
-          <span className="jn-plate-body">
-            {artMode ? (
-              /* the artwork carries its own name; the line does not repeat it */
-              <h3 className="jn-plate-name jn-plate-name--silent">{p.title}</h3>
-            ) : (
-              <h3 className="jn-plate-name jn-plate-name--web">
-                {p.title}
-                <i className="jn-plate-rule" aria-hidden="true" />
-              </h3>
-            )}
-            <span className="jn-plate-meta">
-              {p.category[lang].split("·").map((seg) => (
-                <span key={seg}>{seg.trim()}</span>
-              ))}
-              <span className="jn-plate-year">{p.year}</span>
-            </span>
-          </span>
+        {/* name, discipline, year: set right beside the work it belongs to */}
+        <span className="jn-info">
+          <span className="jn-info-num">{plateOf(p.slug)}</span>
+          <h3 className="jn-info-name">
+            {p.title}
+            <i className="jn-plate-rule" aria-hidden="true" />
+          </h3>
+          <span className="jn-info-cat">{p.category[lang].split("·").map((seg) => seg.trim()).join(" · ")}</span>
+          <span className="jn-info-year">{p.year}</span>
         </span>
       </Link>
     </li>
