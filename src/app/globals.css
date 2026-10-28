@@ -190,14 +190,6 @@ header.mix-blend-difference :focus-visible {
 }
 
 /* restrained interaction feedback (P1) — quiet at rest, precise on press */
-@media (hover: hover) and (pointer: fine) {
-  .jn-scroll-cue:hover .jn-scroll-line {
-    width: 2.75rem;
-  }
-}
-.jn-scroll-line {
-  transition: width 0.3s var(--ease-out);
-}
 .jn-onimg button:active,
 .jn-live:active,
 .jn-next:active {
@@ -225,63 +217,6 @@ header.mix-blend-difference :focus-visible {
   text-shadow: 0 1px 26px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-
-/* ---------- hero headline: solid warm black ---------- */
-.jn-hero-title {
-  color: var(--color-ink);
-}
-
-/* ============================================================
-   MOBILE HERO · DER ANSCHNITT
-   On a touch phone the hero stops claiming the whole first screen.
-   It shrinks to what it has to say, and the first work in the list,
-   complete and at its own 4:5, rises into the frame. The bottom edge
-   of the phone is the only crop, and one scroll completes it. No
-   second image, no cover crop.
-   ============================================================ */
-@media (max-width: 767px) and (pointer: coarse) {
-  .jn-home-hero {
-    min-height: 0;
-    justify-content: flex-start;
-    padding-top: 5.5rem;
-    padding-bottom: 1.75rem;
-  }
-  .jn-home-hero .jn-hero-lockup {
-    margin-top: 1.5rem;
-  }
-  /* set larger on a phone */
-  .jn-home-hero .jn-hero-title {
-    font-size: clamp(2.6rem, 13.5vw, 3.6rem);
-  }
-  .jn-home-hero .jn-hero-sub {
-    margin-top: 1.125rem;
-  }
-  /* the index is already in view — a cue pointing at it is furniture */
-  .jn-home-hero .jn-scroll-cue {
-    display: none;
-  }
-}
-/* short phones (SE class): the crop must never land inside the wordmark, so
-   the hero tightens its own spacing rather than cutting the craft in half.
-   Same content, less air. */
-@media (max-width: 767px) and (max-height: 700px) and (pointer: coarse) {
-  .jn-home-hero {
-    padding-top: 4.75rem;
-    padding-bottom: 1rem;
-  }
-  .jn-home-hero .jn-hero-lockup {
-    margin-top: 0.875rem;
-  }
-  .jn-home-hero .jn-hero-title {
-    font-size: clamp(2.4rem, 11.5vw, 3rem);
-  }
-  .jn-home-hero .jn-hero-sub {
-    margin-top: 0.625rem;
-  }
-  .jn-home-hero .jn-hero-sub p {
-    font-size: 1rem;
-  }
-}
 
 /* ============================================================
    THE PLATE LINE
@@ -777,143 +712,264 @@ header.mix-blend-difference :focus-visible {
 }
 .jn-chapter-title {
   width: min(100% - 2 * var(--gutter), 1500px);
-  margin: 0 auto clamp(2.75rem, 6.5vw, 5.5rem);
-  font-size: clamp(2.4rem, 6.2vw, 5.75rem);
+  margin: 0 auto clamp(2.25rem, 5vw, 4.25rem);
+  font-size: clamp(2.1rem, 4vw, 3.75rem);
   color: var(--color-ink);
 }
 
-/* ---- photography: spreads, as in a photo book ---- */
-.jn-photo {
-  --ph: var(--color-paper-2);
-  width: min(100% - 2 * var(--gutter), 1500px);
+/* ---- buttons: two, and only where a decision is made ---- */
+.jn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0 1.35rem;
+  border: 1px solid var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+}
+.jn-btn--solid {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-btn:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .jn-btn--solid:hover {
+    background: #2b261c;
+  }
+}
+
+/* ---- hero: the title artwork ----
+   One finished 16:9 picture with the name inside it, so it is always shown
+   whole: never cropped. Full width, but never taller than the screen below
+   the header; on a very wide screen it centres on a ground matched to its
+   dark left edge. Beneath it, small: who, what, and the two ways on. */
+.jn-hx {
+  --hx-ground: #03050c;
+  --hx-type: #ebe6dc;
+  --hx-dim: rgba(235, 230, 220, 0.62);
+  --hx-line: rgba(235, 230, 220, 0.14);
+  /* the header floats above the page; the picture starts beneath it */
+  padding-top: 4rem;
+  background: var(--hx-ground);
+  color: var(--hx-type);
+}
+.jn-hx-media {
+  width: min(100%, calc((100svh - 4rem) * 16 / 9));
   margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(4.5rem, 13vh, 9rem);
 }
-.jn-photo-frame {
-  flex: none;
-  margin: 0;
-  aspect-ratio: 4 / 5;
-  /* a quiet placeholder while a lazy frame loads, never a border */
-  background: var(--ph);
-}
-.jn-photo-frame img {
+.jn-hx-media img {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
 }
-/* three sizes, all height-capped so a frame is always whole on screen */
-.jn-photo-frame--l {
-  width: min(58%, calc(0.86 * 100svh * 0.8));
-}
-.jn-photo-frame--s {
-  width: min(30%, calc(0.5 * 100svh * 0.8));
-}
-.jn-photo-frame--m {
-  width: min(40%, calc(0.66 * 100svh * 0.8));
-}
-/* a spread: large and small at opposite edges; the small one hangs from the
-   top or stands on the baseline, so no two spreads share a shape */
-.jn-photo-row {
+.jn-hx-bottom {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem 2.5rem;
+  margin-inline: var(--gutter);
+  padding: 1.25rem 0 clamp(1.75rem, 4vh, 2.75rem);
+  border-top: 1px solid var(--hx-line);
 }
-.jn-photo-row[data-big="1"] {
-  align-items: flex-start;
+/* the registration mark of every chapter seam, here in the type colour */
+.jn-hx-bottom::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: -6px;
+  width: 13px;
+  height: 13px;
+  background:
+    linear-gradient(var(--hx-type), var(--hx-type)) center / 1px 100% no-repeat,
+    linear-gradient(var(--hx-type), var(--hx-type)) center / 100% 1px no-repeat;
+  opacity: 0.45;
 }
-.jn-photo-row[data-big="single"] {
-  justify-content: center;
-}
-/* the opening: the series' name in the open column, the portrait large */
-.jn-photo-lead {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) min(58%, calc(0.88 * 100svh * 0.8));
-  grid-template-areas:
-    "intro frame"
-    "cap frame";
-  column-gap: clamp(2rem, 4vw, 4rem);
-}
-.jn-photo-lead .jn-photo-frame {
-  grid-area: frame;
-  width: 100%;
-}
-.jn-photo-intro {
-  grid-area: intro;
-}
-.jn-photo-intro p {
+.jn-hx-claim {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
   margin: 0;
 }
-.jn-photo-title {
+.jn-hx-claim-meta {
+  margin-bottom: 0.35rem;
+  color: var(--hx-dim);
+}
+.jn-hx-claim-line {
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: clamp(1.4rem, 2.3vw, 2.1rem);
-  line-height: 1.08;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+.jn-hx-claim-sub {
+  max-width: 44ch;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--hx-dim);
+}
+.jn-hx-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.jn-hx .jn-btn {
+  border-color: rgba(235, 230, 220, 0.5);
+  color: var(--hx-type);
+}
+.jn-hx .jn-btn--solid {
+  border-color: var(--hx-type);
+  background: var(--hx-type);
+  color: var(--hx-ground);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-hx .jn-btn:hover {
+    background: var(--hx-type);
+    color: var(--hx-ground);
+  }
+  .jn-hx .jn-btn--solid:hover {
+    background: #f7f3eb;
+  }
+}
+.jn-hx .jn-btn:focus-visible {
+  outline: 2px solid var(--hx-type);
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .jn-hx-cta .jn-btn {
+    flex: 1 1 auto;
+  }
+}
+
+/* ---- galleries: rows at one shared height, every frame whole ---- */
+.jn-gal-section + .jn-gal-section {
+  margin-top: clamp(4.5rem, 11vw, 8rem);
+}
+.jn-gal-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  width: min(100% - 2 * var(--gutter), 1500px);
+  margin: 0 auto 1.5rem;
+}
+.jn-gal-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.6vw, 2.3rem);
   letter-spacing: -0.015em;
   color: var(--color-ink);
 }
-.jn-photo-cap {
-  grid-area: cap;
-  align-self: end;
+.jn-gal-note {
   margin: 0;
-  color: var(--color-ink);
+  color: var(--color-muted);
 }
-/* on the series' own dark case page */
-.jn-visual .jn-photo {
-  --ph: rgba(236, 232, 224, 0.04);
-  padding-top: clamp(4rem, 12vh, 8rem);
-}
-
-/* ---- design: an index of works, each with its line beside it ---- */
-.jn-work-list {
+.jn-gal {
+  --gal-gap: clamp(0.5rem, 1vw, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gal-gap);
   width: min(100% - 2 * var(--gutter), 1500px);
   margin: 0 auto;
+}
+/* each frame's width follows its own ratio, so the row shares one height;
+   the row narrows when that height would exceed the screen */
+.jn-gal-row {
+  display: flex;
+  gap: var(--gal-gap);
+  width: min(100%, calc(var(--sum) * 84svh + (var(--n) - 1) * var(--gal-gap)));
+}
+.jn-gal-item {
+  display: block;
+  flex: var(--ar) 1 0;
+  min-width: 0;
+  aspect-ratio: var(--ar);
+  margin: 0;
   padding: 0;
-  list-style: none;
+  border: 0;
+  overflow: hidden;
+  background: var(--color-paper-2);
+  cursor: zoom-in;
+}
+.jn-gal-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-gal-item:hover img {
+    opacity: 0.86;
+  }
+}
+.jn-gal-item:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+/* a shoot: its row, then its name as the caption; generous air between shoots */
+.jn-gal--shoots {
+  gap: clamp(3.5rem, 8vw, 6.5rem);
+}
+.jn-shoot {
   display: flex;
   flex-direction: column;
-  gap: clamp(5rem, 15vh, 10rem);
+  gap: var(--gal-gap);
+  margin: 0;
 }
-/* work and its line as one cluster on the baseline, at one edge of the page;
-   the other side is left open */
-.jn-work-link {
+.jn-shoot-cap {
   display: flex;
-  align-items: flex-end;
-  gap: clamp(1.5rem, 2.6vw, 2.75rem);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1.25rem;
+  margin-top: 1rem;
+}
+.jn-shoot-name {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.2rem, 1.7vw, 1.6rem);
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+
+/* ---- design: the same rows, each work with its line beneath ---- */
+.jn-gal:has(.jn-design-row) {
+  gap: clamp(2.75rem, 5vw, 4.5rem);
+}
+.jn-design-item {
+  display: flex;
+  flex: var(--ar) 1 0;
+  flex-direction: column;
+  min-width: 0;
   color: inherit;
 }
-.jn-work-item[data-side="left"] .jn-work-link {
-  flex-direction: row-reverse;
-}
-/* landscape web work: the screen wide, its line beneath */
-.jn-work-item[data-side="below"] .jn-work-link {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.5rem;
-}
-.jn-work-media {
+.jn-design-media {
   position: relative;
   display: block;
-  flex: none;
-  width: var(--art-w);
-  aspect-ratio: var(--art-aspect);
+  aspect-ratio: var(--ar);
   overflow: hidden;
   background: var(--color-paper-2);
 }
-.jn-work-media--firat {
+.jn-design-item:has(.fr-fit-m) .jn-design-media {
   background: none;
 }
-/* NAME / discipline / year, and the plate number above it */
 .jn-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 18rem;
-}
-.jn-work-item[data-side="left"] .jn-info {
-  align-items: flex-end;
-  text-align: right;
+  margin-top: 1rem;
 }
 .jn-info-num,
 .jn-info-cat,
@@ -925,7 +981,7 @@ header.mix-blend-difference :focus-visible {
   color: var(--color-muted);
 }
 .jn-info-num {
-  margin-bottom: 1.1rem;
+  margin-bottom: 0.55rem;
   font-variant-numeric: tabular-nums;
 }
 .jn-info-name {
@@ -933,22 +989,112 @@ header.mix-blend-difference :focus-visible {
   margin: 0;
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: clamp(1.4rem, 2.3vw, 2.1rem);
-  line-height: 1.05;
+  font-size: clamp(1.2rem, 1.7vw, 1.6rem);
+  line-height: 1.1;
   letter-spacing: -0.015em;
   color: var(--color-ink);
 }
 .jn-info-cat {
-  margin-top: 0.9rem;
+  margin-top: 0.6rem;
   line-height: 1.6;
 }
 .jn-info-year {
-  margin-top: 0.2rem;
   font-variant-numeric: tabular-nums;
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-design-item:hover .jn-plate-rule {
+    transform: scaleX(1);
+  }
+}
+.jn-design-item:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 4px;
+}
+.jn-design-item:focus-visible .jn-plate-rule {
+  transform: scaleX(1);
+}
+
+/* ---- lightbox ---- */
+.jn-lightbox {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(13, 11, 7, 0.97);
+  color: var(--color-paper);
+}
+.jn-lightbox::backdrop {
+  background: rgba(13, 11, 7, 0.97);
+}
+.jn-lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: jn-fade 0.2s var(--ease-out);
+}
+@keyframes jn-fade {
+  from {
+    opacity: 0;
+  }
+}
+html:has(.jn-lightbox[open]) {
+  overflow: hidden;
+}
+.jn-lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  max-width: calc(100vw - 2 * var(--gutter) - 7rem);
+  margin: 0;
+}
+.jn-lightbox-figure img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 7rem);
+}
+.jn-lightbox-cap {
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  color: rgba(236, 232, 224, 0.72);
+}
+.jn-lightbox-btn {
+  position: absolute;
+  padding: 0.9rem;
+  border: 0;
+  background: none;
+  color: var(--color-paper);
+}
+.jn-lightbox-btn:focus-visible {
+  outline: 2px solid var(--color-paper);
+  outline-offset: 0;
+}
+.jn-lightbox-close {
+  top: 0.75rem;
+  right: calc(var(--gutter) - 0.9rem);
+}
+.jn-lightbox-prev,
+.jn-lightbox-next {
+  top: 50%;
+  font-size: 1.1rem;
+  transform: translateY(-50%);
+}
+.jn-lightbox-prev {
+  left: calc(var(--gutter) - 0.9rem);
+}
+.jn-lightbox-next {
+  right: calc(var(--gutter) - 0.9rem);
 }
 
 /* ---- about: the stance first, then the person ---- */
 .jn-about,
+.jn-services,
 .jn-contact {
   padding-block: clamp(4.5rem, 10vw, 9rem);
 }
@@ -980,26 +1126,39 @@ header.mix-blend-difference :focus-visible {
   grid-column: 7 / span 5;
 }
 .jn-about-text p {
-  max-width: 46ch;
+  max-width: 44ch;
   margin: 0;
   font-size: 1.125rem;
   line-height: 1.65;
   color: var(--color-muted);
 }
-.jn-about-text p + p {
-  margin-top: 1rem;
+
+/* ---- services: what can be booked ---- */
+.jn-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem clamp(2rem, 6vw, 6rem);
+  margin-top: clamp(2rem, 4vw, 3.5rem);
 }
-.jn-about-skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem 1.4rem;
-  margin: 2.5rem 0 0;
-  padding: 0;
-  list-style: none;
+.jn-services-group {
+  margin: 0 0 1rem;
   color: var(--color-muted);
 }
-.jn-about-skills li {
-  white-space: nowrap;
+.jn-services-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-line);
+}
+.jn-services-list li {
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--color-line);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
 }
 
 /* ---- contact: the close ---- */
@@ -1007,145 +1166,123 @@ header.mix-blend-difference :focus-visible {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: clamp(1rem, 2vw, 2rem);
-  row-gap: 2.5rem;
+  row-gap: 3rem;
   align-items: end;
-  margin-top: clamp(2rem, 4vw, 3.5rem);
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+.jn-contact-ask {
+  grid-column: 1 / span 7;
+}
+.jn-contact-lead {
+  max-width: 17ch;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.4vw, 4.1rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--color-ink);
 }
 .jn-contact-body {
-  grid-column: 1 / span 4;
   max-width: 36ch;
-  margin: 0;
+  margin: 1.25rem 0 0;
   font-size: 1.125rem;
   line-height: 1.6;
   color: var(--color-muted);
 }
+.jn-contact-btn {
+  margin-top: 2rem;
+}
 .jn-contact-reach {
-  grid-column: 6 / -1;
+  grid-column: 9 / -1;
 }
 .jn-contact-mail {
   position: relative;
   display: inline-block;
-  margin-top: 0.75rem;
+  margin-top: 0.6rem;
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: clamp(1.5rem, 3.4vw, 3.1rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.2rem, 1.9vw, 1.7rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
   overflow-wrap: anywhere;
   color: var(--color-ink);
 }
 .jn-contact-meta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem 2.25rem;
-  margin-top: 1.75rem;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
 }
 
-/* ---- tablet and narrow windows: lines beneath the work ---- */
+/* ---- tablet and narrow windows ---- */
 @media (max-width: 899px) {
-  .jn-work-link,
-  .jn-work-item[data-side="left"] .jn-work-link {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.25rem;
-  }
-  .jn-work-item[data-side="left"] .jn-work-link {
-    align-items: flex-end;
-  }
-  .jn-contact-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .jn-contact-body,
+  .jn-contact-ask,
   .jn-contact-reach {
-    grid-column: 1;
+    grid-column: 1 / -1;
   }
 }
 
-/* ---- phone: one column, never the desktop shrunk ---- */
+/* ---- phone: one column, every frame whole at the content width ---- */
 @media (max-width: 767px) {
   .jn-chapter-title {
     margin-bottom: 2rem;
   }
-  .jn-photo {
-    gap: 3.25rem;
+  .jn-gal-head {
+    margin-bottom: 1rem;
   }
-  /* the spread becomes a sequence: the large frame full width, the small one
-     narrower and set to one side, so the rhythm of sizes survives */
-  .jn-photo-row {
+  .jn-gal-row {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  .jn-photo-row[data-big="0"] .jn-photo-frame--s {
-    align-self: flex-end;
-  }
-  .jn-photo-row[data-big="single"] {
-    align-items: center;
-  }
-  .jn-photo-frame--l,
-  .jn-photo-lead .jn-photo-frame {
-    width: min(100%, calc((100svh - 6rem) * 0.8));
-  }
-  .jn-photo-frame--s {
-    width: 62%;
-  }
-  .jn-photo-frame--m {
-    width: 78%;
-  }
-  .jn-photo-lead {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "intro"
-      "frame"
-      "cap";
-    row-gap: 1.25rem;
-  }
-  .jn-photo-cap {
-    margin-top: -0.25rem;
-  }
-  .jn-work-list {
-    gap: clamp(3.25rem, 9vw, 5rem);
-  }
-  .jn-work-link,
-  .jn-work-item[data-side="left"] .jn-work-link {
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  .jn-work-media {
-    width: min(100%, calc((100svh - 6rem) * var(--art-aspect)));
-  }
-  .jn-work-item[data-side="below"] .jn-work-media,
-  .jn-work-media--firat {
     width: 100%;
   }
-  .jn-work-item[data-side="left"] .jn-info {
-    align-items: flex-start;
-    text-align: left;
+  .jn-gal-item {
+    flex: none;
+    width: 100%;
   }
-  .jn-info-num {
-    margin-bottom: 0.6rem;
+  .jn-gal:has(.jn-design-row) {
+    gap: 2.5rem;
   }
-  .jn-info-name {
-    font-size: 1.5rem;
+  .jn-design-row {
+    gap: 2.5rem;
+  }
+  .jn-design-item {
+    flex: none;
+    width: 100%;
+  }
+  /* a poster stays whole on screen; the web screens keep the full width */
+  .jn-design-media {
+    width: min(100%, calc((100svh - 7rem) * var(--ar)));
+  }
+  .jn-design-item:has(.fr-fit-m) .jn-design-media {
+    width: 100%;
+  }
+  .jn-lightbox-figure {
+    max-width: calc(100vw - 2 * var(--gutter));
+  }
+  .jn-lightbox-figure img {
+    max-height: calc(100dvh - 9rem);
+  }
+  .jn-lightbox-prev,
+  .jn-lightbox-next {
+    top: auto;
+    bottom: 0.75rem;
+    transform: none;
   }
   .jn-about-lead {
     margin-bottom: 2.25rem;
   }
   .jn-about-grid,
-  .jn-contact-grid {
+  .jn-contact-grid,
+  .jn-services-grid {
     grid-template-columns: minmax(0, 1fr);
   }
   .jn-about-portrait,
-  .jn-about-text,
-  .jn-contact-body,
-  .jn-contact-reach {
+  .jn-about-text {
     grid-column: 1;
   }
   .jn-about-text {
     margin-top: 2rem;
-  }
-  .jn-contact-mail {
-    font-size: clamp(1.35rem, 6.2vw, 1.75rem);
   }
 }
 

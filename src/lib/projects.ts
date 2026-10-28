@@ -143,7 +143,11 @@ const allProjects: Project[] = [
     },
   },
   {
+    /* Archived 2026-10-27: the photography now has its own section on the
+       home page (lib/photography.ts), with this shoot's strongest frames in
+       it. The old URL redirects there (next.config.ts). */
     slug: "club-event-photography",
+    archived: true,
     title: "Club / Event Photography",
     /* seven club / event frames; nothing about event, venue or brief is
        confirmed, so none of it is claimed */
@@ -400,31 +404,20 @@ export function compOf(slug: string): ReelComp {
 }
 
 /**
- * The published sequence. One list drives the home page, the plate numbers,
- * the keyboard order, the next-project chain and the sitemap, so all of them
- * tell the same story in the same order.
+ * The published design sequence. One list drives the home page, the plate
+ * numbers, the keyboard order, the next-project chain and the sitemap.
  *
- * PHOTOGRAPHY comes first, as its own section: the club / event series.
- * DESIGN follows, in its established order:
- * 01 RUSSIAN VIKING   — the strongest poster, and the artwork in the headline.
- * 02 FIRAT NOSSEN     — the web work. From "he can draw" to "he can ship".
- * 03 SCREAM NIGHT     — back to a poster, pinned left, kept apart from CEM so
- *    the two red posters never meet.
- * 04 MARVIN STEFANIAK — brightest of the posters, pinned right.
- * 05 CEM              — the darkest and most intense, pinned left.
- * 06 GALABAU BÖTTCHER — the close: one client, web and social and
- *    communication. The last thing seen is proof, not a poster.
- *
- * The design works alternate sides (left, right, left, right, left), so no
- * two neighbours share a side or a palette.
+ * Set in two rows on the home page: first the posters together (Russian
+ * Viking, Scream Night, Marvin Stefaniak), then CEM beside the two web works
+ * (Firat, Galabau), so poster design, live UI and a full client presence each
+ * read at a glance. Photography lives in lib/photography.ts.
  */
 export const projectOrder = [
-  "club-event-photography",
   "russian-viking",
-  "firat-nossen",
   "scream-night",
   "marvin-stefaniak",
   "cem-fightlab",
+  "firat-nossen",
   "galabau-boettcher",
 ] as const;
 

@@ -5,8 +5,7 @@ import { useLang } from "@/lib/i18n";
 import { content } from "@/lib/content";
 
 /**
- * ABOUT — the stance first, as typography; then the person and a few lines.
- * The statement carries the section, the portrait and text follow it.
+ * ABOUT — short: the stance, the person, three sentences.
  */
 export default function About() {
   const { lang } = useLang();
@@ -31,15 +30,7 @@ export default function About() {
           </div>
 
           <div className="jn-about-text">
-            <p>{c.body1}</p>
-            <p>{c.body2}</p>
-            {/* the disciplines once, as one quiet line: spacing separates
-                them, so no dot is ever left hanging at a line end */}
-            <ul className="label jn-about-skills">
-              {c.skills.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
+            <p>{c.body}</p>
           </div>
         </div>
       </div>

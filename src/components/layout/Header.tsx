@@ -11,7 +11,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { id: "index", label: c.index },
+    { id: "photography", label: c.photo },
+    { id: "design", label: c.design },
     { id: "about", label: c.about },
     { id: "contact", label: c.contact },
   ];

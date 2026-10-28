@@ -18,7 +18,6 @@ import { compOf, type Bi, type Project } from "@/lib/projects";
 import { artworkVars, plateSide } from "@/lib/artwork";
 import type { CaseStudy } from "@/lib/caseStudies";
 import Footer from "@/components/layout/Footer";
-import PhotoSeries from "@/components/work/PhotoSeries";
 
 export default function ProjectDetail({
   project,
@@ -281,8 +280,6 @@ export default function ProjectDetail({
         /* THE ARTWORK IS THE CASE: the stage, one note, the next work. */
         <main className="jn-visual">
           {hero}
-          {/* PHOTO SERIES — the frames after the hero, in page flow */}
-          {series && <PhotoSeries rows={series} lang={lang} />}
           {exit}
         </main>
       ) : (

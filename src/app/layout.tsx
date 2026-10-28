@@ -52,12 +52,21 @@ const rubik = Rubik({
 export const metadata: Metadata = {
   metadataBase: new URL("https://joel-noir-portfolio.vercel.app"),
   title: {
-    default: "Joel.Noir · Mediengestalter",
+    default: "Joel.Noir · Fotografie & Design aus Sachsen",
     template: "%s · Joel.Noir",
   },
   description:
-    "Joel.Noir, Mediengestalter aus Nossen. Graphic & Sports Design, Branding, Social Media und Webdesign.",
-  keywords: ["Joel.Noir", "Mediengestalter", "Sports Design", "Graphic Design", "Webdesign"],
+    "Club- und Eventfotografie, Sportfotografie und Porträts, dazu Poster, Social-Media-Content, Branding und Webdesign. Joel Hildebrand, Mediengestalter aus Nossen, Sachsen.",
+  keywords: [
+    "Joel.Noir",
+    "Eventfotografie",
+    "Clubfotografie",
+    "Sportfotografie",
+    "Fotograf Dresden",
+    "Mediengestalter",
+    "Grafikdesign",
+    "Webdesign",
+  ],
   authors: [{ name: "Joel Hildebrand" }],
   creator: "Joel Hildebrand",
   alternates: { canonical: "/" },
@@ -67,16 +76,23 @@ export const metadata: Metadata = {
     alternateLocale: "en_US",
     siteName: "Joel.Noir",
     url: "/",
-    title: "Joel.Noir · Mediengestalter",
+    title: "Joel.Noir · Fotografie & Design",
     description:
-      "Mediengestalter aus Nossen. Graphic & Sports Design, Branding, Social Media und Webdesign.",
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Joel.Noir" }],
+      "Club-, Event- und Sportfotografie, Poster, Social-Media-Content und Webdesign. Aus Sachsen.",
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Ein Künstler am DJ-Pult streckt den Arm über das Publikum, das Handys mit Licht hochhält.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Joel.Noir · Mediengestalter",
+    title: "Joel.Noir · Fotografie & Design",
     description:
-      "Mediengestalter aus Nossen. Graphic & Sports Design, Branding, Social Media und Webdesign.",
+      "Club-, Event- und Sportfotografie, Poster, Social-Media-Content und Webdesign. Aus Sachsen.",
     images: ["/og.jpg"],
   },
   robots: { index: true, follow: true },

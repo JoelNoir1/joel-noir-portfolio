@@ -7,6 +7,17 @@ const nextConfig: NextConfig = {
     // originals directly. Revisit sharp + re-enable for AVIF/resizing later.
     unoptimized: true,
   },
+  // The single photo-series case was folded into the photography section of
+  // the home page; links to the old URL land there instead of on a 404.
+  async redirects() {
+    return [
+      {
+        source: "/work/club-event-photography",
+        destination: "/#photography",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
