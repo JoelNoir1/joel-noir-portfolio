@@ -1161,13 +1161,56 @@ html:has(.jn-lightbox[open]) {
   color: var(--color-ink);
 }
 
-/* ---- contact: the close ---- */
+/* ---- contact: the close ----
+   On the hero's dark ground, with the hero's own tokens, so the page opens
+   and ends on the same night-black plate. Paper stays everywhere between. */
+.jn-contact {
+  --hx-ground: #03050c;
+  --hx-type: #ebe6dc;
+  --hx-dim: rgba(235, 230, 220, 0.62);
+  --hx-line: rgba(235, 230, 220, 0.14);
+  border-top-color: var(--hx-line);
+  background: var(--hx-ground);
+  color: var(--hx-type);
+}
+/* the chapter's registration mark, in the type colour on the dark ground */
+.jn-contact::before {
+  background:
+    linear-gradient(var(--hx-type), var(--hx-type)) center / 1px 100% no-repeat,
+    linear-gradient(var(--hx-type), var(--hx-type)) center / 100% 1px no-repeat;
+  opacity: 0.45;
+}
+.jn-contact :focus-visible {
+  outline: 2px solid var(--hx-type);
+  outline-offset: 3px;
+}
+.jn-contact-dim {
+  color: var(--hx-dim);
+}
+.jn-contact .jn-btn {
+  border-color: rgba(235, 230, 220, 0.5);
+  color: var(--hx-type);
+}
+.jn-contact .jn-btn--solid {
+  border-color: var(--hx-type);
+  background: var(--hx-type);
+  color: var(--hx-ground);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jn-contact .jn-btn:hover {
+    background: var(--hx-type);
+    color: var(--hx-ground);
+  }
+  .jn-contact .jn-btn--solid:hover {
+    background: #f7f3eb;
+  }
+}
 .jn-contact-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: clamp(1rem, 2vw, 2rem);
   row-gap: 3rem;
-  align-items: end;
+  align-items: start;
   margin-top: clamp(1.5rem, 3vw, 2.5rem);
 }
 .jn-contact-ask {
@@ -1182,20 +1225,94 @@ html:has(.jn-lightbox[open]) {
   line-height: 1.04;
   letter-spacing: -0.02em;
   text-wrap: balance;
-  color: var(--color-ink);
 }
 .jn-contact-body {
-  max-width: 36ch;
+  max-width: 40ch;
   margin: 1.25rem 0 0;
   font-size: 1.125rem;
   line-height: 1.6;
-  color: var(--color-muted);
+  color: var(--hx-dim);
 }
-.jn-contact-btn {
+.jn-contact-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   margin-top: 2rem;
 }
-.jn-contact-reach {
+.jn-contact-note {
+  margin: 1rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--hx-dim);
+}
+.jn-contact-side {
   grid-column: 9 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+  padding-top: 0.5rem;
+}
+.jn-contact-brief {
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hx-line);
+}
+.jn-contact-brief li {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--hx-line);
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+.jn-contact-price {
+  max-width: 34ch;
+  margin: 0.9rem 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--hx-dim);
+}
+.jn-contact-for {
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+}
+.jn-contact-audiences {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 clamp(1rem, 2vw, 2rem);
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.jn-contact-audiences li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.1rem 0 1.25rem;
+  border-top: 1px solid var(--hx-line);
+}
+.jn-contact-aud-name {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.jn-contact-aud-items {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--hx-dim);
+}
+.jn-contact-reach {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--hx-line);
 }
 .jn-contact-mail {
   position: relative;
@@ -1207,20 +1324,31 @@ html:has(.jn-lightbox[open]) {
   line-height: 1.15;
   letter-spacing: -0.01em;
   overflow-wrap: anywhere;
-  color: var(--color-ink);
+  color: var(--hx-type);
 }
 .jn-contact-meta {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  margin-top: 1.5rem;
 }
 
 /* ---- tablet and narrow windows ---- */
 @media (max-width: 899px) {
   .jn-contact-ask,
-  .jn-contact-reach {
+  .jn-contact-side {
     grid-column: 1 / -1;
+  }
+  .jn-contact-audiences {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* contact on a phone: one audience per row, the two ways in at full width */
+@media (max-width: 600px) {
+  .jn-contact-audiences {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .jn-contact-ctas .jn-btn {
+    flex: 1 1 100%;
   }
 }
 
